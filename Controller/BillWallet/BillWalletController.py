@@ -624,6 +624,7 @@ class BillWalletController(SerialCommunicator):
 
         if not self.bv_on:
             # in case polling thread needs to be terminated before power up
+            print("Not UP Billwallet")
             return None, b''
 
         if self.com.in_waiting:
