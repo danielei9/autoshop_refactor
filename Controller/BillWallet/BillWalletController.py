@@ -381,7 +381,7 @@ class BillWalletController(SerialCommunicator):
 
         length = 5 + len(data)  # SYNC, length, command, and 16-bit CRC
         message = bytes([SYNC, length, command]) + data
-        message += get_crc(message)
+        message += self.get_crc(message)
         print(message)
 
         # log message
@@ -810,7 +810,7 @@ class BillWalletController(SerialCommunicator):
             if self.req_status()[0] == SET_INHIBIT:
                 print('BUCHU DONE SET_INHIBIT')
 
-def get_crc(message):
+def get_crc(self,message):
     """Get CRC value for a given bytes object using CRC-CCITT Kermit"""
 
     TABLE = [
