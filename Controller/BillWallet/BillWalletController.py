@@ -481,7 +481,7 @@ class BillWalletController(SerialCommunicator):
                 # En caso de polling forzamos PowerUP
                 self.init_status = None
                 return
-        
+        print("LLEGAS 1")
         # update estado
         self.init_status = status
         # Si se vuelva iniciar pero ya estaba encendida e inhibida    
@@ -496,6 +496,7 @@ class BillWalletController(SerialCommunicator):
                 "Acceptor already powered up, status: %02x" % status)
             return self.init_status
 
+        print("LLEGAS 2")
         # Estado POW_UP para inicializar
         elif status == POW_UP:
             logging.info("Powering up...")
@@ -521,6 +522,7 @@ class BillWalletController(SerialCommunicator):
                 self.initialize(*args, **kwargs)
         
         #  BillVal.poll() 
+        print("LLEGAS 3")
         
         return self.init_status
     def initialize(self, denom=[0x82, 0], sec=[0, 0], dir=[0], opt_func=[0, 0],
