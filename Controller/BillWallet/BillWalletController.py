@@ -168,6 +168,7 @@ class BillWalletController(SerialCommunicator):
             logging.getLogger('').addHandler(console)
         print("power ON")
         self.power_on()
+        print("power ON DONE ")
         if self.init_status == POW_UP:
             logging.info("BV powered up normally. POW_UP")
         
