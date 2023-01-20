@@ -620,12 +620,11 @@ class BillWalletController(SerialCommunicator):
 ###################################################
     def req_status(self):
         """Send status request to bill validator"""
-        print("req_status")
 
-        if not self.bv_on:
-            # in case polling thread needs to be terminated before power up
-            print("Not UP Billwallet")
-            return None, b''
+        # if not self.bv_on:
+        #     # in case polling thread needs to be terminated before power up
+        #     print("Not UP Billwallet")
+        #     return None, b''
 
         if self.com.in_waiting:
             # discard any unused data
