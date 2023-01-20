@@ -166,7 +166,7 @@ class BillWalletController(SerialCommunicator):
             formatter = logging.Formatter("%(levelname)s: %(message)s")
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
-
+        print("power ON")
         self.power_on()
         if self.init_status == POW_UP:
             logging.info("BV powered up normally. POW_UP")
@@ -474,6 +474,7 @@ class BillWalletController(SerialCommunicator):
         # Siguiente estado POW_STATUSES
         while status is None or status == 0x00:
             status, data = self.req_status()
+            print("While")
             if not self.bv_on:
                 # En caso de polling forzamos PowerUP
                 self.init_status = None
