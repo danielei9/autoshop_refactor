@@ -380,8 +380,8 @@ class BillWalletController(SerialCommunicator):
         print("sendCommand")
 
         length = 5 + len(data)  # SYNC, length, command, and 16-bit CRC
-        message = bytes([SYNC, length, command]) + data
-        message += self.get_crc(message)
+        message = bytes([SYNC, length, command,0x27,0x56]) 
+        # message += self.get_crc(message)
         print(message)
 
         # log message
