@@ -44,14 +44,14 @@ class PaymentService():
 
     def initializeControllers(self):
         self.checkPorsConnected()
-        try:
-            self.displayController = DisplayController(self.portDisplay)
-            print("Display Initialized OK")
-        except:
-            print("Please Connect Display")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
-            pass
+        # try:
+        #     self.displayController = DisplayController(self.portDisplay)
+        #     print("Display Initialized OK")
+        # except:
+        #     print("Please Connect Display")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
+        #     pass
             # self.initializeControllers()
         try:
             self.billWalletController:BillWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
@@ -65,29 +65,29 @@ class PaymentService():
             print("Please Connect BillWallet ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
-        try:
-            self.coinWalletController:CoinWalletController =  CoinWalletController()
-            print("CoinWallet Initialized OK")
-        except:
-            print("Please Connect CoinWallet ")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
-        #TODO: descomentar printer
-        try:
-            self.printerController = PrinterController()
-            print("Printer Initialized OK")
-        except:
-            print("Please Connect Printer ")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
-        try:
-            self.ledsController = LedsController(self.portLeds)
-            print("Leds Initialized OK")
+        # try:
+        #     self.coinWalletController:CoinWalletController =  CoinWalletController()
+        #     print("CoinWallet Initialized OK")
+        # except:
+        #     print("Please Connect CoinWallet ")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
+        # #TODO: descomentar printer
+        # try:
+        #     self.printerController = PrinterController()
+        #     print("Printer Initialized OK")
+        # except:
+        #     print("Please Connect Printer ")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
+        # try:
+        #     self.ledsController = LedsController(self.portLeds)
+        #     print("Leds Initialized OK")
 
-        except:
-            print("Please Connect Leds ")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
+        # except:
+        #     print("Please Connect Leds ")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
 
     async def manageTotalAmount(self, cantidad):
         print("manageTotalAmount : cantidad", cantidad)
