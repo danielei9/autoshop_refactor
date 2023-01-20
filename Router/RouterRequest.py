@@ -26,8 +26,8 @@ class Router():
          # TODO: PONER actualProcessingRequest en None al finalizar la orden
          # Si actualmente esta libre, NO hay request pendiente de pago y esta esperando uno y  acepta la request que venga
         while True:
-            print(type(self.actualProcessingRequest))
-            print(type(self.lastRequestArrived))
+            # print(type(self.actualProcessingRequest))
+            # print(type(self.lastRequestArrived))
             if(self.actualProcessingRequest == None and self.lastRequestArrived != None):
                 print("Arrived request None actual pending")
                 self.actualProcessingRequest = self.lastRequestArrived
