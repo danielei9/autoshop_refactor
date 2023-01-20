@@ -856,4 +856,4 @@ class BillWalletController(SerialCommunicator):
         crc = '%04x' % crc
         crc = [int(crc[-2:], 16), int(crc[:-2], 16)]
 
-        return bytes(crc)
+        return (crc)
