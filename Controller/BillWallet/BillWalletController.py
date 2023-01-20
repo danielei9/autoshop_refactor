@@ -377,10 +377,12 @@ class BillWalletController(SerialCommunicator):
  
     def send_command(self, command, data=b''):
         """Send a generic command to the bill validator"""
+        print("sendCommand")
 
         length = 5 + len(data)  # SYNC, length, command, and 16-bit CRC
         message = bytes([SYNC, length, command]) + data
         message += get_crc(message)
+        print(message)
 
         # log message
         self._raw('>', message)
@@ -491,14 +493,15 @@ class BillWalletController(SerialCommunicator):
                 "Acceptor already powered up,but inhibited status: %02x" % status)
             return
         # #Ya esta ready to fight 
+        print("LLEGAS 1a")
         if status not in POW_STATUSES:
             logging.warning(
                 "Acceptor already powered up, status: %02x" % status)
             return self.init_status
 
-        print("LLEGAS 2")
         # Estado POW_UP para inicializar
         elif status == POW_UP:
+            print("LLEGAS 2")
             logging.info("Powering up...")
             logging.info("Getting version...")
             self.send_command(GET_VERSION)
@@ -617,6 +620,7 @@ class BillWalletController(SerialCommunicator):
 ###################################################
     def req_status(self):
         """Send status request to bill validator"""
+        print("req_status")
 
         if not self.bv_on:
             # in case polling thread needs to be terminated before power up
