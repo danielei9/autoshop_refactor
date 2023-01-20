@@ -188,6 +188,7 @@ class BillWalletController(SerialCommunicator):
 
         if (status == IDLE):
             self.set_inhibit(1)
+        print("Get actual config ")
         
         # self.set_recycler_config(10,20)
         self.getActualStacksConfig()
