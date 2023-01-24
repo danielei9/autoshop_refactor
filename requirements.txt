@@ -1,0 +1,9 @@
+pyserial
+pyyaml
+asyncio
+aiofiles
+numpy
+paho-mqtt
+getmac
+pyyaml
+escpos
