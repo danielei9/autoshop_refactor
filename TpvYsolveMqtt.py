@@ -37,9 +37,10 @@ class TpvYsolveMqtt():
     def sendData(self,data):
         try:
             # print("Sending to:" + self.credentials.topicSend)
-            print("Sending to:" + self.credentials.topicSend)
+            print("Sending to:" + "payMachine/rx")
             # self.clt.publish(topic +"/data",json.dumps(dataJson))
             self.conn.clt.publish("payMachine/rx" ,data)
+            print("Sended!")
             
         except Exception as e :
             # TODO: Mostrar por pantalla el error

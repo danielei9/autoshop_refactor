@@ -15,8 +15,10 @@ class PaymentService():
         UsbDetector = USBPortDetector()
         (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = UsbDetector.detect_ports()
         self.initializeControllers()
+
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
+
     def initializeControllers(self):
         print("Trying to connect Ports")
 

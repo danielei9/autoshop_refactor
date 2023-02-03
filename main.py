@@ -46,7 +46,7 @@ class Main():
             time.sleep(1)
             try:
                 self.tpv.sendError(e)
-                self.router.setErrorPayingInDisplay(e)
+                # self.router.setErrorPayingInDisplay(e)
             except Exception as er :
                 print ("Error al reportar un error previo. Revisar mqtt")
                 print (er)
