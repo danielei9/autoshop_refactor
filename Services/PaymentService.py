@@ -191,8 +191,9 @@ class PaymentService():
         print("startMachinesPayment")
         self.paymentDone = False
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
-        # self.billWalletController.init()
-        print("BillWalletController OK ")
+        print("BillWalletControllerA OK ")
+        self.billWalletController.init()
+        print("BillWalletControllerB OK ")
 
         self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
         print("CoinWalletController OK ")
