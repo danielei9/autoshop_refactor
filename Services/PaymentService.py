@@ -188,11 +188,14 @@ class PaymentService():
             return self.billWalletController.maxBill
 
     async def startMachinesPayment(self):
+        print("startMachinesPayment")
         self.paymentDone = False
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
         self.billWalletController.init()
-        self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
+        print("BillWalletController OK ")
 
+        self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
+        print("CoinWalletController OK ")
         while self.paymentDone == False:
             # if(str(mensaje) == '1'):
             print("detected cancelled 2")
