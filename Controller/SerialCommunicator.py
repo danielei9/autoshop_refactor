@@ -2,15 +2,18 @@ import serial, time
 
 class SerialCommunicator:
     def __init__(self, port, baudrate=9600, timeout=0.2):
+        print("SerialCommunicator")
         self.port = port
         self.baudrate = baudrate
         self.timeout = timeout
         self.is_open = False
         self.com = None
-    
+        self.initializeSerial()
     def open_port(self):
         try:
+            print("trying to open port " + (self.port))
             self.com = serial.Serial(self.port, self.baudrate, serial.EIGHTBITS, serial.PARITY_EVEN, timeout=self.timeout )
+
             if(self.com.is_open()):
                 self.close_port()
                 time.sleep(.2)
@@ -32,6 +35,7 @@ class SerialCommunicator:
             return self.com.readline()
 
     def initializeSerial(self):
+        print("initializeSerial")
         self.open_port()
         self.com.flushInput()
         self.com.flushOutput()

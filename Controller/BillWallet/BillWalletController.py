@@ -13,10 +13,8 @@ class BillWalletController(SerialCommunicator):
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
 
     def __init__(self,cb, port,log_raw=False, threading=False):
-        print("BILLWALLET0")
         super().__init__(port)
         self.initializeSerial()
-        print("BILLWALLET1")
         self.cb = cb
         # Try to check and connect to dyn port USB 
         
@@ -25,13 +23,11 @@ class BillWalletController(SerialCommunicator):
         self.bv_status = None
         self.bv_version = None
         self.threading = threading
-        print("BILLWALLET1")
 
         self.minBill = 10
         self.maxBill = 20
         self.stackA = self.minBill
         self.stackB = self.maxBill
-        print("BILLWALLET2")
 
         self.all_statuses = NORM_STATUSES + ERROR_STATUSES + POW_STATUSES + PAYING_STATUSES
 #         se definen los eventos de la uart
@@ -67,7 +63,6 @@ class BillWalletController(SerialCommunicator):
         self.bv_on = False
         # set up logging
         self.raw = log_raw
-        print("BILLWALLET3")
 
     def sendGetConfigStacksCommand(self):
         self.send_data(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
