@@ -57,9 +57,9 @@ class Main():
     def run(self):
         print("run")
         # crear hilo para manejar las solicitudes de MQTT
-        tpvListenerThread = threading.Thread(target=self.initTPVListener())
-        tpvListenerThread.start()
-        
+        # tpvListenerThread = threading.Thread(target=self.initTPVListener())
+        # tpvListenerThread.start()
+        self.initTPVListener()
         # crear hilo para ejecutar el bucle de eventos asíncronos
         routerThread = threading.Thread(target=self.startRouterThread)
         routerThread.start()
@@ -69,13 +69,16 @@ class Main():
             # comprobar si se debe cancelar la solicitud
             time.sleep(.1)
             if(routerThread.is_alive()):
-                print("Router is alive")
+                # print("Router is alive")
+                pass
             else:
+                time.sleep(3)
                 print("error with router thread")
-            if(tpvListenerThread.is_alive()):
-                print("Tpv Listener is alive")
-            else:
-                print("error with tpv Listener thread")
+            # if(tpvListenerThread.is_alive()):
+            #     # print("Tpv Listener is alive")
+            #     pass
+            # else:
+            #     print("error with tpv Listener thread")
             
             if isinstance(self.lastRequestArrived,CancelRequest):
                 self.router.setlastRequestArrived(None)
