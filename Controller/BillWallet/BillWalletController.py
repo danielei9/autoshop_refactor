@@ -624,6 +624,7 @@ class BillWalletController(SerialCommunicator):
         self.send_command(STATUS_REQ)
 
         stat, data = self.read_response()
+        print("Estado Billetero: " +stat," data ",data )
         #  TODO: Habilitar el debug de errores POLL
         if stat not in self.all_statuses + (0x00, None):
             logging.warning(
