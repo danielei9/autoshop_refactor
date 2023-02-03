@@ -33,13 +33,13 @@ class PaymentService():
         if(self.portLeds == None):
             # TODO: Informar al tpv de que no estan conectados 
             print("Leds NO connected")
-        try:
-            self.displayController = DisplayController(self.portDisplay)
-        except:
-            print("Please Connect REQUIRED Display")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
-            pass
+        # try:
+        #     self.displayController = DisplayController(self.portDisplay)
+        # except:
+        #     print("Please Connect REQUIRED Display")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
+        #     pass
             # self.initializeControllers()
         try:
             self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
