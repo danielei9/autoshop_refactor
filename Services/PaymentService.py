@@ -5,6 +5,7 @@ from Controller.Leds.LedsController import *
 from Controller.Printer.PrinterController import *
 import asyncio
 from Controller.UsbPortDetector import *
+import threading
 
 class PaymentService():
     
@@ -17,6 +18,10 @@ class PaymentService():
         UsbDetector = USBPortDetector()
         (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = UsbDetector.detect_ports()
         self.initializeControllers()
+    
+    def startBillWalletPollThread(self):
+        print("start_async_loop")
+        asyncio.run( self.billWalletController.poll())
 
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
@@ -50,8 +55,12 @@ class PaymentService():
             # self.initializeControllers()
         try:
             self.billWalletController:BillWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+            
+            billwWalletPollThread = threading.Thread(target=self.startBillWalletPollThread)
+            billwWalletPollThread.start()
 
             print("BillWallet Initialized OK")
+            
         except:
             print("Please Connect BillWallet ")
             # TODO: Informar al tpv de que no estan conectados 

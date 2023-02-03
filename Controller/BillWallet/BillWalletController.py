@@ -6,6 +6,7 @@ import logging
 from Controller.BillWallet.CodesBillVal import *
 from Controller.SerialCommunicator import *
 
+
 ###################################################
 # CLASS BILLVAL
 ###################################################
@@ -178,7 +179,6 @@ class BillWalletController(SerialCommunicator):
 
         if self.init_status == IDLE:
             print("Status IDLE")
-        
 
         (status,data) = self.req_status()
   
@@ -548,21 +548,21 @@ class BillWalletController(SerialCommunicator):
         set `self.bv_status` to None to force event handler to fire on the next
         status request.
         """
-       # while True:
-        poll_start = time.time()
-        status, data = self.req_status()
-        if (status, data) != self.bv_status:
-            if status in self.bv_events:
-                await self.bv_events[status](data)
-        self.bv_status = (status, data)
-        self.status = status
-        self.data = data
-        # print("POLL STATUS: ",status,"DATA: ",data )
-        wait = interval - (time.time() - poll_start)
-        # if (status != IDLE):
-        #     print("POLL : Status: %02x" % status)
-        if wait > 0.0:
-            time.sleep(wait)
+        while True:
+            poll_start = time.time()
+            status, data = self.req_status()
+            if (status, data) != self.bv_status:
+                if status in self.bv_events:
+                    await self.bv_events[status](data)
+            self.bv_status = (status, data)
+            self.status = status
+            self.data = data
+            print("POLL STATUS: ",status,"DATA: ",data )
+            wait = interval - (time.time() - poll_start)
+            if (status != IDLE):
+                print("POLL : Status: %02x" % status)
+            if wait > 0.0:
+                time.sleep(wait)
 ###################################################
 #  PAYOUT FASE 3 Pago de billetes 
 ###################################################
