@@ -165,7 +165,6 @@ class BillWalletController(SerialCommunicator):
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
 
-        print("Please connect bill validator.")
         self.power_on()
         if self.init_status == POW_UP:
             logging.info("BV powered up normally. POW_UP")

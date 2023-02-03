@@ -19,8 +19,7 @@ class PaymentService():
 
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
-
-    def initializeControllers(self):
+    def checkPorsConnected(self):
         print("Trying to connect Ports")
 
         if(self.portBilletero == None):
@@ -36,13 +35,16 @@ class PaymentService():
         if(self.portLeds == None):
             # TODO: Informar al tpv de que no estan conectados 
             print("Leds NO connected")
-        # try:
-        #     self.displayController = DisplayController(self.portDisplay)
-        # except:
-        #     print("Please Connect REQUIRED Display")
-        #     # TODO: Informar al tpv de que no estan conectados 
-        #     time.sleep(5)
-        #     pass
+
+    def initializeControllers(self):
+        self.checkPorsConnected()
+        try:
+            self.displayController = DisplayController(self.portDisplay)
+        except:
+            print("Please Connect REQUIRED Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
+            pass
             # self.initializeControllers()
         try:
             self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
@@ -59,12 +61,12 @@ class PaymentService():
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
         #TODO: descomentar printer
-        # try:
-        #     self.printerController = PrinterController()
-        # except:
-        #     print("Please Connect Printer Display")
-        #     # TODO: Informar al tpv de que no estan conectados 
-        #     time.sleep(5)
+        try:
+            self.printerController = PrinterController()
+        except:
+            print("Please Connect Printer Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
         try:
             self.ledsController = LedsController(self.portLeds)
             print("Leds Initialized OK")

@@ -36,6 +36,7 @@ class Router():
                     self.startPaymentService()
                     await self.paymentService.startMachinesPayment()
                     return True
+                
                 # Cancelar 
                 if( isinstance(self.actualProcessingRequest,CancelRequest ) ):
                     print("Arrive CancelRequest") 
