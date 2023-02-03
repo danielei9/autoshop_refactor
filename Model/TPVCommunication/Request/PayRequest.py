@@ -5,10 +5,10 @@ class PayRequest(Request):
             print("init PayRequest")
             self.order = order
             self.price = price
-            self.status = status
             self.date = date
             self.shopName = shopName
             self.address = address
             self.phone = phone
-            super().__init__(typeRequest,idOrder)
+            self.idOrder = idOrder
+            super().__init__(typeRequest,status)
             

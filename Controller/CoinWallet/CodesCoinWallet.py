@@ -1,4 +1,9 @@
+# # # # # # # # # # # # # # # # # # # # # 
+# NORMAL COMMANDS
+# # # # # # # # # # # # # # # # # # # # #
+
 # RECEIVING COINS
+
 UN_EURO = '08 54'
 DOS_EURO = '08 55'
 ZERO_ZERO_FIVE = '08 50'

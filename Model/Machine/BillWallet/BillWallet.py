@@ -3,23 +3,23 @@
 import serial
 import time
 import logging
-from CodesBillVal import *
-import USBDynamic.DinUsb as dinUsb
+from Model.Machine.BillWallet.BillCodes import *
+from Controller.SerialCommunicator import *
 """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
 
-class BillWallet():
+class BillWallet(SerialCommunicator):
 
-    def __init__(self,cb, log_raw=False, threading=False):
+    def __init__(self, port, cb, log_raw=False, threading=False):
         self.cb = cb
         # Try to check and connect to dyn port USB 
-        (portBilletero,portMonedero,portDisplay,portLeds) = checkPorts()
-
-        self.com = serial.Serial(
-            str(portBilletero),
-            9600,
-            serial.EIGHTBITS,
-            serial.PARITY_EVEN, 
-            timeout=0.05)
+        super().__init__(port)
+        self.initialize()
+        # serial.Serial(
+        #     str(portBilletero),
+        #     9600,
+        #     serial.EIGHTBITS,
+        #     serial.PARITY_EVEN, 
+        #     timeout=0.05)
 
         self.status = 0x00
         self.data = 0x00

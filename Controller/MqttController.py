@@ -43,12 +43,14 @@ class MqttConnection:
             incoming_str = incoming_str.replace("\'", "\"")
             print("\nMQTT RECEIVED: \n", incoming_str, '\n')
             self.request_adapted = adapt_request(incoming_str)
+            print("ADAPTED")
         self.clt.on_message = on_message
         self.initialize()
 
         try:
             self.clt.loop_start()
             print("** Subscribing... " + self.credentials.topic + "/tx" )
+            # TODO: Cambiar subscribe
             self.clt.subscribe("payMachine/tx")
             # self.clt.subscribe(self.credentials.topic+"/tx")
             print("Subscribed OK")

@@ -29,3 +29,19 @@ class TpvYsolveMqtt():
 
     def createLoopMqtt(self):
         self.conn.create_loop_mqtt_receive(self.cb_adapt_request)
+        
+    def sendError(self,error):
+        print("Sending error to tpv")
+        self.sendData('{"error":"' + str(error)+'"}')
+
+    def sendData(self,data):
+        try:
+            # print("Sending to:" + self.credentials.topicSend)
+            print("Sending to:" + self.credentials.topicSend)
+            # self.clt.publish(topic +"/data",json.dumps(dataJson))
+            self.conn.clt.publish("payMachine/rx" ,data)
+            
+        except Exception as e :
+            # TODO: Mostrar por pantalla el error
+            print(e)
+            raise e

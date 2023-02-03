@@ -1,4 +1,4 @@
-import serial
+import serial, time
 
 class SerialCommunicator:
     def __init__(self, port, baudrate=9600, timeout=0.2):
@@ -10,9 +10,11 @@ class SerialCommunicator:
     
     def open_port(self):
         try:
-            self.com = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+            self.com = serial.Serial(self.port, self.baudrate, serial.EIGHTBITS, serial.PARITY_EVEN, timeout=self.timeout )
+            if(self.com.is_open()):
+                self.close_port()
+                time.sleep(.2)
             self.com.open()
-            self.is_open = True
         except serial.SerialException as e:
             raise e
             
@@ -23,9 +25,13 @@ class SerialCommunicator:
 
     def send_data(self, data):
         if self.is_open:
-            self.com.write(data)
+            self.com.write(data).encode()
     
     def receive_data(self):
         if self.is_open:
             return self.com.readline()
 
+    def initializeSerial(self):
+        self.open_port()
+        self.com.flushInput()
+        self.com.flushOutput()

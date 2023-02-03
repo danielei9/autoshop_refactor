@@ -1,10 +1,8 @@
 import serial
-from infrastructure.common.USBDynamic.DinUsb import * 
 
 class Leds():
 
     def __init__(self):
-        (portBilletero,portMonedero,portDisplay,portLeds) = checkPorts()
         # self.doneStatus = "RED_"
         # self.doneStatus = "CYAN_"
         self.doneStatus = "GREEN_"

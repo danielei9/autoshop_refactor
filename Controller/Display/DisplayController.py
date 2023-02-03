@@ -1,22 +1,21 @@
-import modelDisplay
+# import modelDisplay
 import time
-from UsbPortDetector import *
-from SerialCommunicator import *
-
-class Display(SerialCommunicator):
-    def __init__(self):
-        port = USBPortDetector.detect_ports()[2]
+from Controller.SerialCommunicator import *
+from Controller.Display.CodesDisplay import *
+from Model.TPVCommunication.Request.PayRequest import *
+class DisplayController(SerialCommunicator):
+    def __init__(self,port):
         super().__init__(port)
         self.initialize()
-        
+
     def initialize(self):
         self.open_port()
         self.com.flushInput()
         self.com.flushOutput()
-                
+
     def clear_display(self):
         self.send_data('CLEAR')
-        
+
     def close(self):
         self.clear_display()
         self.close_port()
@@ -37,21 +36,21 @@ class Display(SerialCommunicator):
         except:
             print("Error Sending To Display")
 
-    def adaptRequest(self,obj):
+    def adaptRequest(self,obj:PayRequest):
         print(obj)
         try:
             percent = 100
             itemList = ""
             itemPriceList = ""
-            idOrder = obj['idOrder']
-            priceTotal = obj['price']
+            idOrder = obj.idOrder
+            priceTotal = obj.price
             print(priceTotal)
             ticketQr = ""
-            for itemName in obj['order']:
+            for itemName in obj.order:
                 itemList += (itemName + NEXTION_LINE_CHANGE )
-                ticketQr += (itemName + "   " + obj['order'][str(itemName)] + NEXTION_LINE_CHANGE )
+                ticketQr += (itemName + "   " + obj.order[str(itemName)] + NEXTION_LINE_CHANGE )
                 # itemPriceList += (itemName + NEXTION_LINE_CHANGE )
-                itemPriceList += ( obj['order'][str(itemName)] + NEXTION_LINE_CHANGE)
+                itemPriceList += ( obj.order[str(itemName)] + NEXTION_LINE_CHANGE)
                 if(str(idOrder) == "-1"):
                     ticketQr = ("0" + NEXTION_LINE_CHANGE )
                     priceTotal = 0
@@ -71,6 +70,10 @@ class Display(SerialCommunicator):
         self.printInDisplay(ID_NEXTION_ORDER_PERCENTAGE,str(percent) +"%")
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(percent))
     
-    def display(self,obj):
-        (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequest(obj)
+    def display(self,request:PayRequest):
+        (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequest(request)
         self.putDataToDisplay(ticketQr,itemList,itemPriceList,priceTotal,percent) 
+
+    def displayError(self,error):
+        print("Display Error setted")  
+        self.printInDisplay(ID_NEXTION_ORDER_TEXT,str(error))

@@ -8,23 +8,26 @@ import platform
 
 class USBPortDetector:
     def __init__(self):
+        
+        self.portBilletero = None
+        self.portMonedero = None
+        self.portDisplay = None
+        self.portLeds = None
+
         if platform.system() == "Windows":
             print("El sistema operativo es Windows")
-            return ('COM1', 'COM2', 'COM3', 'COM4')
         elif platform.system() == "Linux":
-            (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = self.checkPorts()
             print("El sistema operativo es Linux")
-            return (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds)
         else:
-            print("El sistema operativo es desconocido")
+            print("El sistema operativo desconocido es : " + str(platform.system()))
             assert("El sistema operativo es desconocido")
-        pass
 
-    @staticmethod
     def detect_ports(self):
         if platform.system() == "Windows":
             return ('COM1', 'COM2', 'COM3', 'COM4')
+            return (None, None, None, None)
         elif platform.system() == "Linux":
+            (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = self.checkPorts()
             return (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds)
         else:
             print("El sistema operativo es desconocido")
@@ -52,10 +55,10 @@ class USBPortDetector:
                             return join('/dev', subsubdir)
     def checkPorts(self):
         devices = []
-        portBilletero = ""
-        portMonedero = ""
-        portDisplay = ""
-        portLeds = ""
+        portBilletero = None
+        portMonedero = None
+        portDisplay = None
+        portLeds = None
         
         device_re = re.compile("Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+).+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", re.I)
         df = subprocess.check_output("lsusb")    
