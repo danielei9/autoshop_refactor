@@ -97,7 +97,7 @@ class USBPortDetector:
         #     LEDS
             if(device['id'] == "1a86:7523"):
                 portLeds = self.find_tty_usb(a,b)
-                print("DISPLAY: ",portLeds,"\n")
+                print("LEDS: ",portLeds,"\n")
             
         return portBilletero,portMonedero,portDisplay,portLeds
 
