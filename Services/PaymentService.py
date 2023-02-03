@@ -44,7 +44,7 @@ class PaymentService():
         #     pass
             # self.initializeControllers()
         try:
-            self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
+            self.billWalletController:BillWalletController =  BillWalletController
             print("BillWallet Initialized OK")
         except:
             print("Please Connect BillWallet Display")
@@ -190,7 +190,7 @@ class PaymentService():
     async def startMachinesPayment(self):
         print("startMachinesPayment")
         self.paymentDone = False
-        self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+        self.billWalletController(self.manageTotalAmount, port=self.portBilletero)
         self.billWalletController.init()
         print("BillWalletController OK ")
 
