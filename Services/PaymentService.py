@@ -45,12 +45,14 @@ class PaymentService():
             # self.initializeControllers()
         try:
             self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
+            print("BillWallet Initialized OK")
         except:
             print("Please Connect BillWallet Display")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
         try:
             self.coinWalletController:CoinWalletController = None # CoinWalletController()
+            print("CoinWallet Initialized OK")
         except:
             print("Please Connect CoinWallet Display")
             # TODO: Informar al tpv de que no estan conectados 
@@ -64,6 +66,8 @@ class PaymentService():
         #     time.sleep(5)
         try:
             self.ledsController = LedsController(self.portLeds)
+            print("Leds Initialized OK")
+
         except:
             print("Please Connect Leds Display")
             # TODO: Informar al tpv de que no estan conectados 
