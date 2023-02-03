@@ -20,7 +20,8 @@ class SerialCommunicator:
                 self.com.open()
         except serial.SerialException as e:
             print("ERROR: error opening port " + (self.port))
-            raise e            
+            raise e
+        
     def close_port(self):
         if self.is_open:
             self.com.close()

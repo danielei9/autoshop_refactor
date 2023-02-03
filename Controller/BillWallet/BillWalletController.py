@@ -557,7 +557,8 @@ class BillWalletController(SerialCommunicator):
             self.bv_status = (status, data)
             self.status = status
             self.data = data
-            print("POLL STATUS: ",status,"DATA: ",data )
+            if(status):
+                print("POLL STATUS: ",status,"DATA: ",data )
             wait = interval - (time.time() - poll_start)
             # if (status != IDLE):
             #     print("POLL : Status: %02x" % status)
