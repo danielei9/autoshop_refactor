@@ -200,8 +200,8 @@ class PaymentService():
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
         self.billWalletController.init()
 
-        self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
-       
+        # self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
+        print("WHLE")
         while self.paymentDone == False:
             # if(str(mensaje) == '1'):
             print("detected cancelled 2")
