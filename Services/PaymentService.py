@@ -53,12 +53,13 @@ class PaymentService():
             print("Please Connect CoinWallet Display")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
-        try:
-            self.printerController = PrinterController()
-        except:
-            print("Please Connect Printer Display")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
+        #TODO: descomentar printer
+        # try:
+        #     self.printerController = PrinterController()
+        # except:
+        #     print("Please Connect Printer Display")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
         try:
             self.ledsController = LedsController(self.portLeds)
         except:
