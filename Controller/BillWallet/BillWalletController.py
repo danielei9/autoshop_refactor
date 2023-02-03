@@ -15,6 +15,7 @@ class BillWalletController(SerialCommunicator):
 
     def __init__(self,cb, port,log_raw=False, threading=False):
         super().__init__(port)
+        self.com = super().com 
         self.initializeSerial()
         self.cb = cb
         # Try to check and connect to dyn port USB 
