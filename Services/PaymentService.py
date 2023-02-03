@@ -7,6 +7,7 @@ import asyncio
 from Controller.UsbPortDetector import *
 
 class PaymentService():
+    
     def __init__(self):
         self.portBilletero = None
         self.portMonedero = None
@@ -72,7 +73,7 @@ class PaymentService():
             print("Please Connect Leds Display")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
-        
+
     async def manageTotalAmount(self, cantidad):
         print("manageTotalAmount : cantidad", cantidad)
         self.totalAmount = float(self.totalAmount) + float(cantidad)
@@ -147,11 +148,11 @@ class PaymentService():
 
     def inhibitCoins(self):
         self.coinWalletController.disableInsertCoins()
-   
+
     async def __coinBack(self, change):
         # coinWallet.enableInsertCoins()
         self.coinWalletController.cashBack(change)
-        
+
     async def __billBack( self,changeBills ):
         print("Devolver: " + str(changeBills) + " €")
         payFromStack1 = False
@@ -206,9 +207,8 @@ class PaymentService():
             await asyncio.wait_for(self.coinWalletController.threadReceived(), timeout=0.2)
             await asyncio.wait_for(self.billWalletController.poll(), timeout=0.2)
         print("payment done from __startMachinesPayment")
-    
+
     async def startMachinesConfig(self,stackA,stackB):
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
         self.billWalletController.configMode(stackA,stackB)
         self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
-    

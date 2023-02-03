@@ -9,18 +9,18 @@ class SerialCommunicator:
         self.is_open = False
         self.com = None
         self.initializeSerial()
+
     def open_port(self):
         try:
-            print("trying to open port " + (self.port))
+            print("trying to open port " + str(self.port))
             self.com = serial.Serial(self.port, self.baudrate, serial.EIGHTBITS, serial.PARITY_EVEN, timeout=self.timeout )
-
-            if(self.com.is_open()):
+            if(self.com.is_open):
                 self.close_port()
                 time.sleep(.2)
             self.com.open()
         except serial.SerialException as e:
-            raise e
-            
+            print("ERROR: error opening port " + (self.port))
+            raise e            
     def close_port(self):
         if self.is_open:
             self.com.close()
