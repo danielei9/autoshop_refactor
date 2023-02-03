@@ -5,9 +5,14 @@ from Controller.Display.CodesDisplay import *
 from Model.TPVCommunication.Request.PayRequest import *
 class DisplayController(SerialCommunicator):
     def __init__(self,port):
-        super().__init__(port)
-        self.initialize()
-
+        try:
+            super().__init__(port)
+            self.initialize()
+        except:
+            assert Exception("Error with DisplayController in port: " + str(port))
+            time.sleep(3)
+            self.__init__(port)
+            
     def initialize(self):
         self.open_port()
         self.com.flushInput()

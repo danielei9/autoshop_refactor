@@ -63,6 +63,7 @@ class BillWalletController(SerialCommunicator):
         self.bv_on = False
         # set up logging
         self.raw = log_raw
+        print("INITIALIZED BILLWALLET")
 
     def sendGetConfigStacksCommand(self):
         self.send_data(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))

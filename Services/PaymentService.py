@@ -9,6 +9,7 @@ from Controller.UsbPortDetector import *
 class PaymentService():
     
     def __init__(self):
+        self.billWalletController:BillWalletController = None
         self.portBilletero = None
         self.portMonedero = None
         self.portDisplay = None
@@ -40,31 +41,34 @@ class PaymentService():
         self.checkPorsConnected()
         try:
             self.displayController = DisplayController(self.portDisplay)
+            print("Display Initialized OK")
         except:
-            print("Please Connect REQUIRED Display")
+            print("Please Connect Display")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
             pass
             # self.initializeControllers()
         try:
-            self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
+            self.billWalletController:BillWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+
             print("BillWallet Initialized OK")
         except:
-            print("Please Connect BillWallet Display")
+            print("Please Connect BillWallet ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
         try:
-            self.coinWalletController:CoinWalletController = None # CoinWalletController()
+            self.coinWalletController:CoinWalletController =  CoinWalletController()
             print("CoinWallet Initialized OK")
         except:
-            print("Please Connect CoinWallet Display")
+            print("Please Connect CoinWallet ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
         #TODO: descomentar printer
         try:
             self.printerController = PrinterController()
+            print("Printer Initialized OK")
         except:
-            print("Please Connect Printer Display")
+            print("Please Connect Printer ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
         try:
@@ -72,7 +76,7 @@ class PaymentService():
             print("Leds Initialized OK")
 
         except:
-            print("Please Connect Leds Display")
+            print("Please Connect Leds ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
 
@@ -194,12 +198,10 @@ class PaymentService():
         print("startMachinesPayment")
         self.paymentDone = False
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
-        print("BillWalletControllerA OK ")
         self.billWalletController.init()
-        print("BillWalletControllerB OK ")
 
         self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
-        print("CoinWalletController OK ")
+       
         while self.paymentDone == False:
             # if(str(mensaje) == '1'):
             print("detected cancelled 2")

@@ -10,7 +10,7 @@ class Router():
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
 
-    def startPaymentService(self):
+    def initializePaymentService(self):
         self.paymentService = PaymentService()
     
     def setActualProcessingRequest(self,request):
@@ -21,6 +21,8 @@ class Router():
         self.paymentService.setErrorInDisplay(error)
 
     async def routeRequest(self):
+        self.initializePaymentService()
+
          # TODO: PONER actualProcessingRequest en None al finalizar la orden
          # Si actualmente esta libre, NO hay request pendiente de pago y esta esperando uno y  acepta la request que venga
         while True:
@@ -33,7 +35,6 @@ class Router():
                 # Procesar pago
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
-                    self.startPaymentService()
                     await self.paymentService.startMachinesPayment()
                     return True
                 
@@ -43,13 +44,12 @@ class Router():
                     #poner el precio de la orden a 0 así realizará la cancelación
                     self.actualProcessingRequest = None
                     self.lastRequestArrived = None
-                    # self.startPaymentService()
                     # await self.paymentService.startMachinesPayment()
                     return True
                 # Configurar
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
                     print("Arrive ConfigRequest")
-                    self.startPaymentService()
+                    # self.initializePaymentService()
                     await self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
                     self.paymentService.inhibitCoins()
                     return True
@@ -57,13 +57,13 @@ class Router():
                  # Procesar pago
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
-                    self.startPaymentService()
+                    # self.initializePaymentService()
                     await self.paymentService.startMachinesPayment()
                     return True
                 # Configurar
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
                     print("Arrive ConfigRequest")
-                    self.startPaymentService()
+                    # self.initializePaymentService()
                     await self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
                     self.paymentService.inhibitCoins()
                     return True
@@ -73,7 +73,7 @@ class Router():
                     print("Arrive CancelRequest") 
                     #poner el precio de la orden a 0 así realizará la cancelación
                     self.actualProcessingRequest.price = 0
-                    self.startPaymentService()
+                    # self.initializePaymentService()
                     await self.paymentService.startMachinesPayment()
                     return True
             time.sleep(0.5)
