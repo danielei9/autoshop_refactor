@@ -35,16 +35,36 @@ class PaymentService():
             print("Leds NO connected")
         try:
             self.displayController = DisplayController(self.portDisplay)
-            self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
-            self.coinWalletController:CoinWalletController = None # CoinWalletController()
-            self.printerController = PrinterController()
-            self.ledsController = LedsController(self.portLeds)
         except:
-            print("Please Connect REQUIRED Devices")
+            print("Please Connect REQUIRED Display")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
             pass
             # self.initializeControllers()
+        try:
+            self.billWalletController:BillWalletController = None # BillWalletController(self.manageTotalAmount)
+        except:
+            print("Please Connect BillWallet Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
+        try:
+            self.coinWalletController:CoinWalletController = None # CoinWalletController()
+        except:
+            print("Please Connect CoinWallet Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
+        try:
+            self.printerController = PrinterController()
+        except:
+            print("Please Connect Printer Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
+        try:
+            self.ledsController = LedsController(self.portLeds)
+        except:
+            print("Please Connect Leds Display")
+            # TODO: Informar al tpv de que no estan conectados 
+            time.sleep(5)
         
     async def manageTotalAmount(self, cantidad):
         print("manageTotalAmount : cantidad", cantidad)
