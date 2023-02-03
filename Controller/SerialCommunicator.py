@@ -7,7 +7,6 @@ class SerialCommunicator:
         self.baudrate = baudrate
         self.timeout = timeout
         self.is_open = False
-        self.com = None
         self.initializeSerial()
 
     def open_port(self):
