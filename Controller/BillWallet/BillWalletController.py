@@ -18,5 +18,5 @@ class BillWalletController(SerialCommunicator):
         self.initializeSerial()
     
     def start(self):
-        BillWalletInit.main()
+        BillWalletInit.main(self.com)
 
