@@ -103,10 +103,10 @@ BARCODE_TKT = 0x6F
 
 ESCROW_USA = {  # 2 and 8 are reserved
     DENOM_2: '$5',
-    DENOM_4: '$10',
-    DENOM_5: '$20',
-    DENOM_6: '$50',
-    DENOM_7: '$100',
+    DENOM_3: '$10',
+    DENOM_4: '$20',
+    DENOM_5: '$50',
+    DENOM_6: '$100',
     # BARCODE_TKT: 'TITO',
 }
 
