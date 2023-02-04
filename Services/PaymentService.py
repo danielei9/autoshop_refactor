@@ -56,7 +56,7 @@ class PaymentService():
         try:
             self.billWalletController:BillWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
             
-            billwWalletPollThread = threading.Thread(target=self.startBillWalletPollThread)
+            billwWalletPollThread = threading.Thread(target=self.billWalletController.start)
             billwWalletPollThread.start()
 
             print("BillWallet Initialized OK")
@@ -206,8 +206,9 @@ class PaymentService():
     async def startMachinesPayment(self):
         print("startMachinesPayment")
         self.paymentDone = False
-        self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
-        self.billWalletController.init()
+        # self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+        print("DONE")
+        # self.billWalletController.init()
 
         # self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
         print("WHLE")
@@ -223,5 +224,5 @@ class PaymentService():
 
     async def startMachinesConfig(self,stackA,stackB):
         self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
-        self.billWalletController.configMode(stackA,stackB)
-        self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
+        # self.billWalletController.configMode(stackA,stackB)
+        # self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
