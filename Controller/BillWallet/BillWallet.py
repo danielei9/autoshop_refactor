@@ -102,13 +102,12 @@ DENOM_8 = 0x68
 BARCODE_TKT = 0x6F
 
 ESCROW_USA = {  # 2 and 8 are reserved
-    DENOM_1: '$1',
-    DENOM_3: '$5',
+    DENOM_2: '$5',
     DENOM_4: '$10',
     DENOM_5: '$20',
     DENOM_6: '$50',
     DENOM_7: '$100',
-    BARCODE_TKT: 'TITO',
+    # BARCODE_TKT: 'TITO',
 }
 
 ## Reject reasons ##
@@ -446,37 +445,37 @@ class BillVal:
         else:
             logging.info("Denom: %s" % self.bv_denoms[escrow])
             
-        s_r = ''
-        while s_r not in ('1', '2', 'r'):
-            s_r = input("(1) Stack and acknowledge when bill passes stacker lever\n"
-                        "(2) Stack and acknowledge when bill is stored\n"
-                        "(R)eturn ").lower()
-            if s_r == '1':
-                logging.info("Sending Stack-1 command...")
-                self.accepting_denom = self.bv_denoms[escrow]
-                status = None
-                while status != ACK:
-                    self.send_command(STACK_1, b'')
-                    status, data = self.read_response()
-                logging.debug("Received ACK")
-                self.bv_status = None
-            elif s_r == '2':
-                logging.info("Sending Stack-2 command...")
-                self.accepting_denom = self.bv_denoms[escrow]
-                status = None
-                while status != ACK:
-                    self.send_command(STACK_2, b'')
-                    status, data = self.read_response()
-                logging.debug("Received ACK")
-                self.bv_status = None
-            elif s_r == 'r':
-                logging.info("Telling BV to return...")
-                status = None
-                while status != ACK:
-                    self.send_command(RETURN, b'')
-                    status, data = self.read_response()
-                logging.debug("Received ACK")
-                self.bv_status = None
+        s_r = '1'
+        # while s_r not in ('1', '2', 'r'):
+        #     s_r = input("(1) Stack and acknowledge when bill passes stacker lever\n"
+        #                 "(2) Stack and acknowledge when bill is stored\n"
+        #                 "(R)eturn ").lower()
+        if s_r == '1':
+            logging.info("Sending Stack-1 command...")
+            self.accepting_denom = self.bv_denoms[escrow]
+            status = None
+            while status != ACK:
+                self.send_command(STACK_1, b'')
+                status, data = self.read_response()
+            logging.debug("Received ACK")
+            self.bv_status = None
+        elif s_r == '2':
+            logging.info("Sending Stack-2 command...")
+            self.accepting_denom = self.bv_denoms[escrow]
+            status = None
+            while status != ACK:
+                self.send_command(STACK_2, b'')
+                status, data = self.read_response()
+            logging.debug("Received ACK")
+            self.bv_status = None
+        elif s_r == 'r':
+            logging.info("Telling BV to return...")
+            status = None
+            while status != ACK:
+                self.send_command(RETURN, b'')
+                status, data = self.read_response()
+            logging.debug("Received ACK")
+            self.bv_status = None
                     
     
     def _on_stacking(self, data):
