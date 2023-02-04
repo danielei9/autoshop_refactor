@@ -8,10 +8,10 @@ import time
 import logging
 
 
-def main(com):
+def main(com,cb):
     # port = '/dev/ttyUSB0'  # JCM UAC device (USB serial adapter)
 
-    bv = BillVal(com)
+    bv = BillVal(com,cb)
     print("Please connect bill validator.")
     bv.power_on()
 

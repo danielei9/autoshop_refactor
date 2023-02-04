@@ -102,11 +102,11 @@ DENOM_8 = 0x68
 BARCODE_TKT = 0x6F
 
 ESCROW_USA = {  # 2 and 8 are reserved
-    DENOM_2: '$5',
-    DENOM_3: '$10',
-    DENOM_4: '$20',
-    DENOM_5: '$50',
-    DENOM_6: '$100',
+    DENOM_2: '5',
+    DENOM_3: '10',
+    DENOM_4: '20',
+    DENOM_5: '50',
+    DENOM_6: '100',
     # BARCODE_TKT: 'TITO',
 }
 
@@ -336,10 +336,9 @@ def get_crc(message):
 class BillVal:
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
     
-    def __init__(self, com, log_raw=False, threading=False):
+    def __init__(self, com,cb, log_raw=False, threading=False):
         self.com = com
-        # self.com = serial.Serial(port, 9600, serial.EIGHTBITS, serial.PARITY_EVEN, timeout=0.05)
-        
+        self.cb = cb
         self.bv_status = None
         self.bv_version = None
         
@@ -438,18 +437,17 @@ class BillVal:
     def _on_escrow(self, data):
         escrow = data[0]
         if escrow not in self.bv_denoms:
-            raise DenomError("Unknown denom in escrow: %x" % escrow)
+            raise DenomError("Unknown Bill code: %x" % escrow)
         elif escrow == BARCODE_TKT:
             barcode = data[1:]
             logging.info("Barcode: %s" % barcode)
         else:
+            self.cb(self.bv_denoms[escrow])
             logging.info("Denom: %s" % self.bv_denoms[escrow])
             
         s_r = '1'
-        # while s_r not in ('1', '2', 'r'):
-        #     s_r = input("(1) Stack and acknowledge when bill passes stacker lever\n"
-        #                 "(2) Stack and acknowledge when bill is stored\n"
-        #                 "(R)eturn ").lower()
+        # "(1) Stack and acknowledge when bill passes stacker lever\n"
+        # "(2) Stack and acknowledge when bill is stored\n"
         if s_r == '1':
             logging.info("Sending Stack-1 command...")
             self.accepting_denom = self.bv_denoms[escrow]
