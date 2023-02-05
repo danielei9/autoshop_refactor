@@ -88,13 +88,13 @@ class PaymentService():
         #     # TODO: Informar al tpv de que no estan conectados 
         #     time.sleep(5)"""
 
-    async def manageTotalAmount(self, cantidad):
+    def manageTotalAmount(self, cantidad):
         print("*********************** manageTotalAmount : cantidad", cantidad)
         self.totalAmount = float(self.totalAmount) + float(cantidad)
         # print("manageTotalAmount : TotalAmount ", self.totalAmount)
         if self.totalAmount >= self.order:
             self.inhibitCoins()
-        self.payChange(self.totalAmount)
+        # self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
         print("PayCHange")
