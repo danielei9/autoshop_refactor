@@ -685,7 +685,8 @@ class BillVal:
         
         stat, data = self.read_response()
         if stat not in self.all_statuses + (0x00, None):
-            logging.warning("Unknown status code received: %02x, data: %r" % stat, data)
+            logging.warning("Unknown status code received: %02x" % stat)
+            logging.warning("Unknown status code received: data: %r" %  data)
         
         return stat, data
         
