@@ -131,7 +131,7 @@ class PaymentService():
             # self.inhibitCoins()
             self.paymentDone = True
 
-    async def returnChangeToClient(self, amount):
+    def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
 
