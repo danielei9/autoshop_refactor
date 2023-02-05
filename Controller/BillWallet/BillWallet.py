@@ -281,8 +281,13 @@ class BillVal:
         time.sleep(.2)
         (status, data)  = self.bv_status 
 
-        if (status, data) != (SET_INHIBIT, inhibit):
+        while (status, data) != (SET_INHIBIT, inhibit):
+            print("status ", status)
             logging.warning("Acceptor did not echo inhibit settings")
+            self.send_command(SET_INHIBIT, inhibit)
+            time.sleep(.25)
+            (status, data)  = self.bv_status 
+            time.sleep(.25)
 
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
