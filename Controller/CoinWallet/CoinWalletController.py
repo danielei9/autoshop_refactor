@@ -43,6 +43,8 @@ class CoinWalletController(SerialCommunicator):
         super().__init__(port)
         self.initializeSerial()
         self.cb = cb
+        self.data = ""
+        self.status = ""
 
         print("Init Controller CoinWallet")
         self.cw_events = {
@@ -232,3 +234,35 @@ class CoinWalletController(SerialCommunicator):
 #         self.proc.start()
 #         self.enableInsertCoins()
         return 0
+    def __parseBytes(self,received):
+        status = str(received)[2:4]
+        data = str(received)[5:(len(str(received))-5)]
+        self.status = status.split(" ")
+        self.data = data.split(" ")
+        self.incommingCoin = str(self.status[0] + " " + self.data[0])
+        if(self.incommingCoin  in self.cw_events):
+            self.cw_events[self.incommingCoin ](data)
+        return
+    """-------------------------- startThreadReceived ------------------------------"""
+    def threadReceived(self):
+#         while not self.statusDeactiveThread:
+        #while True:
+            if(self.conn.serialAvailable()):
+                try:
+                    received =  self.com.readline()
+                except serial.SerialException:
+                    print('Port is not available')
+                    return False
+                except serial.portNotOpenError:
+                    print('Attempting to use a port that is not open in read line')
+                    return False
+                except:
+                    print("Not possible to read port")
+                    return False
+
+                print("CoinWallet RX :: ", received)
+                self.__parseBytes(received)
+                print("cv status = " + str(self.status) + " data = " + str(self.data))
+                self.data = str(self.data)
+                self.status = str(self.status)
+            return

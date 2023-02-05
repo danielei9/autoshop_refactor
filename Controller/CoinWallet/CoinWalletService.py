@@ -37,4 +37,4 @@ class CoinWalletService():
 
     def startPollThread(self):
         print("startPollThread")
-        asyncio.run( self.coinwallet.poll())   
+        asyncio.run( self.coinwallet.threadReceived())   
