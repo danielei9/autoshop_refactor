@@ -134,7 +134,7 @@ class BillVal:
                 return
         
         self.init_status = status
-            
+        
         if status not in POW_STATUSES:
             logging.warning("Acceptor already powered up, status: %02x" % status)
             return self.init_status
@@ -161,8 +161,6 @@ class BillVal:
             if self.req_status()[0] == INITIALIZE:
                 self.initialize(*args, **kwargs)
                     
-        # typically call BillVal.poll() after this
-        
         return self.init_status
     
     def initialize(self, denom=[0x82, 0], sec=[0, 0], dir=[0], opt_func=[0, 0], 
