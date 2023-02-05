@@ -86,11 +86,38 @@ class CoinWalletController(SerialCommunicator):
     # # # # # # # # # # # # # # # # # # # # # # 
     """--------------------------send command ------------------------------"""
     def __sendCommand(self,command):
-        response = self.conn.serialSend(bytearray(command))
+        try:
+            response = self.serialWrite(bytearray(command))
+            return 1
+        except:
+            print("Error sending")
+            pass
+
         return response
     """------------------ send command and receive --------------------------"""
     def __sendCommandAndReceive(self,command):
-        response = self.conn.serialSendAndReceive(bytearray(command))
+        try:# try to open
+#             if not self.portConfig.isOpen():
+#                 self.serialOpen()
+            # try to send
+            self.com.write(bytearray(command))
+            # try to read if available
+            count = 0
+            startTimeOut = time.time()
+            while (not self.com.in_waiting):
+                print("waiting response...")
+                endTimeOut = time.time()
+                time.sleep(1)
+                # TimeOut
+                if (endTimeOut - startTimeOut >= 2):  
+                    return -1
+            response = self.com.readline()
+            # print(response)
+            return response
+        except:
+            print("Error sending")
+            pass
+            
         return response
     """---------------------------- ParseBytes ------------------------------"""
     async def __parseBytes(self,received):
@@ -247,7 +274,7 @@ class CoinWalletController(SerialCommunicator):
     def threadReceived(self):
 #         while not self.statusDeactiveThread:
         #while True:
-            if(self.conn.serialAvailable()):
+            if(self.com.in_waiting):    
                 try:
                     received =  self.com.readline()
                 except serial.SerialException:
