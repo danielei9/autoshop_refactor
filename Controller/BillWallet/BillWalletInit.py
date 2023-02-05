@@ -27,7 +27,7 @@ def main(com,cb):
             logging.info("BV powered up with bill in acceptor.")
         elif bv.init_status == id003.POW_UP_BIS:
             logging.info("BV powered up with bill in stacker.")
-        bv.set_inhibit(1)
+        bv.set_inhibit(0)
     except Exception as e:
         print(e)
         pass
