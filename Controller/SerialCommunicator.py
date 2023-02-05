@@ -30,14 +30,13 @@ class SerialCommunicator:
     def send_data(self, data):
         if self.is_open:
             self.com.write(data).encode()
-        
     
     def receive_data(self):
         if self.is_open:
-            return str(self.com.readline())
+            return self.com.readline()
         else:
             print("Not open")
-            self.open_port()
+            return ""
 
     def initializeSerial(self):
         print("initializeSerial")
