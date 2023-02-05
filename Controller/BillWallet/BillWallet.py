@@ -719,7 +719,9 @@ class BillVal:
         logging.debug("Setting inhibit: %r" % inhibit)
         print("set_inhibit")
         inhibit = bytes(inhibit)
+        time.sleep(.2)
         self.send_command(SET_INHIBIT, inhibit)
+        time.sleep(.2)
         status, data = self.read_response()
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
