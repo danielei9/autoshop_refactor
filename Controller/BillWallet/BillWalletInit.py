@@ -13,7 +13,7 @@ import threading
 def main(com,cb):
     def startPollThread():
         print("startPollThread")
-        asyncio.run( bv.poll())   
+        # asyncio.run( bv.poll())   
     # port = '/dev/ttyUSB0'  # JCM UAC device (USB serial adapter)
     try:
         bv = BillVal(com,cb)
