@@ -266,7 +266,7 @@ class CoinWalletController(SerialCommunicator):
     def threadReceived(self):
 #         while not self.statusDeactiveThread:
         while True:
-            if(self.com.in_waiting()):    
+            if(self.com.in_waiting):    
                 try:
                     received =  self.com.readline()
                 except serial.SerialException:
