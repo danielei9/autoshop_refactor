@@ -215,6 +215,7 @@ class PaymentService():
         print("startMachinesPayment")
         self.paymentDone = False
         self.priceClientShouldPay = priceClientShouldPay
+        self.billWalletService.bv.set_inhibit(0)
         while self.paymentDone == False:
             print("waiting pay")
             time.sleep(5)
