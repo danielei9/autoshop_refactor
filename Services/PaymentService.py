@@ -91,9 +91,9 @@ class PaymentService():
     def manageTotalAmount(self, cantidad):
         print("*********************** manageTotalAmount : cantidad", cantidad)
         self.totalAmount = float(self.totalAmount) + float(cantidad)
-        # print("manageTotalAmount : TotalAmount ", self.totalAmount)
-        if self.totalAmount >= self.order:
-            self.inhibitCoins()
+        print("manageTotalAmount : TotalAmount ", self.totalAmount)
+        # if self.totalAmount >= self.order:
+        #     self.inhibitCoins()
         # self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
