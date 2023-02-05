@@ -205,6 +205,7 @@ class PaymentService():
         self.paymentDone = False
         while self.paymentDone == False:
             print("waiting pay")
+            time.sleep(5)
             # self.backMoneyCancelledOrder(self.totalAmount)
             # self.paymentDone = True
       
