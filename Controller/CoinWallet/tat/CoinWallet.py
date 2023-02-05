@@ -240,6 +240,8 @@ class CoinWallet():
         data = str(received)[5:(len(str(received))-5)]
         self.status = status.split(" ")
         self.data = data.split(" ")
+        print("received")
+        print(received)
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
         if(self.incommingCoin  in self.cw_events):
             await self.cw_events[self.incommingCoin ](data)
