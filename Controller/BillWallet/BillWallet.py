@@ -171,7 +171,7 @@ class BillVal:
         return self.init_status
     
     def initialize(self, denom=[0x82, 0], sec=[0, 0], dir=[0], opt_func=[0, 0], 
-                   inhibit=[1], bar_func=[0x01, 0x12], bar_inhibit=[0]):
+                   inhibit=[0], bar_func=[0x01, 0x12], bar_inhibit=[0]):
         """Initialize BV settings"""
         
         logging.debug("Setting denom inhibit: %r" % denom)
@@ -281,13 +281,8 @@ class BillVal:
         time.sleep(.2)
         (status, data)  = self.bv_status 
 
-        while (status) != (SET_INHIBIT):
-            print("status ", status)
+        if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
-            self.send_command(SET_INHIBIT, inhibit)
-            time.sleep(.25)
-            (status, data)  = self.bv_status 
-            time.sleep(.25)
 
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
