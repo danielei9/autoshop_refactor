@@ -723,6 +723,7 @@ class BillVal:
         time.sleep(.2)
         self.send_command(SET_INHIBIT, inhibit)
         time.sleep(.2)
-        status, data = self.read_response()
+        (status, data)  = self.bv_status 
+        
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")

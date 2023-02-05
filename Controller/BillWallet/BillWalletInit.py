@@ -13,14 +13,12 @@ import threading
 def main(com,cb):
     def startPollThread():
         print("startPollThread")
-        # asyncio.run( bv.poll())   
+        asyncio.run( bv.poll())   
     # port = '/dev/ttyUSB0'  # JCM UAC device (USB serial adapter)
     try:
         bv = BillVal(com,cb)
         print("Please connect bill validator.")
         bv.power_on()
-        pollThread = threading.Thread(target=startPollThread)
-        pollThread.start()
         if bv.init_status == id003.POW_UP:
             logging.info("BV powered up normally.")
         elif bv.init_status == id003.POW_UP_BIA:
@@ -28,6 +26,8 @@ def main(com,cb):
         elif bv.init_status == id003.POW_UP_BIS:
             logging.info("BV powered up with bill in stacker.")
         bv.set_inhibit(1)
+        pollThread = threading.Thread(target=startPollThread)
+        pollThread.start()
     except Exception as e:
         print(e)
         pass
