@@ -80,6 +80,7 @@ class CoinWalletController(SerialCommunicator):
             print("1 euro")
             self.cb(1)
     def __onInserted2Euro(self,data):
+        print("2 euros")
         if(self.data[0] == '55'  ):
             print("2 euros")
             self.cb(2)
@@ -129,6 +130,7 @@ class CoinWalletController(SerialCommunicator):
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
         print("incomming coin  ", self.incommingCoin)
         if(self.incommingCoin  in self.cw_events):
+            print("esta en el event")
             self.cw_events[self.incommingCoin ](data)
         return
 
