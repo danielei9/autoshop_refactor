@@ -101,7 +101,7 @@ def checkPorts():
 
 import multiprocessing
 import time
-from .BuchuSerial import BuchuSerial
+from BuchuSerial import BuchuSerial
 # # # # # # # # # # # # # # # # # # # # # 
 # NORMAL COMMANDS
 # # # # # # # # # # # # # # # # # # # # #
