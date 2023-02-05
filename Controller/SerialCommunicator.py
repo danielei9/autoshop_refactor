@@ -33,6 +33,8 @@ class SerialCommunicator:
     
     def receive_data(self):
         if self.is_open:
+            msg = self.com.readline()
+            print(msg.decode())
             return self.com.readline()
         else:
             print("Not open")
