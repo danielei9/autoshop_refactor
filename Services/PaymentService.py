@@ -151,8 +151,8 @@ class PaymentService():
                     while( toReturn > 0 ):
                         print("**** TO RETURN ",toReturn)
                         time.sleep(.2)
-                        returnedToUser = await self.__billBack(changeBills)
-                        toReturn = toReturn - returnedToUser
+                        # returnedToUser = await self.__billBack(changeBills)
+                        # toReturn = toReturn - returnedToUser
                 
             print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
         self.totalAmount = 0
