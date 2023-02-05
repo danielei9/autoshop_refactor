@@ -67,16 +67,18 @@ class PaymentService():
                 time.sleep(5)
         if(COINWALLET):
             try:
+
                 self.coinWalletController: CoinWalletService = CoinWalletService(
                     self.manageTotalAmount, port=self.portMonedero)
                 
                 coinWalletPollThread = threading.Thread(target=self.coinWalletService.run)
                 coinWalletPollThread.start()
                 print("CoinWallet Initialized OK")
-            except:
-                print("Please Connect CoinWallet ")
+            except Exception as e:
+                print("Please Connect CoinWallet ", e)
                 # TODO: Informar al tpv de que no estan conectados
-                time.sleep(5)
+                time.sleep(3)
+                self.initializeControllers()
         if(PRINTER):
             try:
                 self.printerController = PrinterController()
