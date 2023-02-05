@@ -33,7 +33,7 @@ class SerialCommunicator:
     
     def receive_data(self):
         if self.is_open:
-            return self.com.readline()
+            return str(self.com.readline())
 
     def initializeSerial(self):
         print("initializeSerial")
