@@ -34,10 +34,10 @@ class DisplayController(SerialCommunicator):
         print(id, " ", data)
         try:
             if(id == ID_NEXTION_PROCESS_BAR_NUM):
-                self.model.com.write((id+".val=" + data ).encode())
+                self.com.write((id+".val=" + data ).encode())
             else:
-                self.model.com.write((id+".txt=\"" + data + "\"").encode('unicode_escape'))
-            self.model.com.write(b"\xFF\xFF\xFF")
+                self.com.write((id+".txt=\"" + data + "\"").encode('unicode_escape'))
+            self.com.write(b"\xFF\xFF\xFF")
         except:
             print("Error Sending To Display")
 
