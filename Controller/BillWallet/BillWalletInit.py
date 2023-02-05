@@ -28,6 +28,13 @@ def main(com,cb):
         bv.set_inhibit(0)
         pollThread = threading.Thread(target=startPollThread)
         pollThread.start()
+        time.sleep(5)
+        bv.set_inhibit(0)
+        time.sleep(5)
+        bv.set_inhibit(1)
+        time.sleep(5)
+        bv.set_inhibit(0)
+        
     except Exception as e:
         print("ERROR: " + str(e))
         pass
