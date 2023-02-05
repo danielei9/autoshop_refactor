@@ -147,8 +147,7 @@ class PaymentService():
 
         # CAMBIO DE BILLETES
         if( change >= minimumBill ):
-            changeBills = round( change )
-            toReturn = changeBills
+            toReturn = round( change )
             # Mientras tengamos que devolver dinero...
             while( toReturn > 0 ):
                 print("**** TO RETURN ",toReturn)
@@ -214,7 +213,8 @@ class PaymentService():
             print("waiting pay")
             time.sleep(5)
         while self.totalAmount > self.priceClientShouldPay :
-            self.returnChangeToClient(self.totalAmount)
+            change = self.totalAmount - self.priceClientShouldPay
+            self.returnChangeToClient(change)
       
         print("payment done from __startMachinesPayment")
 
