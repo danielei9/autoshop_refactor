@@ -1,5 +1,5 @@
 from Controller.Display.DisplayController import *
-from Controller.BillWallet.BillWalletController import *
+from Controller.BillWallet.BillWalletService import *
 from Controller.CoinWallet.CoinWalletController import *
 from Controller.Leds.LedsController import *
 from Controller.Printer.PrinterController import *
@@ -10,7 +10,7 @@ import threading
 class PaymentService():
     
     def __init__(self):
-        self.billWalletController:BillWalletController = None
+        self.billWalletService:BillWalletService = None
         self.portBilletero = None
         self.portMonedero = None
         self.portDisplay = None
@@ -51,9 +51,9 @@ class PaymentService():
         #     pass
             # self.initializeControllers()
         try:
-            self.billWalletController:BillWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+            self.billWalletService:BillWalletService = BillWalletService(self.manageTotalAmount, port=self.portBilletero)
             
-            billwWalletPollThread = threading.Thread(target=self.billWalletController.start)
+            billwWalletPollThread = threading.Thread(target=self.billWalletService.start)
             billwWalletPollThread.start()
 
             print("BillWallet Initialized OK")
@@ -97,7 +97,7 @@ class PaymentService():
     async def payChange(self, amount):
         changeBills = 0
         changeInCoins = 0
-        minimumBill = self.billWalletController.minBill
+        minimumBill = self.billWalletService.minBill
 
         self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.order) *100))
         if amount >= self.order:
@@ -123,14 +123,14 @@ class PaymentService():
             print("Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
             self.totalAmount = 0
             
-            self.billWalletController.init()
+            self.billWalletService.init()
             self.inhibitCoins()
             self.paymentDone = True
 
     async def backMoneyCancelledOrder(self, amount):
         changeBills = 0
         changeInCoins = 0
-        minimumBill = self.billWalletController.minBill
+        minimumBill = self.billWalletService.minBill
         # TODO: enviar cambio de estado display
         if(str(self.idOrder) != "-1"):      
             print("backmoney")
@@ -153,7 +153,7 @@ class PaymentService():
             print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
         self.totalAmount = 0
             
-        self.billWalletController.init()
+        self.billWalletService.init()
         # TODO: inhibir monedas
         self.inhibitCoins()
         self.paymentDone = True   
@@ -170,48 +170,49 @@ class PaymentService():
         payFromStack1 = False
         payFromStack2 = False
 
-        if(changeBills >= self.billWalletController.maxBill):
-            print("Pagar max billete %d" % self.billWalletController.maxBill)
-            if(self.billWalletController.maxBill == self.billWalletController.stackA):
+        if(changeBills >= self.billWalletService.maxBill):
+            print("Pagar max billete %d" % self.billWalletService.maxBill)
+            if(self.billWalletService.maxBill == self.billWalletService.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(self.billWalletController.maxBill == self.billWalletController.stackB):
+            if(self.billWalletService.maxBill == self.billWalletService.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
-        elif (changeBills >= self.billWalletController.minBill):
-            print("PAY min billete %d" % self.billWalletController.minBill)
+        elif (changeBills >= self.billWalletService.minBill):
+            print("PAY min billete %d" % self.billWalletService.minBill)
             
-            if(self.billWalletController.minBill == self.billWalletController.stackA):
+            if(self.billWalletService.minBill == self.billWalletService.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(self.billWalletController.minBill == self.billWalletController.stackB):
+            if(self.billWalletService.minBill == self.billWalletService.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
         else:
-            print("ERROR: TO PAY  %d < minbill: %d" % self.billWalletController,self.billWalletController.minBill.minBill)
-        while (self.billWalletController.status != IDLE):
-            print("__billBack: Esperando estado IDLE, actual: %02x" % self.billWalletController.status)
-            self.billWalletController.getStatus()
+            print("ERROR: TO PAY  %d < minbill: %d" % self.billWalletService,self.billWalletService.minBill.minBill)
+        while (self.billWalletService.status != IDLE):
+            print("__billBack: Esperando estado IDLE, actual: %02x" % self.billWalletService.status)
+            self.billWalletService.getStatus()
             time.sleep(.2)
         # time.sleep(.2)
-        self.billWalletController.payout(payFromStack1,payFromStack2)
+        self.billWalletService.payout(payFromStack1,payFromStack2)
         if(payFromStack1 == True):
-            return self.billWalletController.minBill
+            return self.billWalletService.minBill
         if(payFromStack2 == True):
-            return self.billWalletController.maxBill
+            return self.billWalletService.maxBill
 
     async def startMachinesPayment(self):
         print("startMachinesPayment")
         self.paymentDone = False
         while self.paymentDone == False:
-            self.backMoneyCancelledOrder(self.totalAmount)
-            self.paymentDone = True
+            print("waiting pay")
+            # self.backMoneyCancelledOrder(self.totalAmount)
+            # self.paymentDone = True
       
             # await asyncio.wait_for(self.coinWalletController.threadReceived(), timeout=0.2)
-            await asyncio.wait_for(self.billWalletController.poll(), timeout=0.2)
+            # await asyncio.wait_for(self.billWalletService.poll(), timeout=0.2)
         print("payment done from __startMachinesPayment")
 
     async def startMachinesConfig(self,stackA,stackB):
-        self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
-        # self.billWalletController.configMode(stackA,stackB)
+        self.billWalletService = BillWalletService(self.manageTotalAmount, port=self.portBilletero)
+        # self.billWalletService.configMode(stackA,stackB)
         # self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)

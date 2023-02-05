@@ -1,5 +1,5 @@
 from Controller.Display.DisplayController import *
-from Controller.BillWallet.BillWalletController import *
+from Controller.BillWallet.BillWalletService import *
 from Controller.CoinWallet.CoinWalletController import *
 from Controller.Leds.LedsController import *
 from Controller.Printer.PrinterController import *
