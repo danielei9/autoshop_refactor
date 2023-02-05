@@ -36,7 +36,12 @@ class Router():
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                     await self.paymentService.startMachinesPayment(self.actualProcessingRequest.price)
-                    self.actualProcessingRequest = None
+                    try:
+                        if(self.actualProcessingRequest.idOrder == self.lastRequestArrived.idOrder):
+                            self.lastRequestArrived = None
+                            self.actualProcessingRequest = None
+                    except:
+                        pass
                     return True
                 
                 # Cancelar 
