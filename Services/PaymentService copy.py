@@ -19,9 +19,12 @@ class PaymentService():
         (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = UsbDetector.detect_ports()
         self.initializeControllers()
     
+    def startBillWalletPollThread(self):
+        print("start_async_loop")
+        asyncio.run( self.billWalletController.poll())
+
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
-
     def checkPorsConnected(self):
         print("Trying to connect Ports")
 
@@ -62,7 +65,7 @@ class PaymentService():
             print("Please Connect BillWallet ")
             # TODO: Informar al tpv de que no estan conectados 
             time.sleep(5)
-        """# try:
+        # try:
         #     self.coinWalletController:CoinWalletController =  CoinWalletController()
         #     print("CoinWallet Initialized OK")
         # except:
@@ -84,7 +87,7 @@ class PaymentService():
         # except:
         #     print("Please Connect Leds ")
         #     # TODO: Informar al tpv de que no estan conectados 
-        #     time.sleep(5)"""
+        #     time.sleep(5)
 
     async def manageTotalAmount(self, cantidad):
         print("manageTotalAmount : cantidad", cantidad)
@@ -203,8 +206,16 @@ class PaymentService():
     async def startMachinesPayment(self):
         print("startMachinesPayment")
         self.paymentDone = False
+        # self.billWalletController = BillWalletController(self.manageTotalAmount, port=self.portBilletero)
+        print("DONE")
+        # self.billWalletController.init()
+
+        # self.coinWalletController = CoinWalletController(self.manageTotalAmount, port=self.portMonedero)
+        print("WHLE")
         while self.paymentDone == False:
-            self.backMoneyCancelledOrder(self.totalAmount)
+            # if(str(mensaje) == '1'):
+            print("detected cancelled 2")
+            await self.backMoneyCancelledOrder(self.totalAmount)
             self.paymentDone = True
       
             # await asyncio.wait_for(self.coinWalletController.threadReceived(), timeout=0.2)
