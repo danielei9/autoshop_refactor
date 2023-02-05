@@ -119,7 +119,7 @@ class CoinWalletController(SerialCommunicator):
             pass
             
     """---------------------------- ParseBytes ------------------------------"""
-    async def __parseBytes(self,received):
+    def __parseBytes(self,received):
         status = str(received)[2:4]
         data = str(received)[5:(len(str(received))-5)]
         self.status = status.split(" ")
@@ -128,6 +128,7 @@ class CoinWalletController(SerialCommunicator):
         if(self.incommingCoin  in self.cw_events):
             self.cw_events[self.incommingCoin ](data)
         return
+
     """--------------------------fullTube------------------------------"""
     def __fullTube(self,tube):
         print("FULL TUBE Number " + str(tube))
@@ -260,20 +261,12 @@ class CoinWalletController(SerialCommunicator):
 #         self.proc.start()
 #         self.enableInsertCoins()
         return 0
-    def __parseBytes(self,received):
-        status = str(received)[2:4]
-        data = str(received)[5:(len(str(received))-5)]
-        self.status = status.split(" ")
-        self.data = data.split(" ")
-        self.incommingCoin = str(self.status[0] + " " + self.data[0])
-        if(self.incommingCoin  in self.cw_events):
-            self.cw_events[self.incommingCoin ](data)
-        return
+ 
     """-------------------------- startThreadReceived ------------------------------"""
     def threadReceived(self):
 #         while not self.statusDeactiveThread:
         while True:
-            if(self.com.in_waiting):    
+            if(self.com.in_waiting()):    
                 try:
                     received =  self.com.readline()
                 except serial.SerialException:
@@ -289,9 +282,5 @@ class CoinWalletController(SerialCommunicator):
                 print("CoinWallet RX :: ", received)
                 self.__parseBytes(received)
                 print("cv status = " + str(self.status) + " data = " + str(self.data))
-                try:
-                    self.cw_events[self.status](self.data)
-                except Exception as e:
-                    print("EWE:" , e)
                 self.data = str(self.data)
                 self.status = str(self.status)
