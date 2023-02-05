@@ -43,5 +43,5 @@ class SerialCommunicator:
     def initializeSerial(self):
         print("initializeSerial")
         self.open_port()
-        self.com.flushInput()
-        self.com.flushOutput()
+        self.com.reset_input_buffer()
+        self.com.reset_output_buffer()

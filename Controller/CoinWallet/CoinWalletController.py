@@ -266,8 +266,6 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    self.com.reset_input_buffer()
-                    self.com.reset_output_buffer()
                     received =  []
                     self.com.readinto(received)
                     print("received :: ", received)
