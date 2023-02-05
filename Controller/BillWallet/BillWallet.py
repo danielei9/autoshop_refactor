@@ -563,8 +563,8 @@ class BillVal:
         self._raw('<', full_msg)
         
         # check our data
-        if get_crc(full_msg) != crc:
-            raise CRCError("CRC mismatch")
+        # if get_crc(full_msg) != crc:
+        #     raise CRCError("CRC mismatch")
             
         return ord(command), data
         
