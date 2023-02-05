@@ -53,7 +53,7 @@ class PaymentService():
         try:
             self.billWalletService:BillWalletService = BillWalletService(self.manageTotalAmount, port=self.portBilletero)
             
-            billwWalletPollThread = threading.Thread(target=self.billWalletService.start)
+            billwWalletPollThread = threading.Thread(target=self.billWalletService.run)
             billwWalletPollThread.start()
 
             print("BillWallet Initialized OK")
@@ -136,10 +136,10 @@ class PaymentService():
             print("backmoney")
             change = round(amount,2)
             changeInCoins = round(change % minimumBill ,2)
-            # self.__inhibitCoins()
-            if(changeInCoins > 0):
-                    await self.__coinBack( changeInCoins )
-                    change = change - changeInCoins
+            # # self.__inhibitCoins()
+            # if(changeInCoins > 0):
+            #         await self.__coinBack( changeInCoins )
+            #         change = change - changeInCoins
 
             if(change >= minimumBill):
                     changeBills = round( change )

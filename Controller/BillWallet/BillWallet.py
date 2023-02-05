@@ -60,7 +60,6 @@ class BillVal:
             formatter = logging.Formatter("%(levelname)s: %(message)s")
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
-    
 
     def _raw(self, pre, msg):
         if self.raw:
@@ -263,7 +262,6 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
             
-            
     def set_inhibit(self,inhibit):
         """
         Command to set the inhibit state
@@ -281,44 +279,34 @@ class BillVal:
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
 
+
     def _on_stacker_full(self, data):
         logging.error("Stacker full.")
-
     def _on_stacker_open(self, data):
         logging.warning("Stacker open.")
-
     def _on_acceptor_jam(self, data):
         logging.error("Acceptor jam.")
-
     def _on_stacker_jam(self, data):
         logging.error("Stacker jam.")
-
     def _on_pause(self, data):
         logging.warning("BV paused. If there's a second bill being inserted, remove it.")
-
     def _on_cheated(self, data):
         logging.warning("BV cheated.")
-
     def _on_failure(self, data):
         fault = ord(data)
         if fault not in FAILURE_CODES:
             logging.error("Unknown failure: %02x" % fault)
         else:
             logging.error(FAILURE_CODES[fault])
-
     def _on_comm_error(self, data):
         logging.warning("Communication error.")
         logging.debug("Details: %r" % ['0x%02x' % x for x in data])
-
     def _on_invalid_command(self, data):
         logging.warning("Invalid command.")
-
     def _on_idle(self, data):
         logging.info("BV idle.")
-
     def _on_accepting(self, data):
         logging.info("BV accepting...")
-
     def _on_escrow(self, data):
         escrow = data[0]
         if escrow not in self.bv_denoms:
@@ -358,17 +346,13 @@ class BillVal:
                 self.send_command(RETURN, b'')
                 status, data = self.read_response()
             logging.debug("Received ACK")
-            self.bv_status = None
-                    
-
+            self.bv_status = None     
     def _on_stacking(self, data):
         logging.info("BV stacking...")
-
     def _on_vend_valid(self, data):
         logging.info("Vend valid for %s." % self.accepting_denom)
         self.send_command(ACK, b'')
         self.accepting_denom = None
-
     def _on_stacked(self, data):
         logging.info("Stacked.")
     def _on_rejecting(self, data):
@@ -377,13 +361,10 @@ class BillVal:
             logging.warning("BV rejecting, reason: %s" % REJECT_REASONS[reason])
         else:
             logging.warning("BV rejecting, unknown reason: %02x" % reason)
-
     def _on_returning(self, data):
         logging.info("BV Returning...")
-
     def _on_holding(self, data):
         logging.info("Holding...")
-
     def _on_inhibit(self, data):
         logging.warning("BV inhibited.")
         # input("Press enter to reset and initialize BV.")
@@ -398,7 +379,6 @@ class BillVal:
             logging.info("Initializing bill validator...")
             self.initialize()
         self.bv_status = None
-
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
         input("Press enter to reinitialize the BV.")
