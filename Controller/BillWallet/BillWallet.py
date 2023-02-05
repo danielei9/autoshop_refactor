@@ -134,9 +134,10 @@ class BillVal:
                 return
         
         self.init_status = status
-        
+        print("ACTUAL STATUS power_on: " , str(status))
         if status not in POW_STATUSES:
             logging.warning("Acceptor already powered up, status: %02x" % status)
+            print("ACTUAL STATUS power_on if: " , str(status))
             return self.init_status
         elif status == POW_UP:
             logging.info("Powering up...")
@@ -144,6 +145,7 @@ class BillVal:
             self.send_command(GET_VERSION)
             status, self.bv_version = self.read_response()
             logging.info("BV software version: %s" % self.bv_version.decode())
+            print("ACTUAL STATUS power_on elif: " , str(status))
             
             while status != ACK:
                 logging.debug("Sending reset command")
@@ -154,6 +156,8 @@ class BillVal:
                 self.initialize(*args, **kwargs)
         else:
             # Acceptor should either reject or stack bill
+            print("ACTUAL STATUS power_on else: " , str(status))
+
             while status != ACK:
                 self.send_command(RESET)
                 status, data = self.read_response()
