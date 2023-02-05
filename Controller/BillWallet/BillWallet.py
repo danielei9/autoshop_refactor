@@ -341,9 +341,9 @@ class BillVal:
         self.cb = cb
         self.bv_status = None
         self.bv_version = None
-        
+        self.last_full_msg = None
         self.threading = threading
-        
+        self.lastMessage = None
         self.all_statuses = NORM_STATUSES + ERROR_STATUSES + POW_STATUSES
             
         self.bv_events = {
@@ -529,7 +529,9 @@ class BillVal:
         
         # log message
         self._raw('>', message)
-        print("Sending " + str(message))
+        if(message != self.lastMessage):
+            print("Sending " + str(message))
+            self.lastMessage = message
         return self.com.write(message)
         
     def read_response(self):
@@ -565,7 +567,9 @@ class BillVal:
         # check our data
         # if get_crc(full_msg) != crc:
         #     raise CRCError("CRC mismatch")
-        print("Received: " + str(command)+ " , " + str(data))
+        if(full_msg != self.last_full_msg):
+            print("Received: " + str(full_msg))
+            self.last_full_msg = full_msg
         return ord(command), data
         
     def power_on(self, *args, **kwargs):
@@ -724,6 +728,6 @@ class BillVal:
         self.send_command(SET_INHIBIT, inhibit)
         time.sleep(.2)
         (status, data)  = self.bv_status 
-        
+
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
