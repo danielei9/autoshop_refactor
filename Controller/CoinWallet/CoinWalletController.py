@@ -123,8 +123,7 @@ class CoinWalletController(SerialCommunicator):
         status = str(received)[2:4]
         data = str(received)[5:(len(str(received))-5)]
         print("data : " ,data)
-        print("Received : " ,str(received).encode())
-        print("data : " ,hex(data))
+        print("Received : " ,str(received))
         self.status = status.split(" ")
         self.data = data.split(" ")
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
@@ -272,7 +271,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received =  self.com.readline()
+                    received =  self.com.read_all()
                 except serial.SerialException:
                     print('Port is not available')
                     return False
