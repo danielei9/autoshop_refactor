@@ -35,6 +35,7 @@ class Router():
                 # Procesar pago
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
+                    self.paymentService.displayController.display(self.actualProcessingRequest)
                     await self.paymentService.startMachinesPayment(self.actualProcessingRequest.price)
                     try:
                         if(self.actualProcessingRequest.idOrder == self.lastRequestArrived.idOrder):

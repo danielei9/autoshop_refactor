@@ -96,41 +96,6 @@ class PaymentService():
             print("PAGO COMPLETADO")
             self.paymentDone = True
 
-    # def payChange(self, amount):
-    #     print("PayCHange")
-    #     changeBills = 0
-    #     changeInCoins = 0
-    #     minimumBill = self.billWalletService.bv.minBill
-    #     print("Amount ",amount)
-    #     print("self.priceClientShouldPay ",self.priceClientShouldPay)
-    #     # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.priceClientShouldPay) *100))
-    #     if amount >= self.priceClientShouldPay:
-    #         # self.__inhibitCoins()
-    #         change = round(amount - self.priceClientShouldPay,2)
-    #         changeInCoins = round(change % minimumBill ,2)
-
-    #         # if(changeInCoins > 0):
-    #         #     self.coinWalletController.enableInsertCoins()
-    #         #     time.sleep(.1)
-    #         #     await self.__coinBack( changeInCoins )
-    #         #     change = change - changeInCoins
-
-    #         if(change >= minimumBill):
-    #             changeBills = round( change )
-    #             toReturn = changeBills
-    #             while( toReturn > 0 ):
-    #                 print("**** TO RETURN ",toReturn)
-    #                 time.sleep(.2)
-    #                 # returnedToUser = await self.__billBack(changeBills)
-    #                 # toReturn = toReturn - returnedToUser
-                
-    #         print("Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
-    #         self.totalAmount = 0
-            
-    #         # self.billWalletService.init()
-    #         # self.inhibitCoins()
-    #         self.paymentDone = True
-
     def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
@@ -211,7 +176,7 @@ class PaymentService():
         if(payFromStack2 == True):
             return maxBill
 
-    async def startMachinesPayment(self,priceClientShouldPay):
+    def startMachinesPayment(self,priceClientShouldPay):
         print("startMachinesPayment")
         self.paymentDone = False
         self.priceClientShouldPay = priceClientShouldPay

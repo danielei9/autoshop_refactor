@@ -41,7 +41,7 @@ class DisplayController(SerialCommunicator):
         except:
             print("Error Sending To Display")
 
-    def adaptRequest(self,obj:PayRequest):
+    def adaptRequestToDisplay(self,obj:PayRequest):
         print(obj)
         try:
             percent = 100
@@ -76,7 +76,7 @@ class DisplayController(SerialCommunicator):
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(percent))
     
     def display(self,request:PayRequest):
-        (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequest(request)
+        (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequestToDisplay(request)
         self.putDataToDisplay(ticketQr,itemList,itemPriceList,priceTotal,percent) 
 
     def displayError(self,error):
