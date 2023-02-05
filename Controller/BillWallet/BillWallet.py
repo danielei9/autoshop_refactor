@@ -11,7 +11,7 @@ class BillVal:
     def __init__(self, com,cb, log_raw=False, threading=False):
         self.com = com  
         self.cb = cb
-        self.bv_status = None
+        self.bv_status = (0x00,0x00)
         self.bv_version = None
         self.last_full_msg = None
         self.threading = threading

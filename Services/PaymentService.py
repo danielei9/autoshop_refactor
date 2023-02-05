@@ -157,9 +157,9 @@ class PaymentService():
             print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
         self.totalAmount = 0
             
-        self.billWalletService.init()
+        # self.billWalletService.init()
         # TODO: inhibir monedas
-        self.inhibitCoins()
+        # self.inhibitCoins()
         self.paymentDone = True   
 
     def inhibitCoins(self):
