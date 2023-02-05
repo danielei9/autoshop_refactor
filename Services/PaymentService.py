@@ -211,7 +211,7 @@ class PaymentService():
             self.displayController.display(self.payRequest)
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
-        self.billWalletService.bv.set_inhibit(0)
+        # self.billWalletService.bv.set_inhibit(0)
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
