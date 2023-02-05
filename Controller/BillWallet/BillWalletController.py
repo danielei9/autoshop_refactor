@@ -29,19 +29,14 @@ class BillWalletController ():
             self.bv.set_inhibit(0)
             pollThread = threading.Thread(target=self.startPollThread)
             pollThread.start()
-            time.sleep(5)
-            self.bv.set_inhibit(0)
-            time.sleep(5)
-            self.bv.set_inhibit(1)
-            time.sleep(5)
-            self.bv.set_inhibit(0)
+            
 
         except Exception as e:
             print("ERROR: " + str(e))
             pollThread = threading.Thread(target=self.startPollThread)
             pollThread.start()
             pass
-        
+
     def startPollThread(self):
         print("startPollThread")
         asyncio.run( self.bv.poll())   
