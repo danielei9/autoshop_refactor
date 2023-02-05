@@ -282,8 +282,8 @@ class CoinWalletController(SerialCommunicator):
                     print("Not possible to read port")
                     return False
 
-                print("CoinWallet RX :: ", received)
+                print("CoinWallet RX :: ", bytes(received))
                 self.__parseBytes(received)
-                print("cv status = " + str(self.status) + " data = " + bytes(self.data))
+                print("cv status = " + str(self.status) + " data = " + self.data)
                 self.data = str(self.data)
                 self.status = str(self.status)
