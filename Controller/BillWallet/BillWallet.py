@@ -709,4 +709,17 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
             
-        
+            
+    def set_inhibit(self,inhibit):
+        """
+        Command to set the inhibit state
+        ->:param bytes sec: [0x00, 0x00] default
+        :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
+        """
+        logging.debug("Setting inhibit: %r" % inhibit)
+        print("set_inhibit")
+        inhibit = bytes(inhibit)
+        self.send_command(SET_INHIBIT, inhibit)
+        status, data = self.read_response()
+        if (status, data) != (SET_INHIBIT, inhibit):
+            logging.warning("Acceptor did not echo inhibit settings")
