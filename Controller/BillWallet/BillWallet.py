@@ -49,6 +49,8 @@ class BillVal:
         # set up logging
         self.raw = log_raw
         
+        self.minbill = 5
+        self.maxbill = 10
         if not logging.getLogger('').hasHandlers():
             logging.basicConfig(level=logging.DEBUG,
                                 format="[%(asctime)s] %(levelname)s: %(message)s",

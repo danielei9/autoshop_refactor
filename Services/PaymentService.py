@@ -100,7 +100,7 @@ class PaymentService():
         print("PayCHange")
         changeBills = 0
         changeInCoins = 0
-        minimumBill = self.billWalletService.minBill
+        minimumBill = self.billWalletService.bv.minbill
         print("Amount ",amount)
         print("self.priceClientShouldPay ",self.priceClientShouldPay)
         # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.priceClientShouldPay) *100))
@@ -135,7 +135,7 @@ class PaymentService():
         changeBills = 0
         changeInCoins = 0
 
-        minimumBill = self.billWalletService.minBill
+        minimumBill = self.billWalletService.bv.minbill
         change = round(amount,2)
         changeInCoins = round(change % minimumBill ,2)
         
