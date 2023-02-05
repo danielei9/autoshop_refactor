@@ -125,6 +125,7 @@ class CoinWalletController(SerialCommunicator):
         self.status = status.split(" ")
         self.data = data.split(" ")
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
+        print("incomming coin  ", self.incommingCoin)
         if(self.incommingCoin  in self.cw_events):
             self.cw_events[self.incommingCoin ](data)
         return
