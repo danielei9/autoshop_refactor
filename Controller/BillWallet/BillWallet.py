@@ -4,7 +4,7 @@ import serial
 import time
 import logging
 from  .CodesBillVal import *
-from .StatusBillVal import *
+from .BillWallterStates import *
 
 class BillVal:
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
