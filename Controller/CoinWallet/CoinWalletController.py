@@ -266,6 +266,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
+                    received:bytes = []
                     received =  self.com.readline()
                     print("received :: ", received)
                 except serial.SerialException:
