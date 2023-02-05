@@ -94,25 +94,26 @@ class PaymentService():
         # print("manageTotalAmount : TotalAmount ", self.totalAmount)
         if self.totalAmount >= self.order:
             self.inhibitCoins()
-        await self.payChange(self.totalAmount)
+        self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
         print("PayCHange")
         changeBills = 0
         changeInCoins = 0
         minimumBill = self.billWalletService.minBill
-
-        self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.order) *100))
+        print("Amount ",amount)
+        print("self.order ",self.order)
+        # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.order) *100))
         if amount >= self.order:
             # self.__inhibitCoins()
             change = round(amount - self.order,2)
             changeInCoins = round(change % minimumBill ,2)
 
-            if(changeInCoins > 0):
-                self.coinWalletController.enableInsertCoins()
-                time.sleep(.1)
-                await self.__coinBack( changeInCoins )
-                change = change - changeInCoins
+            # if(changeInCoins > 0):
+            #     self.coinWalletController.enableInsertCoins()
+            #     time.sleep(.1)
+            #     await self.__coinBack( changeInCoins )
+            #     change = change - changeInCoins
 
             if(change >= minimumBill):
                 changeBills = round( change )
@@ -120,14 +121,14 @@ class PaymentService():
                 while( toReturn > 0 ):
                     print("**** TO RETURN ",toReturn)
                     time.sleep(.2)
-                    returnedToUser = await self.__billBack(changeBills)
-                    toReturn = toReturn - returnedToUser
+                    # returnedToUser = await self.__billBack(changeBills)
+                    # toReturn = toReturn - returnedToUser
                 
             print("Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
             self.totalAmount = 0
             
-            self.billWalletService.init()
-            self.inhibitCoins()
+            # self.billWalletService.init()
+            # self.inhibitCoins()
             self.paymentDone = True
 
     async def backMoneyCancelledOrder(self, amount):
