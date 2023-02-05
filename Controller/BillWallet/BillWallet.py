@@ -502,7 +502,7 @@ class BillVal:
     
     def _on_inhibit(self, data):
         logging.warning("BV inhibited.")
-        input("Press enter to reset and initialize BV.")
+        # input("Press enter to reset and initialize BV.")
         status = None
         while status != ACK:
             logging.debug("Sending reset command")
