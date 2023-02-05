@@ -529,7 +529,7 @@ class BillVal:
         
         # log message
         self._raw('>', message)
-        
+        print("Sending " + str(message))
         return self.com.write(message)
         
     def read_response(self):
