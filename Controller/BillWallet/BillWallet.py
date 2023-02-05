@@ -62,6 +62,8 @@ class BillVal:
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
     
+    createStates()
+
     def _raw(self, pre, msg):
         if self.raw:
             msg = ['0x%02x' % x for x in msg]
