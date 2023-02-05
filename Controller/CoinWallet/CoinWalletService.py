@@ -16,7 +16,6 @@ import threading
 # CLASS BILLVAL
 ###################################################
 class CoinWalletService():
-    """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
 
     def __init__(self,cb, port,log_raw=False, threading=False):
         self.cb = cb

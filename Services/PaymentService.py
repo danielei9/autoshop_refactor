@@ -68,9 +68,9 @@ class PaymentService():
         if(COINWALLET):
             try:
 
-                self.coinWalletController: CoinWalletService = CoinWalletService(
+                self.coinWalletService: CoinWalletService = CoinWalletService(
                     self.manageTotalAmount, port=self.portMonedero)
-                
+                time.sleep(.4)
                 coinWalletPollThread = threading.Thread(target=self.coinWalletService.run)
                 coinWalletPollThread.start()
                 print("CoinWallet Initialized OK")
@@ -109,7 +109,6 @@ class PaymentService():
         if(self.portDisplay == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Display NO connected")
-
         if(self.portLeds == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Leds NO connected")
