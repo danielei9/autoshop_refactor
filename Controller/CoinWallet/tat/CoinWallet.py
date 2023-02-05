@@ -194,7 +194,7 @@ class CoinWallet():
             ZERO_ZERO_FIVE: self.__onInserted05Cent,
         }
         self.cb = cb
-        self.enableInsertCoins()
+        self.disableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
     async def __onInserted05Cent(self,data):
