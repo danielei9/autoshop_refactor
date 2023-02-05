@@ -35,18 +35,18 @@ class PaymentService():
             time.sleep(5)
             pass
             self.initializeControllers()
-        try:
-            self.billWalletService:BillWalletService = BillWalletService(self.manageTotalAmount, port=self.portBilletero)
+        # try:
+        #     self.billWalletService:BillWalletService = BillWalletService(self.manageTotalAmount, port=self.portBilletero)
             
-            billwWalletPollThread = threading.Thread(target=self.billWalletService.run)
-            billwWalletPollThread.start()
+        #     billwWalletPollThread = threading.Thread(target=self.billWalletService.run)
+        #     billwWalletPollThread.start()
 
-            print("BillWallet Initialized OK")
+        #     print("BillWallet Initialized OK")
             
-        except:
-            print("Please Connect BillWallet ")
-            # TODO: Informar al tpv de que no estan conectados 
-            time.sleep(5)
+        # except:
+        #     print("Please Connect BillWallet ")
+        #     # TODO: Informar al tpv de que no estan conectados 
+        #     time.sleep(5)
         try:
             self.coinWalletController:CoinWalletController =  CoinWalletController()
             print("CoinWallet Initialized OK")
