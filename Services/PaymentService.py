@@ -18,7 +18,9 @@ class PaymentService():
         UsbDetector = USBPortDetector()
         (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = UsbDetector.detect_ports()
         self.initializeControllers()
-    
+        self.totalAmount = 0
+        self.order = 0
+
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
 
@@ -95,6 +97,7 @@ class PaymentService():
         await self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
+        print("PayCHange")
         changeBills = 0
         changeInCoins = 0
         minimumBill = self.billWalletService.minBill
