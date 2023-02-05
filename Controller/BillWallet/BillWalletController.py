@@ -19,4 +19,3 @@ class BillWalletController(SerialCommunicator):
         self.cb = cb
     def start(self):
         BillWalletInit.main(self.com,self.cb)
-
