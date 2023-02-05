@@ -267,7 +267,7 @@ class CoinWalletController(SerialCommunicator):
             if(self.com.in_waiting):    
                 try:
                     received:bytes = []
-                    received =  self.com.readline()
+                    received =  self.com.readline().hex()
                     print("received :: ", received[0])
                     print("received :: ", received[1])
                     print("received :: ", received[2])
