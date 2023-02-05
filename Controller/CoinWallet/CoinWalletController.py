@@ -41,12 +41,6 @@ class CoinWalletController(SerialCommunicator):
 #         self.proc = multiprocessing.Process(target=self.threadReceived, args=())
 #         self.proc.daemon = True
         super().__init__(port)
-        self.initializeSerial()
-        self.cb = cb
-        self.data = ""
-        self.status = ""
-
-        print("Init Controller CoinWallet")
         self.cw_events = {
             DOS_EURO: self.__onInserted2Euro,
             UN_EURO: self.__onInsertedEuro,
@@ -55,6 +49,12 @@ class CoinWalletController(SerialCommunicator):
             ZERO_TEN: self.__onInserted10Cent,
             ZERO_ZERO_FIVE: self.__onInserted05Cent,
         }
+        self.cb = cb
+        self.data = ""
+        self.status = ""
+        self.initializeSerial()
+
+        print("Init Controller CoinWallet")
         self.cb = cb
         # self.enableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
@@ -289,6 +289,9 @@ class CoinWalletController(SerialCommunicator):
                 print("CoinWallet RX :: ", received)
                 self.__parseBytes(received)
                 print("cv status = " + str(self.status) + " data = " + str(self.data))
-                self.cw_events[self.status](self.data)
+                try:
+                    self.cw_events[self.status](self.data)
+                except Exception as e:
+                    print("EWE:" , e)
                 self.data = str(self.data)
                 self.status = str(self.status)
