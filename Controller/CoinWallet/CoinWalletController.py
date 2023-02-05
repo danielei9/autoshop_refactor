@@ -60,30 +60,23 @@ class CoinWalletController(SerialCommunicator):
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
     def __onInserted05Cent(self,data):
-        if(self.data[0] == '50'  ):
             print("0.05 euro")
             self.cb(0.05)
     def __onInserted10Cent(self,data):
-        if(self.data[0] == '51'  ):
             print("0.10 euro")
             self.cb(0.10)        
     def __onInserted20Cent(self,data):
-        if(self.data[0] == '52'  ):
             print("0.20 euro")
             self.cb(0.2)
     def __onInserted50Cent(self,data):
-        if(self.data[0] == '53'  ):
             print("0.50 euro")
             self.cb(0.5)
     def __onInsertedEuro(self,data):
-        if(self.data[0] == '54'):
             print("1 euro")
             self.cb(1)
     def __onInserted2Euro(self,data):
         print("2 euros")
-        if(self.data[0] == '55'  ):
-            print("2 euros")
-            self.cb(2)
+        self.cb(2)
     # # # # # # # # # # # # # # # # # # # # # # 
     """--------------------------send command ------------------------------"""
     def __sendCommand(self,command):
