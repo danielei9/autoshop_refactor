@@ -17,5 +17,6 @@ class BillWalletService(SerialCommunicator):
         super().__init__(port)
         self.initializeSerial()
         self.cb = cb
+        self.billwalletController = BillWalletController(self.com,self.cb)
     def start(self):
-        BillWalletController.run(self.com,self.cb)
+        self.billwalletController.run()
