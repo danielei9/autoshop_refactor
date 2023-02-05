@@ -266,11 +266,13 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received =  self.com.read()
+                    received =  self.com.read_all()
                     print("received :: ", received)
                     print("received :: ", received[0])
-                    # print("received :: ", received[1])
-                    # print("received :: ", received[2])
+                    print("received :: ", received[1])
+                    print("received :: ", received[2])
+                    print("received :: ", received[3])
+                    print("received :: ", received[4])
                 except serial.SerialException:
                     print('Port is not available')
                     return False
