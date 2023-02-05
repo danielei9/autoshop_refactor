@@ -41,10 +41,10 @@ class DisplayController(SerialCommunicator):
         except:
             print("Error Sending To Display")
 
-    def adaptRequestToDisplay(self,obj:PayRequest):
+    def adaptRequestToDisplay(self,obj:PayRequest,p = 0):
         print(obj)
         try:
-            percent = 100
+            percent = p
             itemList = ""
             itemPriceList = ""
             idOrder = obj.idOrder

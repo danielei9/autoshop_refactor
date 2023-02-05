@@ -42,7 +42,7 @@ class CoinWalletController(SerialCommunicator):
 #         self.proc.daemon = True
         super().__init__(port)
         self.initializeSerial()
-        
+        self.cb = cb
 
         print("Init Controller CoinWallet")
         self.cw_events = {
@@ -52,38 +52,36 @@ class CoinWalletController(SerialCommunicator):
             ZERO_TWNTY: self.__onInserted20Cent,
             ZERO_TEN: self.__onInserted10Cent,
             ZERO_ZERO_FIVE: self.__onInserted05Cent,
-
         }
         self.cb = cb
         self.enableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
-    async def __onInserted05Cent(self,data):
+    def __onInserted05Cent(self,data):
         if(self.data[0] == '50'  ):
             print("0.05 euro")
-            await self.cb(0.05)
-    async def __onInserted10Cent(self,data):
+            self.cb(0.05)
+    def __onInserted10Cent(self,data):
         if(self.data[0] == '51'  ):
             print("0.10 euro")
-            await self.cb(0.10)        
-    async def __onInserted20Cent(self,data):
+            self.cb(0.10)        
+    def __onInserted20Cent(self,data):
         if(self.data[0] == '52'  ):
             print("0.20 euro")
-            await self.cb(0.2)
-    async def __onInserted50Cent(self,data):
+            self.cb(0.2)
+    def __onInserted50Cent(self,data):
         if(self.data[0] == '53'  ):
             print("0.50 euro")
-            await self.cb(0.5)
-    async def __onInsertedEuro(self,data):
+            self.cb(0.5)
+    def __onInsertedEuro(self,data):
         if(self.data[0] == '54'):
             print("1 euro")
-            await self.cb(1)
-    async def __onInserted2Euro(self,data):
+            self.cb(1)
+    def __onInserted2Euro(self,data):
         if(self.data[0] == '55'  ):
             print("2 euros")
-            await self.cb(2)
+            self.cb(2)
     # # # # # # # # # # # # # # # # # # # # # # 
-    
     """--------------------------send command ------------------------------"""
     def __sendCommand(self,command):
         response = self.conn.serialSend(bytearray(command))
@@ -100,7 +98,7 @@ class CoinWalletController(SerialCommunicator):
         self.data = data.split(" ")
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
         if(self.incommingCoin  in self.cw_events):
-            await self.cw_events[self.incommingCoin ](data)
+            self.cw_events[self.incommingCoin ](data)
         return
     """--------------------------fullTube------------------------------"""
     def __fullTube(self,tube):
@@ -116,17 +114,7 @@ class CoinWalletController(SerialCommunicator):
         return self.__sendCommand([0x0F, 0x02, int(countCoins) ])
     """-------------------------- PUBLIC FUNCTIONS ------------------------------"""
     """-------------------------- startThreadReceived ------------------------------"""
-    async def threadReceived(self):
-#         while not self.statusDeactiveThread:
-        #while True:
-            if(self.conn.serialAvailable()):
-                received = self.conn.serialReadLine()
-                print("received :: ", received)
-                await self.__parseBytes(received)
-                print("cv status = " + str(self.status) + " data = " + str(self.data))
-                self.data = str(self.data)
-                self.status = str(self.status)
-            return
+   
     """-------------------------- SETUP ------------------------------"""
     def setup(self): 
         return self.__sendCommand(SETUP)
@@ -167,7 +155,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             poll_start = time.time()
             response = self.__sendCommand([0x0B])
-            print (response)
+            print ("CoinWallet Respone: ",response)
             self.cw_events[self.status](self.data)
             wait = interval - (time.time() - poll_start)
             if wait > 0.0:
@@ -233,7 +221,7 @@ class CoinWalletController(SerialCommunicator):
         time.sleep(0.5)
         return self.cashBack(round(moneyBack,2))
     """--------------------------startReceivingMode------------------------------"""
-    async def startReceivingMode(self):
+    def startReceivingMode(self):
         """
             This function start the service
         """
@@ -244,11 +232,3 @@ class CoinWalletController(SerialCommunicator):
 #         self.proc.start()
 #         self.enableInsertCoins()
         return 0
-    """--------------------------stopReceivingMode------------------------------"""
-    def stopReceivingMode(self):
-        """
-            This function stop the service
-        """
-        # self.proc.join()
-#         self.proc.close()
-#         self.statusDeactiveThread = True
