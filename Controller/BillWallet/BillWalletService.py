@@ -5,7 +5,7 @@ import time
 import logging
 from Controller.BillWallet.CodesBillVal import *
 from Controller.SerialCommunicator import *
-import Controller.BillWallet.BillWalletController as BillWalletController
+from Controller.BillWallet.BillWalletController import *
 
 ###################################################
 # CLASS BILLVAL
