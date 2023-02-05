@@ -266,7 +266,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received =  self.com.read_all()
+                    received =  self.receive_data()
                     print("received :: ", received)
                     print("received :: ", received[0])
                 except serial.SerialException:
