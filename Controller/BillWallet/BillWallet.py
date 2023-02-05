@@ -138,6 +138,7 @@ class BillVal:
         if status not in POW_STATUSES:
             logging.warning("Acceptor already powered up, status: %02x" % status)
             print("ACTUAL STATUS power_on if: " , str(status))
+            self.init_status = 11
             return self.init_status
         elif status == POW_UP:
             logging.info("Powering up...")
