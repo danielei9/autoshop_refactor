@@ -266,7 +266,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received =  self.com.readline().decode('unicode_escape')
+                    received =  self.com.read_all().decode('unicode_escape')
                 except serial.SerialException:
                     print('Port is not available')
                     return False
