@@ -68,7 +68,7 @@ class PaymentService():
         if(COINWALLET):
             try:
                 self.coinWalletController: CoinWalletService = CoinWalletService(
-                    self.manageTotalAmount, port=self.portBilletero)
+                    self.manageTotalAmount, port=self.portMonedero)
                 
                 coinWalletPollThread = threading.Thread(target=self.coinWalletService.run)
                 coinWalletPollThread.start()
