@@ -122,6 +122,10 @@ class CoinWalletController(SerialCommunicator):
     def __parseBytes(self,received):
         status = str(received)[2:4]
         data = str(received)[5:(len(str(received))-5)]
+        print("Received : " ,received)
+        print("Received : " ,str(received))
+        print("Received : " ,bytes(received))
+        print("Received : " ,hex(received))
         self.status = status.split(" ")
         self.data = data.split(" ")
         self.incommingCoin = str(self.status[0] + " " + self.data[0])
