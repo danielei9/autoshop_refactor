@@ -23,7 +23,7 @@ class BillWallet(SerialCommunicator):
 
         self.status = 0x00
         self.data = 0x00
-        self.bv_status = None
+        self.bv_status =  (0x00,0x00)
         self.bv_version = None
         self.threading = threading
 

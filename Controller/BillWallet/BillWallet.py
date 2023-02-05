@@ -327,7 +327,7 @@ class BillVal:
                 self.send_command(STACK_1, b'')
                 status, data = self.read_response()
             logging.debug("Received ACK")
-            self.bv_status = None
+            self.bv_status = (0x00,0x00)
         elif s_r == '2':
             logging.info("Sending Stack-2 command...")
             self.accepting_denom = self.bv_denoms[escrow]
@@ -336,7 +336,7 @@ class BillVal:
                 self.send_command(STACK_2, b'')
                 status, data = self.read_response()
             logging.debug("Received ACK")
-            self.bv_status = None
+            self.bv_status =  (0x00,0x00)
         elif s_r == 'r':
             logging.info("Telling BV to return...")
             status = None
@@ -344,7 +344,7 @@ class BillVal:
                 self.send_command(RETURN, b'')
                 status, data = self.read_response()
             logging.debug("Received ACK")
-            self.bv_status = None     
+            self.bv_status =  (0x00,0x00)     
     def _on_stacking(self, data):
         logging.info("BV stacking...")
     def _on_vend_valid(self, data):
@@ -376,7 +376,7 @@ class BillVal:
         if self.req_status()[0] == INITIALIZE:
             logging.info("Initializing bill validator...")
             self.initialize()
-        self.bv_status = None
+        self.bv_status =  (0x00,0x00)
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
         input("Press enter to reinitialize the BV.")
