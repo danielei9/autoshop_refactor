@@ -271,7 +271,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received =  self.com.read_all()
+                    received =  self.com.readline()
                 except serial.SerialException:
                     print('Port is not available')
                     return False
@@ -284,6 +284,6 @@ class CoinWalletController(SerialCommunicator):
 
                 print("CoinWallet RX :: ", received)
                 self.__parseBytes(received)
-                print("cv status = " + str(self.status) + " data = " + str(self.data))
+                print("cv status = " + str(self.status) + " data = " + bytes(self.data))
                 self.data = str(self.data)
                 self.status = str(self.status)
