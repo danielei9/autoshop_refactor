@@ -95,7 +95,6 @@ class PaymentService():
             # self.inhibitCoins()
             print("PAGO COMPLETADO")
             self.paymentDone = True
-        # self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
         print("PayCHange")
@@ -132,36 +131,38 @@ class PaymentService():
             # self.inhibitCoins()
             self.paymentDone = True
 
-    async def backMoneyCancelledOrder(self, amount):
+    async def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
+
         minimumBill = self.billWalletService.minBill
-        # TODO: enviar cambio de estado display
-        if(str(self.idOrder) != "-1"):      
-            print("backmoney")
-            change = round(amount,2)
-            changeInCoins = round(change % minimumBill ,2)
+        change = round(amount,2)
+        changeInCoins = round(change % minimumBill ,2)
+        
+        # CAMBIO DE MONEDAS
             # # self.__inhibitCoins()
             # if(changeInCoins > 0):
             #         await self.__coinBack( changeInCoins )
             #         change = change - changeInCoins
 
-            if(change >= minimumBill):
-                    changeBills = round( change )
-                    toReturn = changeBills
-                    while( toReturn > 0 ):
-                        print("**** TO RETURN ",toReturn)
-                        time.sleep(.2)
-                        # returnedToUser = await self.__billBack(changeBills)
-                        # toReturn = toReturn - returnedToUser
-                
-            print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
-        self.totalAmount = 0
+        # CAMBIO DE BILLETES
+        if( change >= minimumBill ):
+            changeBills = round( change )
+            toReturn = changeBills
+            # Mientras tengamos que devolver dinero...
+            while( toReturn > 0 ):
+                print("**** TO RETURN ",toReturn)
+                time.sleep(.2)
+                # Devolver Billetes
+                # returnedToUser = await self.__billBack(changeBills)
+                # Recalcular dinero a devolver
+                # toReturn = toReturn - returnedToUser
+
+        print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
             
-        # self.billWalletService.init()
         # TODO: inhibir monedas
         # self.inhibitCoins()
-        self.paymentDone = True   
+        # self.paymentDone = True   
 
     def inhibitCoins(self):
         self.coinWalletController.disableInsertCoins()
@@ -212,11 +213,9 @@ class PaymentService():
         while self.paymentDone == False:
             print("waiting pay")
             time.sleep(5)
-            # self.backMoneyCancelledOrder(self.totalAmount)
-            self.paymentDone = True
+        while self.totalAmount > self.priceClientShouldPay :
+            self.returnChangeToClient(self.totalAmount)
       
-            # await asyncio.wait_for(self.coinWalletController.threadReceived(), timeout=0.2)
-            # await asyncio.wait_for(self.billWalletService.poll(), timeout=0.2)
         print("payment done from __startMachinesPayment")
 
     async def startMachinesConfig(self,stackA,stackB):
