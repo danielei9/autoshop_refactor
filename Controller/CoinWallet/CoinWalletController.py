@@ -289,5 +289,6 @@ class CoinWalletController(SerialCommunicator):
                 print("CoinWallet RX :: ", received)
                 self.__parseBytes(received)
                 print("cv status = " + str(self.status) + " data = " + str(self.data))
+                self.cw_events[self.status](self.data)
                 self.data = str(self.data)
                 self.status = str(self.status)
