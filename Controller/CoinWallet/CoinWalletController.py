@@ -56,7 +56,7 @@ class CoinWalletController(SerialCommunicator):
             ZERO_ZERO_FIVE: self.__onInserted05Cent,
         }
         self.cb = cb
-        self.enableInsertCoins()
+        # self.enableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
     def __onInserted05Cent(self,data):
@@ -118,7 +118,6 @@ class CoinWalletController(SerialCommunicator):
             print("Error sending")
             pass
             
-        return response
     """---------------------------- ParseBytes ------------------------------"""
     async def __parseBytes(self,received):
         status = str(received)[2:4]
