@@ -34,6 +34,8 @@ class SerialCommunicator:
     def receive_data(self):
         if self.is_open:
             return str(self.com.readline())
+        else:
+            print("Not open")
 
     def initializeSerial(self):
         print("initializeSerial")
