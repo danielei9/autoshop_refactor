@@ -11,9 +11,7 @@ import threading
 
 
 def main(com,cb):
-    def startPollThread():
-        print("startPollThread")
-        asyncio.run( bv.poll())   
+
     # port = '/dev/ttyUSB0'  # JCM UAC device (USB serial adapter)
     try:
         bv = BillVal(com,cb)
@@ -40,7 +38,9 @@ def main(com,cb):
         pollThread = threading.Thread(target=startPollThread)
         pollThread.start()
         pass
-
+    def startPollThread():
+        print("startPollThread")
+        asyncio.run( bv.poll())   
 
 # if __name__ == '__main__':
 #     main()
