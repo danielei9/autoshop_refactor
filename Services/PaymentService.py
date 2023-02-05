@@ -96,46 +96,46 @@ class PaymentService():
             print("PAGO COMPLETADO")
             self.paymentDone = True
 
-    async def payChange(self, amount):
-        print("PayCHange")
-        changeBills = 0
-        changeInCoins = 0
-        minimumBill = self.billWalletService.bv.minbill
-        print("Amount ",amount)
-        print("self.priceClientShouldPay ",self.priceClientShouldPay)
-        # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.priceClientShouldPay) *100))
-        if amount >= self.priceClientShouldPay:
-            # self.__inhibitCoins()
-            change = round(amount - self.priceClientShouldPay,2)
-            changeInCoins = round(change % minimumBill ,2)
+    # def payChange(self, amount):
+    #     print("PayCHange")
+    #     changeBills = 0
+    #     changeInCoins = 0
+    #     minimumBill = self.billWalletService.bv.minBill
+    #     print("Amount ",amount)
+    #     print("self.priceClientShouldPay ",self.priceClientShouldPay)
+    #     # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.priceClientShouldPay) *100))
+    #     if amount >= self.priceClientShouldPay:
+    #         # self.__inhibitCoins()
+    #         change = round(amount - self.priceClientShouldPay,2)
+    #         changeInCoins = round(change % minimumBill ,2)
 
-            # if(changeInCoins > 0):
-            #     self.coinWalletController.enableInsertCoins()
-            #     time.sleep(.1)
-            #     await self.__coinBack( changeInCoins )
-            #     change = change - changeInCoins
+    #         # if(changeInCoins > 0):
+    #         #     self.coinWalletController.enableInsertCoins()
+    #         #     time.sleep(.1)
+    #         #     await self.__coinBack( changeInCoins )
+    #         #     change = change - changeInCoins
 
-            if(change >= minimumBill):
-                changeBills = round( change )
-                toReturn = changeBills
-                while( toReturn > 0 ):
-                    print("**** TO RETURN ",toReturn)
-                    time.sleep(.2)
-                    # returnedToUser = await self.__billBack(changeBills)
-                    # toReturn = toReturn - returnedToUser
+    #         if(change >= minimumBill):
+    #             changeBills = round( change )
+    #             toReturn = changeBills
+    #             while( toReturn > 0 ):
+    #                 print("**** TO RETURN ",toReturn)
+    #                 time.sleep(.2)
+    #                 # returnedToUser = await self.__billBack(changeBills)
+    #                 # toReturn = toReturn - returnedToUser
                 
-            print("Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
-            self.totalAmount = 0
+    #         print("Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
+    #         self.totalAmount = 0
             
-            # self.billWalletService.init()
-            # self.inhibitCoins()
-            self.paymentDone = True
+    #         # self.billWalletService.init()
+    #         # self.inhibitCoins()
+    #         self.paymentDone = True
 
     def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
 
-        minimumBill = self.billWalletService.bv.minbill
+        minimumBill = self.billWalletService.bv.minBill
         change = round(amount,2)
         changeInCoins = round(change % minimumBill ,2)
         
@@ -153,11 +153,11 @@ class PaymentService():
                 print("**** TO RETURN ",toReturn)
                 time.sleep(.2)
                 # Devolver Billetes
-                # returnedToUser = await self.__billBack(changeBills)
+                returnedToUser = self.__billBack(changeBills)
                 # Recalcular dinero a devolver
                 # toReturn = toReturn - returnedToUser
 
-        print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
+        print(" Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" totalAmount: " + str( self.totalAmount)   )
             
         # TODO: inhibir monedas
         # self.inhibitCoins()
@@ -170,40 +170,46 @@ class PaymentService():
         # coinWallet.enableInsertCoins()
         self.coinWalletController.cashBack(change)
 
-    async def __billBack( self,changeBills ):
+    def __billBack( self,changeBills ):
         print("Devolver: " + str(changeBills) + " €")
         payFromStack1 = False
         payFromStack2 = False
 
-        if(changeBills >= self.billWalletService.maxBill):
-            print("Pagar max billete %d" % self.billWalletService.maxBill)
-            if(self.billWalletService.maxBill == self.billWalletService.stackA):
+        maxBill = self.billWalletService.bv.maxBill
+        minBill = self.billWalletService.bv.minBill
+
+        if(changeBills >= maxBill):
+            print("Pagar max billete %d" % maxBill)
+            if(maxBill == self.billWalletService.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(self.billWalletService.maxBill == self.billWalletService.stackB):
+            if(maxBill == self.billWalletService.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
-        elif (changeBills >= self.billWalletService.minBill):
-            print("PAY min billete %d" % self.billWalletService.minBill)
+        elif (changeBills >= minBill):
+            print("PAY min billete %d" % minBill)
             
-            if(self.billWalletService.minBill == self.billWalletService.stackA):
+            if(minBill == self.billWalletService.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(self.billWalletService.minBill == self.billWalletService.stackB):
+            if(minBill == self.billWalletService.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
         else:
-            print("ERROR: TO PAY  %d < minbill: %d" % self.billWalletService,self.billWalletService.minBill.minBill)
-        while (self.billWalletService.status != IDLE):
-            print("__billBack: Esperando estado IDLE, actual: %02x" % self.billWalletService.status)
-            self.billWalletService.getStatus()
+            print("ERROR: TO PAY  %d < minbill: %d" % self.billWalletService,minBill.minBill)
+
+        (status,data) = self.billWalletService.bv.bv_status
+
+        while (status != IDLE):
+            print("__billBack: Esperando estado IDLE, actual: %02x" % status)
+            (status,data) = self.billWalletService.bv.bv_status
             time.sleep(.2)
         # time.sleep(.2)
-        self.billWalletService.payout(payFromStack1,payFromStack2)
+        self.billWalletService.bv.payout(payFromStack1,payFromStack2)
         if(payFromStack1 == True):
-            return self.billWalletService.minBill
+            return minBill
         if(payFromStack2 == True):
-            return self.billWalletService.maxBill
+            return maxBill
 
     async def startMachinesPayment(self,priceClientShouldPay):
         print("startMachinesPayment")

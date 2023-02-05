@@ -60,7 +60,12 @@ INHIBIT = 0x1A  # Alias for DISABLE
 INITIALIZE = 0x1B
 
 NORM_STATUSES = tuple(range(0x11, 0x1C))
-
+## Status extension ##
+NORMAL = 0x10 #  + data 
+PAYING = 0x20
+PAY_STAY= 0x24
+PAY_VALID= 0x23
+ 
 ## Power up status ##
 POW_UP = 0x40
 POW_UP_BIA = 0x41  # Power up with bill in acceptor

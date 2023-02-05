@@ -23,6 +23,7 @@ class BillWalletService(SerialCommunicator):
         super().__init__(port)
         self.initializeSerial()
         self.cb = cb
+        self.bv:BillVal = None
 
     def run(self):
         try:

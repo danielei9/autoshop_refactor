@@ -49,8 +49,9 @@ class BillVal:
         # set up logging
         self.raw = log_raw
         
-        self.minbill = 5
-        self.maxbill = 10
+        self.minBill = 5
+        self.maxBill = 10
+
         if not logging.getLogger('').hasHandlers():
             logging.basicConfig(level=logging.DEBUG,
                                 format="[%(asctime)s] %(levelname)s: %(message)s",
@@ -283,6 +284,43 @@ class BillVal:
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
 
+    def payout(self,payFromStack1,payFromStack2):
+        print("Corutina de devolución:")
+        time.sleep(.3)
+        # self.set_inhibit(0)
+        (status,data) = self.bv_status()
+        while status != INHIBIT:
+            self.set_inhibit(0)
+            (status,data) = self.bv_status()
+            time.sleep(.3)
+        # self.set_recycler_config(10,20)
+        time.sleep(.3)
+        self.sendPayCommand(payFromStack1,payFromStack2)
+        while True:
+                (status,data) = self.bv_status
+                time.sleep(.3)
+                print("payout():Status: %02x " % status)
+                if status == PAY_VALID:
+                    break
+                if status == INHIBIT:
+                    self.power_on()
+                if status == ENABLE:
+                    self.payout(payFromStack1,payFromStack2)
+        self.sendAckPay()
+        return 0
+    
+    def sendPayCommand(self,payFromStack1,payFromStack2):
+        
+        # TODO: WARNING: Found unused data in buffer, b'\xfc\x05\x1a\xf4\xe8'
+        #payout():Status: 1a 
+
+        print("sendPayCommand")
+        if(payFromStack1):
+            print("sendPayCommand to Stack1")
+            return self.com.write(bytes([0xFC ,0x09, 0xF0, 0x20, 0x4A, 0x01, 0x01, 0x10, 0x6E]))
+        if(payFromStack2):
+            print("sendPayCommand to Stack2")
+            return self.com.write(bytes([0xFC ,0x09, 0xF0, 0x20, 0x4A, 0x01, 0x02, 0x8B, 0x5C]))
 
     def _on_stacker_full(self, data):
         logging.error("Stacker full.")
