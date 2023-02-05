@@ -35,7 +35,8 @@ class Router():
                 # Procesar pago
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
-                    await self.paymentService.startMachinesPayment()
+                    
+                    await self.paymentService.startMachinesPayment(self.actualProcessingRequest.pric)
                     return True
                 
                 # Cancelar 

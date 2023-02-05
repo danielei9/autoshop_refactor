@@ -19,27 +19,10 @@ class PaymentService():
         (self.portBilletero,self.portMonedero,self.portDisplay,self.portLeds) = UsbDetector.detect_ports()
         self.initializeControllers()
         self.totalAmount = 0
-        self.order = 0
+        self.priceClientShouldPay = 0
 
     def setErrorInDisplay(self,error):
         self.displayController.displayError(error)
-
-    def checkPorsConnected(self):
-        print("Trying to connect Ports")
-
-        if(self.portBilletero == None):
-            # TODO: Informar al tpv de que no estan conectados 
-            print("BillWallet NO connected")
-        if(self.portMonedero == None):
-            # TODO: Informar al tpv de que no estan conectados 
-            print("CoinWallet NO connected")
-        if(self.portDisplay == None):
-            # TODO: Informar al tpv de que no estan conectados 
-            print("Display NO connected")
-
-        if(self.portLeds == None):
-            # TODO: Informar al tpv de que no estan conectados 
-            print("Leds NO connected")
 
     def initializeControllers(self):
         self.checkPorsConnected()
@@ -88,12 +71,30 @@ class PaymentService():
         #     # TODO: Informar al tpv de que no estan conectados 
         #     time.sleep(5)"""
 
+    def checkPorsConnected(self):
+        print("Trying to connect Ports")
+
+        if(self.portBilletero == None):
+            # TODO: Informar al tpv de que no estan conectados 
+            print("BillWallet NO connected")
+        if(self.portMonedero == None):
+            # TODO: Informar al tpv de que no estan conectados 
+            print("CoinWallet NO connected")
+        if(self.portDisplay == None):
+            # TODO: Informar al tpv de que no estan conectados 
+            print("Display NO connected")
+
+        if(self.portLeds == None):
+            # TODO: Informar al tpv de que no estan conectados 
+            print("Leds NO connected")
+
     def manageTotalAmount(self, cantidad):
-        print("*********************** manageTotalAmount : cantidad", cantidad)
         self.totalAmount = float(self.totalAmount) + float(cantidad)
-        print("manageTotalAmount : TotalAmount ", self.totalAmount)
-        # if self.totalAmount >= self.order:
-        #     self.inhibitCoins()
+        print("manageTotalAmount : TotalAmount ", self.totalAmount ," cantidad ",cantidad )
+        if self.totalAmount >= self.priceClientShouldPay:
+            # self.inhibitCoins()
+            print("PAGO COMPLETADO")
+            self.paymentDone = True
         # self.payChange(self.totalAmount)
 
     async def payChange(self, amount):
@@ -102,11 +103,11 @@ class PaymentService():
         changeInCoins = 0
         minimumBill = self.billWalletService.minBill
         print("Amount ",amount)
-        print("self.order ",self.order)
-        # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.order) *100))
-        if amount >= self.order:
+        print("self.priceClientShouldPay ",self.priceClientShouldPay)
+        # self.displayController.printProgress(str(round(amount*1.00,2)) + "", round((amount/self.priceClientShouldPay) *100))
+        if amount >= self.priceClientShouldPay:
             # self.__inhibitCoins()
-            change = round(amount - self.order,2)
+            change = round(amount - self.priceClientShouldPay,2)
             changeInCoins = round(change % minimumBill ,2)
 
             # if(changeInCoins > 0):
@@ -124,7 +125,7 @@ class PaymentService():
                     # returnedToUser = await self.__billBack(changeBills)
                     # toReturn = toReturn - returnedToUser
                 
-            print("Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
+            print("Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
             self.totalAmount = 0
             
             # self.billWalletService.init()
@@ -154,7 +155,7 @@ class PaymentService():
                         # returnedToUser = await self.__billBack(changeBills)
                         # toReturn = toReturn - returnedToUser
                 
-            print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.order) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
+            print("Cancelled ok Amount: " + str( amount) +" Order: " + str(self.priceClientShouldPay) + " Change" + str(change) + " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) +" self.totalAmount: " + str( self.totalAmount)   )
         self.totalAmount = 0
             
         # self.billWalletService.init()
@@ -204,9 +205,10 @@ class PaymentService():
         if(payFromStack2 == True):
             return self.billWalletService.maxBill
 
-    async def startMachinesPayment(self):
+    async def startMachinesPayment(self,priceClientShouldPay):
         print("startMachinesPayment")
         self.paymentDone = False
+        self.priceClientShouldPay = priceClientShouldPay
         while self.paymentDone == False:
             print("waiting pay")
             time.sleep(5)
