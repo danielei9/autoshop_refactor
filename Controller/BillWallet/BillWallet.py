@@ -565,7 +565,7 @@ class BillVal:
         # check our data
         # if get_crc(full_msg) != crc:
         #     raise CRCError("CRC mismatch")
-            
+        print("Received: " + str(command)+ " , " + str(data))
         return ord(command), data
         
     def power_on(self, *args, **kwargs):
