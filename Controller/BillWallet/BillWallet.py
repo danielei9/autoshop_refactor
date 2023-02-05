@@ -247,7 +247,7 @@ class BillVal:
         
         return stat, data
         
-    def poll(self, interval=0.2):
+    def poll(self, interval=0.5):
         """Send a status request to the bill validator every `interval` seconds
         and fire event handlers. `interval` defaults to 200 ms, per ID-003 spec.
         
