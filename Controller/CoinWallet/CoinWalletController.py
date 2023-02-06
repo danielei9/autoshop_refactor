@@ -56,6 +56,12 @@ class CoinWalletController(SerialCommunicator):
 
         print("Init Controller CoinWallet")
         self.cb = cb
+        time.sleep(0.2)
+        self.reset()
+        time.sleep(0.2)
+        self.setup()
+        time.sleep(0.2)
+        self.disableInsertCoins()
         # self.enableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
