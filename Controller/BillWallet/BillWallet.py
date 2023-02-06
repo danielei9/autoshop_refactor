@@ -186,55 +186,56 @@ class BillVal:
         denom = bytes(denom)
         self.send_command(SET_DENOM, denom)
         status, data = self.read_response()
-        if (status, data) != (SET_DENOM, denom):
+        while (status, data) != (SET_DENOM, denom):
             logging.warning("Acceptor did not echo denom settings")
         
         logging.debug("Setting security: %r" % sec)
         sec = bytes(sec)
         self.send_command(SET_SECURITY, sec)
         status, data = self.read_response()
-        if (status, data) != (SET_SECURITY, sec):
+        while (status, data) != (SET_SECURITY, sec):
             logging.warning("Acceptor did not echo security settings")
             
         logging.debug("Setting direction inhibit: %r" % dir)
         dir = bytes(dir)
         self.send_command(SET_DIRECTION, dir)
         status, data = self.read_response()
-        if (status, data) != (SET_DIRECTION, dir):
+        while (status, data) != (SET_DIRECTION, dir):
             logging.warning("Acceptor did not echo direction settings")
         
         logging.debug("Setting optional functions: %r" % opt_func)
         opt_func = bytes(opt_func)
         self.send_command(SET_OPT_FUNC, opt_func)
         status, data = self.read_response()
-        if (status, data) != (SET_OPT_FUNC, opt_func):
+        while (status, data) != (SET_OPT_FUNC, opt_func):
             logging.warning("Acceptor did not echo option function settings")
             
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
         status, data = self.read_response()
-        if (status, data) != (SET_INHIBIT, inhibit):
+        while (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
         
         logging.debug("Setting barcode functions: %r" % bar_func)
         bar_func = bytes(bar_func)
         self.send_command(SET_BAR_FUNC, bar_func)
         status, data = self.read_response()
-        if (status, data) != (SET_BAR_FUNC, bar_func):
+        while (status, data) != (SET_BAR_FUNC, bar_func):
             logging.warning("Acceptor did not echo barcode settings")
 
         logging.debug("Setting barcode inhibit: %r" % bar_inhibit)
         bar_inhibit = bytes(bar_inhibit)
         self.send_command(SET_BAR_INHIBIT, bar_inhibit)
         status, data = self.read_response()
-        if (status, data) != (SET_BAR_INHIBIT, bar_inhibit):
+        while (status, data) != (SET_BAR_INHIBIT, bar_inhibit):
             logging.warning("Acceptor did not echo barcode inhibit settings")
             
         while self.req_status()[0] == INITIALIZE:
             # wait for initialization to finish
             time.sleep(0.2)
-    
+
+        print("INITIALIZED BV")
     def req_status(self):
         """Send status request to bill validator"""
         
@@ -290,6 +291,28 @@ class BillVal:
 
         if (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
+
+
+    def getActualStacksConfig(self):
+            print("sending get config Stacks")
+            self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+            time.sleep(.2)
+            print("response: ",self.com.read_all())
+            time.sleep(.2)
+            self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
+            time.sleep(.1)
+            response = str(self.com.readline().hex())
+            print()
+            time.sleep(.2)
+            # Volver a recogida de billetes, luz verde on bill
+            self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+            print(self.com.readline().hex())
+            time.sleep(.2)
+            stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
+            stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
+            print("Actual config in stacks : ", stackA, "  " ,stackB)
+            self.setStacksInOrden( stackA , stackB )
+
 
     def disableInsertBill(self,inhibit=0):
         """
