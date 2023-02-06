@@ -134,10 +134,11 @@ class PaymentService():
 
         # CAMBIO DE MONEDAS
         # self.__inhibitCoins()
+        print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
+              " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
         if(changeInCoins > 0):
                 self.__coinBack( changeInCoins )
                 change = change - changeInCoins
-
         # CAMBIO DE BILLETES
         if(change >= minimumBill):
             toReturn = round(change)
@@ -146,7 +147,7 @@ class PaymentService():
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
                 # Devolver Billetes
-                returnedToUser = self.__billBack(changeBills)
+                # returnedToUser = self.__billBack(changeBills)
                 # Recalcular dinero a devolver
                 # toReturn = toReturn - returnedToUser
 
@@ -162,6 +163,7 @@ class PaymentService():
 
     def __coinBack(self, change):
         # coinWallet.enableInsertCoins()
+        print("coin back")
         self.coinWalletService.coinwallet.cashBack(change)
 
     def __billBack(self, changeBills):
@@ -221,8 +223,10 @@ class PaymentService():
         self.coinWalletService.coinwallet.disableInsertCoins()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
+            print("waiting payOut")
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
+            time.sleep(5)
 
         print("payment done from __startMachinesPayment")
 
