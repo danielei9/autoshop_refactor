@@ -230,6 +230,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_BAR_INHIBIT, bar_inhibit):
             logging.warning("Acceptor did not echo barcode inhibit settings")
+            time.sleep(1)
             
         while self.req_status()[0] == INITIALIZE:
             # wait for initialization to finish
@@ -342,7 +343,7 @@ class BillVal:
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
         time.sleep(.3)
-        # self.set_inhibit(0)
+        self.set_inhibit(0)
         (status,data) = self.bv_status
         while status != INHIBIT:
             self.set_inhibit(0)
