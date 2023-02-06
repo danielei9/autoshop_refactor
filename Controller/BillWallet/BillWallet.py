@@ -323,15 +323,25 @@ class BillVal:
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
-        logging.debug("Setting inhibit: %r" % inhibit)
-        print("set_inhibit")
-        inhibit = bytes(inhibit)
-        time.sleep(.2)
-        self.send_command(SET_INHIBIT, inhibit)
-        (status,data) = self.bv_status 
+        # logging.debug("Setting inhibit: %r" % inhibit)
+        # print("set_inhibit")
+        # inhibit = bytes(inhibit)
+        # time.sleep(.2)
+        # self.send_command(SET_INHIBIT, inhibit)
+        # (status,data) = self.bv_status 
 
-        if (status, data) != (SET_INHIBIT, inhibit):
-            logging.warning("Acceptor did not echo inhibit settings")
+        # if (status, data) != (SET_INHIBIT, inhibit):
+        #     logging.warning("Acceptor did not echo inhibit settings")
+        print("sending get config Stacks")
+        self.com.write(bytes([0xFC,0x06,0xC3,inhibit,0x04,0xD6]))
+        time.sleep(.2)
+        response = str(self.com.readline().hex())
+        print("response: ",response)
+        time.sleep(.2)
+        print()
+        time.sleep(.2)
+        # Volver a recogida de billetes, luz verde on bill
+        # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
 
 
     def getActualStacksConfig(self):
@@ -405,10 +415,10 @@ class BillVal:
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
         time.sleep(.3)
-        self.set_inhibit(0)
+        self.set_inhibit(1)
         (status,data) = self.bv_status
         while status != SET_INHIBIT:
-            self.set_inhibit(0)
+            self.set_inhibit(1)
             (status,data) = self.bv_status
             time.sleep(.3)
         # self.set_recycler_config(10,20)
@@ -418,12 +428,12 @@ class BillVal:
                 (status,data) = self.bv_status
                 time.sleep(.3)
                 print("payout():Status: %02x " % status)
-                if status == PAY_VALID:
-                    break
-                if status == INHIBIT:
-                    self.power_on()
-                if status == ENABLE:
-                    self.payout(payFromStack1,payFromStack2)
+                # if status == PAY_VALID:
+                #     break
+                # if status == INHIBIT:
+                #     self.power_on()
+                # if status == ENABLE:
+                #     self.payout(payFromStack1,payFromStack2)
         self.sendAckPay()
         return 0
     
