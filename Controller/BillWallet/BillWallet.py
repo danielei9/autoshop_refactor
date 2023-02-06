@@ -97,6 +97,7 @@ class BillVal:
             elif start == b'\x00':
                 return (0x00, b'')
             elif ord(start) != SYNC and start:
+                print("ERROR:")
                 raise SyncError("Wrong start byte, got %s" % start)
             
         total_length = self.com.read()
@@ -138,6 +139,13 @@ class BillVal:
         
         self.init_status = status
         print("ACTUAL STATUS power_on: " , str(status))
+                # Si se vuelva iniciar pero ya estaba encendida e inhibida    
+        if status == INHIBIT:
+            self.set_inhibit(1)
+            logging.warning(
+                "Acceptor already powered up,but inhibited status: %02x" % status)
+            return
+        
         if status not in POW_STATUSES:
             logging.warning("Acceptor already powered up, status: %02x" % status)
             print("ACTUAL STATUS power_on if: " , str(status))

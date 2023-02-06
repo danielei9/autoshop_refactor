@@ -26,7 +26,6 @@ class CoinWalletService():
         try:
             print("Running coinwallet service")
             self.coinwallet = CoinWalletController(self.cb,self.port)
-            # self.bv.set_inhibit(0)
             time.sleep(.2)
             pollThread = threading.Thread(target=self.startRxThread)
             pollThread.start()
