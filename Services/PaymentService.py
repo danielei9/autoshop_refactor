@@ -160,9 +160,9 @@ class PaymentService():
         # TODO: inhibir monedas
         # self.inhibitCoins()
         # self.paymentDone = True
-
-    # def inhibitCoins(self):
-    #     self.coinWalletController.disableInsertCoins()
+        time.sleep(.2)
+        self.coinWalletService.coinwallet.disableInsertCoins()
+        time.sleep(.2)
 
     def __coinBack(self, change):
         print("coin back")
