@@ -80,7 +80,6 @@ class BillVal:
 
         if self.init_status == IDLE:
             print("Status IDLE")
-        
 
         (status,data) = self.req_status()
   
@@ -90,13 +89,38 @@ class BillVal:
         if (status == IDLE):
             self.set_inhibit(1)
         
-        # self.set_recycler_config(10,20)
         try:
             self.getActualStacksConfig()
+            self.set_recycler_config(self.stackA,self.stackB)
         except Exception as e:
             print("Error getting stacks config: ", e)
             time.sleep(2)
             self.getActualStacksConfig()
+            self.set_recycler_config(self.stackA,self.stackB)
+
+
+    def set_recycler_config(self, stack1,stack2):
+        """
+            Stack1 === 0,5,10,20,50,100
+            Stack2 === 0,5,10,20,50,100
+        """
+        print("set_recycler_config")
+        confByteStack1 = self.process_stack_config(stack1)
+        confByteStack2 = self.process_stack_config(stack2)
+        status = ""
+        self.com.flushInput()
+        self.com.flushOutput()
+        time.sleep(0.2)
+        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x08, 0x00, 0x01, 0x04,0x00,0x02])
+        message += get_crc(message)
+
+        self.com.write(message)
+        time.sleep(0.2)
+        print("Finish set_recycler_config ")
+        status, data = self.read_response()
+        print("status: %02x" % status)
+        return
+
 
     def _raw(self, pre, msg):
         if self.raw:
@@ -307,36 +331,30 @@ class BillVal:
         """
         
         while True:
-            poll_start = time.time()
-            status, data = self.req_status()
-            if (status, data) != self.bv_status:
-                if status in self.bv_events:
-                    self.bv_events[status](data)
-            self.bv_status = (status, data)
-            wait = interval - (time.time() - poll_start)
-            if wait > 0.0:
-                time.sleep(wait)
-            
+                poll_start = time.time()
+                status, data = self.req_status()
+                if (status, data) != self.bv_status:
+                    if status in self.bv_events:
+                        self.bv_events[status](data)
+                self.bv_status = (status, data)
+                wait = interval - (time.time() - poll_start)
+                if wait > 0.0:
+                    time.sleep(wait)
+                
     def set_inhibit(self,inhibit):
         """
         Command to set the inhibit state
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
-        # logging.debug("Setting inhibit: %r" % inhibit)
-        # print("set_inhibit")
-        # inhibit = bytes(inhibit)
-        # time.sleep(.2)
-        # self.send_command(SET_INHIBIT, inhibit)
-        # (status,data) = self.bv_status 
-
-        # if (status, data) != (SET_INHIBIT, inhibit):
-        #     logging.warning("Acceptor did not echo inhibit settings")
-        self.com.write(bytes([0xFC,0x06,0xC3,inhibit,0x04,0xD6]))
-        time.sleep(.2)
-        # Volver a recogida de billetes, luz verde on bill
-        # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-
+        while (status, data) != (SET_INHIBIT, inhibit):
+            logging.debug("Setting inhibit: %r" % inhibit)
+            print("set_inhibit")
+            inhibit = bytes(inhibit)
+            self.send_command(SET_INHIBIT, inhibit)
+            time.sleep(.2)
+            (status,data) = self.bv_status 
+            logging.warning("Acceptor did not echo inhibit settings")
 
     def getActualStacksConfig(self):
             print("sending get config Stacks")
@@ -381,61 +399,48 @@ class BillVal:
         if(stack == "10"):
             return 50
 
-    def disableInsertBill(self,inhibit=0):
-        """
-        Command to set the inhibit state
-        ->:param bytes sec: [0x00, 0x00] default
-        :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
-        """
-        logging.debug("Setting inhibit: %r" % inhibit)
-        print("disableInsertBill")
-        inhibit = bytes(inhibit)
-        time.sleep(.2)
-        (status,data) = self.bv_status 
-        while(status != IDLE):
-            time.sleep(.2)
-            print("waiting IDLE status: ", status)
-            (status, data)  = self.bv_status 
-        time.sleep(.2)
-        while(status != INHIBIT):
-            self.send_command(SET_INHIBIT, inhibit)
-            time.sleep(.2)
-            print("waiting INHIBIT status: ", status)
-            (status, data)  = self.bv_status 
+    # def disableInsertBill(self,inhibit=0):
+    #     """
+    #     Command to set the inhibit state
+    #     ->:param bytes sec: [0x00, 0x00] default
+    #     :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
+    #     """
+    #     logging.debug("Setting inhibit: %r" % inhibit)
+    #     print("disableInsertBill")
+    #     inhibit = bytes(inhibit)
+    #     time.sleep(.2)
+    #     (status,data) = self.bv_status 
+    #     while(status != IDLE):
+    #         time.sleep(.2)
+    #         print("waiting IDLE status: ", status)
+    #         (status, data)  = self.bv_status 
+    #     time.sleep(.2)
+    #     while(status != INHIBIT):
+    #         self.send_command(SET_INHIBIT, inhibit)
+    #         time.sleep(.2)
+    #         print("waiting INHIBIT status: ", status)
+    #         (status, data)  = self.bv_status 
 
-        if (status, data) != (SET_INHIBIT, inhibit):
-            logging.warning("Acceptor did not echo inhibit settings")
+    #     if (status, data) != (SET_INHIBIT, inhibit):
+    #         logging.warning("Acceptor did not echo inhibit settings")
 
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
         time.sleep(.3)
         self.set_inhibit(1)
-        (status,data) = self.bv_status
-        while status != SET_INHIBIT:
-            self.set_inhibit(1)
-            (status,data) = self.bv_status
-            time.sleep(.3)
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
-        while True:
+        while status:
                 (status,data) = self.bv_status
                 time.sleep(.3)
                 print("payout():Status: %02x " % status)
-                # if status == PAY_VALID:
-                #     break
-                # if status == INHIBIT:
-                #     self.power_on()
-                # if status == ENABLE:
-                #     self.payout(payFromStack1,payFromStack2)
-        self.sendAckPay()
+                # self.sendAckPay()
         return 0
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
-        # TODO: WARNING: Found unused data in buffer, b'\xfc\x05\x1a\xf4\xe8'
         #payout():Status: 1a 
-
         print("sendPayCommand")
         if(payFromStack1):
             print("sendPayCommand to Stack1")

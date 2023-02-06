@@ -36,11 +36,17 @@ class BillWalletService(SerialCommunicator):
                 logging.info("BV powered up with bill in acceptor.")
             elif self.bv.init_status == id003.POW_UP_BIS:
                 logging.info("BV powered up with bill in stacker.")
+
+            self.startPollingService()
+            
+        except Exception as e:
+            print("ERROR: " + str(e))
+            pass
+
+    def startPollingService(self):
+        try:
             pollThread = threading.Thread(target=self.startPollThread)
             pollThread.start()
-            # self.bv.disableInsertBill()
-            
-
         except Exception as e:
             print("ERROR: " + str(e))
             pollThread = threading.Thread(target=self.startPollThread)

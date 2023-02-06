@@ -56,9 +56,9 @@ class PaymentService():
                 self.billWalletService: BillWalletService = BillWalletService(
                     self.manageTotalAmount, port=self.portBilletero)
 
-                billwWalletPollThread = threading.Thread(
+                billwWalletThread = threading.Thread(
                     target=self.billWalletService.run)
-                billwWalletPollThread.start()
+                billwWalletThread.start()
 
                 print("BillWallet Initialized OK")
 
@@ -220,13 +220,15 @@ class PaymentService():
 
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
-        self.payRequest = payRequest
+        self.coinWalletService.coinwallet.enableInsertCoins()
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
         if(DISPLAY):
             self.displayController.display(self.payRequest)
+        
+        self.payRequest = payRequest
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
-        self.coinWalletService.coinwallet.enableInsertCoins()
+        
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
