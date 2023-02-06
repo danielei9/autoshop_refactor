@@ -455,5 +455,5 @@ class BillVal:
         self.bv_status =  (0x00,0x00)
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
-        input("Press enter to reinitialize the BV.")
+        # input("Press enter to reinitialize the BV.")
         self.initialize()
