@@ -87,7 +87,7 @@ class CoinWalletController(SerialCommunicator):
     """--------------------------send command ------------------------------"""
     def __sendCommand(self,command):
         try:
-            response = self.serialWrite(bytearray(command))
+            response = self.com.write(bytearray(command))
             return 1
         except:
             print("Error sending")
