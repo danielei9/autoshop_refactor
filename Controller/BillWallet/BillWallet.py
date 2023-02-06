@@ -332,13 +332,7 @@ class BillVal:
 
         # if (status, data) != (SET_INHIBIT, inhibit):
         #     logging.warning("Acceptor did not echo inhibit settings")
-        print("sending get config Stacks")
         self.com.write(bytes([0xFC,0x06,0xC3,inhibit,0x04,0xD6]))
-        time.sleep(.2)
-        response = str(self.com.readline().hex())
-        print("response: ",response)
-        time.sleep(.2)
-        print()
         time.sleep(.2)
         # Volver a recogida de billetes, luz verde on bill
         # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
