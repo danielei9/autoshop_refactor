@@ -222,6 +222,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_DENOM, denom):
             logging.warning("Acceptor did not echo denom settings")
+            time.sleep(2)
         
         logging.debug("Setting security: %r" % sec)
         sec = bytes(sec)
@@ -229,6 +230,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_SECURITY, sec):
             logging.warning("Acceptor did not echo security settings")
+            time.sleep(2)
             
         logging.debug("Setting direction inhibit: %r" % dir)
         dir = bytes(dir)
@@ -236,13 +238,15 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_DIRECTION, dir):
             logging.warning("Acceptor did not echo direction settings")
-        
+            time.sleep(2)
+
         logging.debug("Setting optional functions: %r" % opt_func)
         opt_func = bytes(opt_func)
         self.send_command(SET_OPT_FUNC, opt_func)
         status, data = self.read_response()
         while (status, data) != (SET_OPT_FUNC, opt_func):
             logging.warning("Acceptor did not echo option function settings")
+            time.sleep(2)
             
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
@@ -250,13 +254,15 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
-        
+            time.sleep(2)
+
         logging.debug("Setting barcode functions: %r" % bar_func)
         bar_func = bytes(bar_func)
         self.send_command(SET_BAR_FUNC, bar_func)
         status, data = self.read_response()
         while (status, data) != (SET_BAR_FUNC, bar_func):
             logging.warning("Acceptor did not echo barcode settings")
+            time.sleep(2)
 
         logging.debug("Setting barcode inhibit: %r" % bar_inhibit)
         bar_inhibit = bytes(bar_inhibit)
