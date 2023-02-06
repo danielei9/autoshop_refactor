@@ -35,7 +35,8 @@ class PaymentService():
         self.payRequest: PayRequest = None
 
     def setErrorInDisplay(self, error):
-        self.displayController.displayError(error)
+        if(DISPLAY):
+            self.displayController.displayError(error)
 
     def initializeControllers(self):
         self.checkPorsConnected()
@@ -118,8 +119,9 @@ class PaymentService():
         self.totalAmount = float(self.totalAmount) + float(cantidad)
         print("manageTotalAmount : TotalAmount ",
               self.totalAmount, " cantidad ", cantidad)
-        self.displayController.printProgress(str(round(
-            self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
+        if(DISPLAY):
+            self.displayController.printProgress(str(round(
+                self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
         if self.totalAmount >= self.priceClientShouldPay:
             time.sleep(.2)
             self.coinWalletService.coinwallet.disableInsertCoins()
