@@ -144,6 +144,9 @@ class PaymentService():
         if(changeInCoins > 0):
                 self.__coinBack( changeInCoins )
                 changeBills = change - changeInCoins
+        else:
+            changeBills = change 
+
         # CAMBIO DE BILLETES
         # TODO: Descomentar
         if(changeBills >= minimumBill):
