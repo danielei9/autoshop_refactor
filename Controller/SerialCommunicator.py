@@ -5,6 +5,7 @@ class SerialCommunicator:
         print("SerialCommunicator")
         self.port = port
         self.baudrate = baudrate
+        self.parity = parity
         self.timeout = timeout
         self.is_open = False
         self.initializeSerial()
@@ -12,7 +13,7 @@ class SerialCommunicator:
     def open_port(self):
         try:
             print("trying to open port " + str(self.port))
-            self.com = serial.Serial(self.port, self.baudrate, serial.EIGHTBITS, serial.PARITY_EVEN, timeout=self.timeout )
+            self.com = serial.Serial(self.port, self.baudrate, serial.EIGHTBITS,self.parity, timeout=self.timeout )
             if(self.com.is_open):
                 self.close_port()
                 time.sleep(.2)
