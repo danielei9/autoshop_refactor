@@ -510,7 +510,7 @@ class BillVal:
     def _on_stacking(self, data):
         logging.info("BV stacking...")
     def _on_vend_valid(self, data):
-        logging.info("Vend valid for %s." % self.accepting_denom)
+        # logging.info("Vend valid for %s." % self.accepting_denom)
         self.send_command(ACK, b'')
         self.accepting_denom = None
     def _on_stacked(self, data):
@@ -529,7 +529,9 @@ class BillVal:
         logging.warning("BV inhibited.")
         # input("Press enter to reset and initialize BV.")
         status = None
-        while status != ACK:
+        (status, data) = self.bv_status
+
+        while status != ACK: 
             logging.debug("Sending reset command")
             self.send_command(RESET, b'')
             status, data = self.read_response()
@@ -538,7 +540,7 @@ class BillVal:
         if self.req_status()[0] == INITIALIZE:
             logging.info("Initializing bill validator...")
             self.initialize()
-        self.bv_status =  (0x00,0x00)
+        # self.bv_status =  (0x00,0x00)
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
         # input("Press enter to reinitialize the BV.")
