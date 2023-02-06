@@ -13,6 +13,6 @@ class LedsController(SerialCommunicator):
         self.payStatus = "GRPARP_"
 
     def setLedsPayingState(self,state):
-        print("SETTING LEDS MODE TO ", (str(state)))
+        print("SETTING LEDS MODE TO ", (str(state)).encode("utf-8"))
         time.sleep(.2)
-        self.com.write((str(state)))
+        self.com.write((str(state)).encode("utf-8"))
