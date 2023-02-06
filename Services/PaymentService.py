@@ -143,11 +143,11 @@ class PaymentService():
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
         if(changeInCoins > 0):
                 self.__coinBack( changeInCoins )
-                change = change - changeInCoins
+                changeBills = change - changeInCoins
         # CAMBIO DE BILLETES
         # TODO: Descomentar
-        if(change >= minimumBill):
-            toReturn = round(change)
+        if(changeBills >= minimumBill):
+            toReturn = round(changeBills)
             # Mientras tengamos que devolver dinero...
             while(toReturn > 0):
                 print("**** TO RETURN ", toReturn)
