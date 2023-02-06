@@ -294,10 +294,14 @@ class BillVal:
         inhibit = bytes(inhibit)
         time.sleep(.2)
         (status,data) = self.bv_status 
-        while(status != INHIBIT):
-            print("set_inhibit status: ", status)
+        while(status != IDLE):
             time.sleep(.2)
+            print("set_inhibit status: ", status)
+            (status, data)  = self.bv_status 
+        time.sleep(.2)
+        while(status != INHIBIT):
             self.send_command(SET_INHIBIT, inhibit)
+            time.sleep(.2)
             (status, data)  = self.bv_status 
 
         if (status, data) != (SET_INHIBIT, inhibit):

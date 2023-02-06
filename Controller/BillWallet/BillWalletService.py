@@ -38,7 +38,7 @@ class BillWalletService(SerialCommunicator):
                 logging.info("BV powered up with bill in stacker.")
             pollThread = threading.Thread(target=self.startPollThread)
             pollThread.start()
-            # self.bv.disableInsertBill()
+            self.bv.disableInsertBill()
             
 
         except Exception as e:
