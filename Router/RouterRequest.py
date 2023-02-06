@@ -36,7 +36,7 @@ class Router():
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                     
-                    await self.paymentService.startMachinesPayment(self.actualProcessingRequest)
+                    self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                     try:
                         if(self.actualProcessingRequest.idOrder == self.lastRequestArrived.idOrder):
                             self.lastRequestArrived = None
@@ -57,7 +57,7 @@ class Router():
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
                     print("Arrive ConfigRequest")
                     # self.initializePaymentService()
-                    await self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
+                    self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
                     # self.paymentService.inhibitCoins()
                     return True
             if(self.actualProcessingRequest == None and self.lastRequestArrived == None):
@@ -65,13 +65,13 @@ class Router():
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                     # self.initializePaymentService()
-                    await self.paymentService.startMachinesPayment()
+                    self.paymentService.startMachinesPayment()
                     return True
                 # Configurar
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
                     print("Arrive ConfigRequest")
                     # self.initializePaymentService()
-                    await self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
+                    self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
                     # self.paymentService.inhibitCoins()
                     return True
             # Si  hay alguna request pendiente de pago, Esta OCUPADO, solo puede aceptar Cancelación
@@ -81,7 +81,7 @@ class Router():
                     #poner el precio de la orden a 0 así realizará la cancelación
                     self.actualProcessingRequest.price = 0
                     # self.initializePaymentService()
-                    await self.paymentService.startMachinesPayment()
+                    self.paymentService.startMachinesPayment()
                     return True
             time.sleep(0.5)
         

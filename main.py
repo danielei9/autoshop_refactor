@@ -40,7 +40,7 @@ class Main():
         print("initRouterService")
         try:
             while not stop_event.is_set():
-                await self.router.routeRequest()
+                self.router.routeRequest()
         except Exception as e:
             print(e)
             time.sleep(1)
