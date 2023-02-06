@@ -347,6 +347,8 @@ class BillVal:
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
+        (status,data) = self.bv_status 
+
         while (status, data) != (SET_INHIBIT, inhibit):
             logging.debug("Setting inhibit: %r" % inhibit)
             print("set_inhibit")
