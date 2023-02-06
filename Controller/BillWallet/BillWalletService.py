@@ -26,6 +26,7 @@ class BillWalletService(SerialCommunicator):
         self.bv:BillVal = None
 
     def run(self):
+        print("init service pay billwallet...")
         try:
             self.bv = BillVal(self.com,self.cb)
             self.bv.power_on()
@@ -35,9 +36,9 @@ class BillWalletService(SerialCommunicator):
                 logging.info("BV powered up with bill in acceptor.")
             elif self.bv.init_status == id003.POW_UP_BIS:
                 logging.info("BV powered up with bill in stacker.")
-            self.bv.set_inhibit(0)
             pollThread = threading.Thread(target=self.startPollThread)
             pollThread.start()
+            self.bv.set_inhibit(0)
             
 
         except Exception as e:
