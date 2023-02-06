@@ -277,6 +277,22 @@ class BillVal:
         print("set_inhibit")
         inhibit = bytes(inhibit)
         time.sleep(.2)
+        self.send_command(SET_INHIBIT, inhibit)
+        (status,data) = self.bv_status 
+
+        if (status, data) != (SET_INHIBIT, inhibit):
+            logging.warning("Acceptor did not echo inhibit settings")
+
+    def disableInsertBill(self,inhibit=0):
+        """
+        Command to set the inhibit state
+        ->:param bytes sec: [0x00, 0x00] default
+        :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
+        """
+        logging.debug("Setting inhibit: %r" % inhibit)
+        print("set_inhibit")
+        inhibit = bytes(inhibit)
+        time.sleep(.2)
         (status,data) = self.bv_status 
         while(status != INHIBIT):
             print("set_inhibit status: ", status)
