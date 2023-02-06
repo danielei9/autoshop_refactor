@@ -15,4 +15,5 @@ class LedsController(SerialCommunicator):
     def setLedsPayingState(self,state):
         #print("SETTING LEDS MODE TO ", (str(state)).encode())
         time.sleep(.2)
+        print(" ** * sending to leds ")
         self.com.write((str(state)).encode())
