@@ -1,7 +1,7 @@
 import serial, time
 
 class SerialCommunicator:
-    def __init__(self, port, baudrate=9600, timeout=0.2):
+    def __init__(self, port, baudrate=9600, timeout=0.2, parity=serial.PARITY_EVEN):
         print("SerialCommunicator")
         self.port = port
         self.baudrate = baudrate

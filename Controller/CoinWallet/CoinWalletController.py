@@ -40,7 +40,7 @@ class CoinWalletController(SerialCommunicator):
     def __init__(self, cb,port):
 #         self.proc = multiprocessing.Process(target=self.threadReceived, args=())
 #         self.proc.daemon = True
-        super().__init__(port)
+        super().__init__(port,parity=serial.PARITY_NONE)
         self.cw_events = {
             DOS_EURO: self.__onInserted2Euro,
             UN_EURO: self.__onInsertedEuro,
@@ -266,7 +266,7 @@ class CoinWalletController(SerialCommunicator):
         while True:
             if(self.com.in_waiting):    
                 try:
-                    received = self.com.read()
+                    received = self.com.readline()
                     print("received :: ", int(str(received)) )
                 except serial.SerialException:
                     print('Port is not available')
