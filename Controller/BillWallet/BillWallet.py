@@ -345,7 +345,7 @@ class BillVal:
         time.sleep(.3)
         self.set_inhibit(0)
         (status,data) = self.bv_status
-        while status != INHIBIT:
+        while status != SET_INHIBIT:
             self.set_inhibit(0)
             (status,data) = self.bv_status
             time.sleep(.3)
