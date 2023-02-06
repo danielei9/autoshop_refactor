@@ -120,7 +120,9 @@ class PaymentService():
         self.displayController.printProgress(str(round(
             self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
         if self.totalAmount >= self.priceClientShouldPay:
-            # self.inhibitCoins()
+            time.sleep(.2)
+            self.coinWalletService.coinwallet.disableInsertCoins()
+            time.sleep(.2)            
             print("PAGO COMPLETADO")
             self.paymentDone = True
 
@@ -156,13 +158,10 @@ class PaymentService():
 
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
-
         # TODO: inhibir monedas
         # self.inhibitCoins()
         # self.paymentDone = True
-        time.sleep(.2)
-        self.coinWalletService.coinwallet.disableInsertCoins()
-        time.sleep(.2)
+   
 
     def __coinBack(self, change):
         print("coin back")
@@ -224,7 +223,6 @@ class PaymentService():
         while self.paymentDone == False:
             print("waiting pay")
             time.sleep(5)
-        self.coinWalletService.coinwallet.disableInsertCoins()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")

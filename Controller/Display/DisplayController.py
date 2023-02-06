@@ -26,6 +26,8 @@ class DisplayController(SerialCommunicator):
         self.close_port()
 
     def printProgress(self, textBar, progressBar):
+        if(progressBar >= 100):
+            progressBar = 100
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(progressBar))
         self.printInDisplay(ID_NEXTION_ORDER_PERCENTAGE, str(textBar))
 
