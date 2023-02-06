@@ -224,7 +224,7 @@ class PaymentService():
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
         self.coinWalletService.coinwallet.enableInsertCoins()
-        self.billWalletService.bv.set_inhibit(1)
+        # self.billWalletService.bv.set_inhibit(1)
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
