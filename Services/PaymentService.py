@@ -158,6 +158,9 @@ class PaymentService():
 
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
+        self.totalAmount = 0
+        self.priceClientShouldPay = 0
+
         # TODO: inhibir monedas
         # self.inhibitCoins()
         # self.paymentDone = True
