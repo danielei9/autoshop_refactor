@@ -127,10 +127,11 @@ class PaymentService():
     def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
-
-        minimumBill = self.billWalletService.bv.minBill
+        # TODO: Descomentar
+        # minimumBill = self.billWalletService.bv.minBill
         change = round(amount, 2)
-        changeInCoins = round(change % minimumBill, 2)
+        # TODO: Descomentar
+        # changeInCoins = round(change % minimumBill, 2)
 
         # CAMBIO DE MONEDAS
         # self.__inhibitCoins()
@@ -140,16 +141,17 @@ class PaymentService():
                 self.__coinBack( changeInCoins )
                 change = change - changeInCoins
         # CAMBIO DE BILLETES
-        if(change >= minimumBill):
-            toReturn = round(change)
-            # Mientras tengamos que devolver dinero...
-            while(toReturn > 0):
-                print("**** TO RETURN ", toReturn)
-                time.sleep(.2)
-                # Devolver Billetes
-                # returnedToUser = self.__billBack(changeBills)
-                # Recalcular dinero a devolver
-                # toReturn = toReturn - returnedToUser
+        # TODO: Descomentar
+        # if(change >= minimumBill):
+        #     toReturn = round(change)
+        #     # Mientras tengamos que devolver dinero...
+        #     while(toReturn > 0):
+        #         print("**** TO RETURN ", toReturn)
+        #         time.sleep(.2)
+        #         # Devolver Billetes
+        #         # returnedToUser = self.__billBack(changeBills)
+        #         # Recalcular dinero a devolver
+        #         # toReturn = toReturn - returnedToUser
 
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
