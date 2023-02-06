@@ -184,10 +184,10 @@ class PaymentService():
 
         if(changeBills >= maxBill):
             print("Pagar max billete ", maxBill)
-            if(maxBill == self.billWalletService.stackA):
+            if(maxBill == self.billWalletService.bv.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(maxBill == self.billWalletService.stackB):
+            if(maxBill == self.billWalletService.bv.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
         elif (changeBills >= minBill):
@@ -200,7 +200,7 @@ class PaymentService():
                 payFromStack1 = False
                 payFromStack2 = True
         else:
-            print("ERROR: TO PAY menor que minbill: ")
+            print("ERROR: TO PAY " , changeBills , " menor que minbill: ",minBill)
 
         (status, data) = self.billWalletService.bv.bv_status
 
