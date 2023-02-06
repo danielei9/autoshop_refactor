@@ -133,10 +133,10 @@ class PaymentService():
         changeInCoins = round(change % minimumBill, 2)
 
         # CAMBIO DE MONEDAS
-        # # self.__inhibitCoins()
-        # if(changeInCoins > 0):
-        #         await self.__coinBack( changeInCoins )
-        #         change = change - changeInCoins
+        # self.__inhibitCoins()
+        if(changeInCoins > 0):
+                self.__coinBack( changeInCoins )
+                change = change - changeInCoins
 
         # CAMBIO DE BILLETES
         if(change >= minimumBill):
@@ -157,12 +157,12 @@ class PaymentService():
         # self.inhibitCoins()
         # self.paymentDone = True
 
-    def inhibitCoins(self):
-        self.coinWalletController.disableInsertCoins()
+    # def inhibitCoins(self):
+    #     self.coinWalletController.disableInsertCoins()
 
-    async def __coinBack(self, change):
+    def __coinBack(self, change):
         # coinWallet.enableInsertCoins()
-        self.coinWalletController.cashBack(change)
+        self.coinWalletService.coinwallet.cashBack(change)
 
     def __billBack(self, changeBills):
         print("Devolver: " + str(changeBills) + " €")
@@ -218,6 +218,7 @@ class PaymentService():
         while self.paymentDone == False:
             print("waiting pay")
             time.sleep(5)
+        self.coinWalletService.coinwallet.disableInsertCoins()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             change = self.totalAmount - self.priceClientShouldPay
