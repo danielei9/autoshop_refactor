@@ -11,7 +11,7 @@ PRINTER = False
 COINWALLET = True
 BILLWALLET = False
 DISPLAY = True
-LEDS = False
+LEDS = True
 
 
 class PaymentService():
@@ -90,6 +90,7 @@ class PaymentService():
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
+                self.ledsController.setLedsPayingState(self.ledsController.configStatus)
                 print("Leds Initialized OK")
 
             except:
@@ -216,6 +217,7 @@ class PaymentService():
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
         self.payRequest = payRequest
+        self.ledsController.setLedsPayingState(self.ledsController.payStatus)
         if(DISPLAY):
             self.displayController.display(self.payRequest)
         self.paymentDone = False
@@ -232,6 +234,7 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(5)
+        self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         print("payment done from __startMachinesPayment")
 
