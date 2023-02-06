@@ -9,9 +9,9 @@ from Controller.BillWallet.BillWalletService import *
 
 PRINTER = False
 COINWALLET = True
-BILLWALLET = False
+BILLWALLET = True
 DISPLAY = True
-LEDS = True
+LEDS = False
 
 
 class PaymentService():
@@ -90,7 +90,7 @@ class PaymentService():
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
-                self.ledsController.setLedsPayingState(self.ledsController.configStatus)
+                # self.ledsController.setLedsPayingState(self.ledsController.configStatus)
                 print("Leds Initialized OK")
 
             except:
@@ -131,14 +131,12 @@ class PaymentService():
         changeBills = 0
         changeInCoins = 0
         # TODO: Descomentar
-        # minimumBill = self.billWalletService.bv.minBill
-        minimumBill = 5
+        minimumBill = self.billWalletService.bv.minBill
         change = round(amount, 2)
         # TODO: Descomentar
         changeInCoins = round(change % minimumBill, 2)
 
         # CAMBIO DE MONEDAS
-        # self.__inhibitCoins()
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
         if(changeInCoins > 0):
@@ -146,19 +144,20 @@ class PaymentService():
                 change = change - changeInCoins
         # CAMBIO DE BILLETES
         # TODO: Descomentar
-        # if(change >= minimumBill):
-        #     toReturn = round(change)
-        #     # Mientras tengamos que devolver dinero...
-        #     while(toReturn > 0):
-        #         print("**** TO RETURN ", toReturn)
-        #         time.sleep(.2)
-        #         # Devolver Billetes
-        #         # returnedToUser = self.__billBack(changeBills)
-        #         # Recalcular dinero a devolver
-        #         # toReturn = toReturn - returnedToUser
+        if(change >= minimumBill):
+            toReturn = round(change)
+            # Mientras tengamos que devolver dinero...
+            while(toReturn > 0):
+                print("**** TO RETURN ", toReturn)
+                time.sleep(.2)
+                # Devolver Billetes
+                returnedToUser = self.__billBack(changeBills)
+                # Recalcular dinero a devolver
+                toReturn = toReturn - returnedToUser
 
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
+        
         self.totalAmount = 0
         self.priceClientShouldPay = 0
 
@@ -217,13 +216,13 @@ class PaymentService():
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
         self.payRequest = payRequest
-        self.ledsController.setLedsPayingState(self.ledsController.payStatus)
+        # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
         if(DISPLAY):
             self.displayController.display(self.payRequest)
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
         self.coinWalletService.coinwallet.enableInsertCoins()
-        # self.billWalletService.bv.set_inhibit(0)
+        self.billWalletService.bv.set_inhibit(0)
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
@@ -234,7 +233,7 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(5)
-        self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
+        # self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         print("payment done from __startMachinesPayment")
 

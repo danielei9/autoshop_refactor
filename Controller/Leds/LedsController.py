@@ -4,7 +4,7 @@ import serial
 class LedsController(SerialCommunicator):
 
     def __init__(self, port):
-        super().__init__(port,115200)
+        super().__init__(port,baudrate=115200)
         # self.doneStatus = "RED_"
         # self.doneStatus = "CYAN_"
         self.doneStatus = "GREEN_"

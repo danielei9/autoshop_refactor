@@ -25,7 +25,7 @@ class Router():
 
          # TODO: PONER actualProcessingRequest en None al finalizar la orden
          # Si actualmente esta libre, NO hay request pendiente de pago y esta esperando uno y  acepta la request que venga
-        self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
+        # self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
         while True:
             # print(type(self.actualProcessingRequest))
             # print(type(self.lastRequestArrived))
