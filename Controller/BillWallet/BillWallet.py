@@ -290,18 +290,19 @@ class BillVal:
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
         logging.debug("Setting inhibit: %r" % inhibit)
-        print("set_inhibit")
+        print("disableInsertBill")
         inhibit = bytes(inhibit)
         time.sleep(.2)
         (status,data) = self.bv_status 
         while(status != IDLE):
             time.sleep(.2)
-            print("set_inhibit status: ", status)
+            print("waiting IDLE status: ", status)
             (status, data)  = self.bv_status 
         time.sleep(.2)
         while(status != INHIBIT):
             self.send_command(SET_INHIBIT, inhibit)
             time.sleep(.2)
+            print("waiting INHIBIT status: ", status)
             (status, data)  = self.bv_status 
 
         if (status, data) != (SET_INHIBIT, inhibit):
