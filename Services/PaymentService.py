@@ -164,8 +164,9 @@ class PaymentService():
     #     self.coinWalletController.disableInsertCoins()
 
     def __coinBack(self, change):
-        # coinWallet.enableInsertCoins()
         print("coin back")
+        self.coinWalletService.coinwallet.enableInsertCoins()
+        time.sleep(.2)
         self.coinWalletService.coinwallet.cashBack(change)
 
     def __billBack(self, changeBills):
