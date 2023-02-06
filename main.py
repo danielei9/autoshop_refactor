@@ -36,7 +36,7 @@ class Main():
         self.router = Router(self.actualProcessingRequest,self.lastRequestArrived)
         asyncio.run(self.initServiceRouter())
 
-    async def initServiceRouter(self):
+    def initServiceRouter(self):
         print("initRouterService")
         try:
             while not stop_event.is_set():

@@ -21,7 +21,7 @@ class Router():
     def setErrorPayingInDisplay(self,error):
         self.paymentService.setErrorInDisplay(error)
 
-    async def routeRequest(self):
+    def routeRequest(self):
 
          # TODO: PONER actualProcessingRequest en None al finalizar la orden
          # Si actualmente esta libre, NO hay request pendiente de pago y esta esperando uno y  acepta la request que venga

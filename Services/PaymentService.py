@@ -235,7 +235,7 @@ class PaymentService():
 
         print("payment done from __startMachinesPayment")
 
-    async def startMachinesConfig(self, stackA, stackB):
+    def startMachinesConfig(self, stackA, stackB):
         self.billWalletService = BillWalletService(
             self.manageTotalAmount, port=self.portBilletero)
         # self.billWalletService.configMode(stackA,stackB)
