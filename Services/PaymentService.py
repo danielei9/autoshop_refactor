@@ -196,10 +196,10 @@ class PaymentService():
         elif (changeBills >= minBill):
             print("PAY min billete ", minBill)
 
-            if(minBill == self.billWalletService.stackA):
+            if(minBill == self.billWalletService.bv.stackA):
                 payFromStack1 = True
                 payFromStack2 = False
-            if(minBill == self.billWalletService.stackB):
+            if(minBill == self.billWalletService.bv.stackB):
                 payFromStack1 = False
                 payFromStack2 = True
         else:
