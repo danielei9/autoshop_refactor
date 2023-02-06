@@ -29,7 +29,7 @@ class BillWalletService(SerialCommunicator):
         print("init service pay billwallet...")
         try:
             self.bv = BillVal(self.com,self.cb)
-            self.bv.power_on()
+            self.bv.init()
             if self.bv.init_status == id003.POW_UP:
                 logging.info("BV powered up normally.")
             elif self.bv.init_status == id003.POW_UP_BIA:

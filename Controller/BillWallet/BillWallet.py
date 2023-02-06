@@ -64,6 +64,40 @@ class BillVal:
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
 
+
+    def init(self):
+        print("INITIALIZE")
+        #       LOGGING DEBUG esto dará problemas, hay que ver como lo añadimos por que sirve para obtener el logg de la maquina de billetes
+        self.power_on()
+        if self.init_status == POW_UP:
+            logging.info("BV powered up normally. POW_UP")
+        
+        elif self.init_status == POW_UP_BIA:
+            logging.info("BV powered up with bill in acceptor. POW_UP_BIA")
+        
+        elif self.init_status == POW_UP_BIS:
+            logging.info("BV powered up with bill in stacker. POW_UP_BIS")
+
+        if self.init_status == IDLE:
+            print("Status IDLE")
+        
+
+        (status,data) = self.req_status()
+  
+        if  (status == INHIBIT):
+            print("Setting to INHIBIT/DISABLE (enable setting buchubills)")
+
+        if (status == IDLE):
+            self.set_inhibit(1)
+        
+        # self.set_recycler_config(10,20)
+        try:
+            self.getActualStacksConfig()
+        except Exception as e:
+            print("Error getting stacks config: ", e)
+            time.sleep(2)
+            self.getActualStacksConfig()
+
     def _raw(self, pre, msg):
         if self.raw:
             msg = ['0x%02x' % x for x in msg]
@@ -309,11 +343,33 @@ class BillVal:
             self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
             print(self.com.readline().hex())
             time.sleep(.2)
-            stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
-            stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
-            print("Actual config in stacks : ", stackA, "  " ,stackB)
-            self.setStacksInOrden( stackA , stackB )
+            self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
+            self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
+            print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
+            self.setStacksInOrden( self.stackA , self.stackB )
 
+    def setStacksInOrden(self, stackA,stackB):
+            if(stackA > stackB):
+                self.minBill = stackB
+                self.maxBill = stackA
+            else:
+                self.minBill = stackA
+                self.maxBill = stackB
+
+            self.stackA = stackA
+            self.stackB = stackB 
+            
+    def convertStacksMachineToStacksEuro(self, stack):
+        if(stack == "00"):
+            return 0
+        if(stack == "02"):
+            return 5
+        if(stack == "04"):
+            return 10
+        if(stack == "08"):
+            return 20
+        if(stack == "10"):
+            return 50
 
     def disableInsertBill(self,inhibit=0):
         """
