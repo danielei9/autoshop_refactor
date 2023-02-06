@@ -171,7 +171,7 @@ class BillVal:
         return self.init_status
     
     def initialize(self, denom=[0x82, 0], sec=[0, 0], dir=[0], opt_func=[0, 0], 
-                   inhibit=[1], bar_func=[0x01, 0x12], bar_inhibit=[0]):
+                   inhibit=[0], bar_func=[0x01, 0x12], bar_inhibit=[0]):
         """Initialize BV settings"""
         
         logging.debug("Setting denom inhibit: %r" % denom)
