@@ -452,6 +452,7 @@ class BillVal:
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
+        print("SENDED*********************")
         try:
             status, data = self.req_status()
         except:
