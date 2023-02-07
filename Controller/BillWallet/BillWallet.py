@@ -390,9 +390,10 @@ class BillVal:
 
     def getActualStacksConfig(self):
         print("sending get config Stacks")
-        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-        time.sleep(.2)
-        print("response: ",self.com.read_all())
+        # self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        # time.sleep(.2)
+        # print("response: ",self.com.read_all())
+        self.set_inhibited()
         time.sleep(.2)
         self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
         time.sleep(.1)
