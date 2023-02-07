@@ -453,18 +453,23 @@ class BillVal:
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
         print("SENDED*********************")
+        
         try:
-            status, data = self.req_status()
+            time.sleep(.1)
+            response = str(self.com.readline().hex())
+            print(response)
         except:
             print("Error parsing response")
             pass
 
         while True:
-           (status,data) = self.req_status()
+           self.resumePollThread()
+           (status,data) = self.bv_events()
            time.sleep(.3)
            print("payout():Status: " , status)
            if status == PAY_VALID:
-               break
+                self.pausePollThread()
+                break
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
