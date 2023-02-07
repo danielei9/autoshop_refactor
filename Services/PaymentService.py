@@ -198,6 +198,8 @@ class PaymentService():
 
         maxBill = self.billWalletService.bv.maxBill
         minBill = self.billWalletService.bv.minBill
+        # TODO: BORRAR
+        minBill = 5
 
         if(changeBills >= maxBill):
             print("Pagar max billete ", maxBill)
