@@ -347,15 +347,15 @@ class BillVal:
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
+        self.send_command(SET_INHIBIT, inhibit)
+        time.sleep(.2)
         (status,data) = self.bv_status 
 
-        while (status, data) != (SET_INHIBIT, inhibit):
+        if (status, data) != (SET_INHIBIT, inhibit):
             logging.debug("Setting inhibit: %r" % inhibit)
             print("set_inhibit")
             inhibit = bytes(inhibit)
             self.send_command(SET_INHIBIT, inhibit)
-            time.sleep(.2)
-            (status,data) = self.bv_status 
             logging.warning("Acceptor did not echo inhibit settings")
 
     def getActualStacksConfig(self):
