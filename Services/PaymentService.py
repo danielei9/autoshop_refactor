@@ -140,7 +140,7 @@ class PaymentService():
         # CAMBIO DE MONEDAS
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
-        if(changeInCoins > 0 and changeInCoins != minimumBill ):
+        if(changeInCoins > 0 and int(changeInCoins) != int(minimumBill) ):
                 self.__coinBack( changeInCoins )
                 changeBills = change - changeInCoins
         else:
