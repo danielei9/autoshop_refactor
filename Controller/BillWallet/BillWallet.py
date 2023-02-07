@@ -65,9 +65,11 @@ class BillVal:
             logging.getLogger('').addHandler(console)
 
     def pausePollThread(self):
+        print("BV: PAUSE POLL")
         self.pause_flag = True
 
     def resumePollThread(self):
+        print("BV: RESUME POLL")
         self.pause_flag = False
 
     def init(self):
@@ -362,7 +364,7 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
 
-    def set_inhibited(self,resumePoll=False):
+    def set_inhibited(self):
         """
         Command to set the inhibit state
         ->:param bytes sec: [0x00, 0x00] default
@@ -373,8 +375,7 @@ class BillVal:
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
         print("response: ",self.com.read_all())
-        if(resumePoll):
-            self.resumePollThread()
+   
     
     def set_not_inhibited(self):
         """

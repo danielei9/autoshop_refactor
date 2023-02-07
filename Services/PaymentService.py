@@ -125,6 +125,7 @@ class PaymentService():
         if self.totalAmount >= self.priceClientShouldPay:
             time.sleep(.2)
             self.coinWalletService.coinwallet.disableInsertCoins()
+            self.billWalletService.bv.pausePollThread()
             time.sleep(.2)            
             print("PAGO COMPLETADO")
             self.paymentDone = True
@@ -223,9 +224,10 @@ class PaymentService():
         print("startMachinesPayment")
         self.coinWalletService.coinwallet.enableInsertCoins()
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
+        self.billWalletService.bv.set_not_inhibited()
+        self.billWalletService.bv.resumePollThread()
         if(DISPLAY):
             self.displayController.display(self.payRequest)
-        self.billWalletService.bv.set_not_inhibited()
         self.payRequest = payRequest
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
