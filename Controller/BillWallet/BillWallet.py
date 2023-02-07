@@ -70,6 +70,8 @@ class BillVal:
 
     def resumePollThread(self):
         print("BV: RESUME POLL")
+        self.set_not_inhibited()
+        time.sleep(.2)
         self.pause_flag = False
 
     def init(self):
