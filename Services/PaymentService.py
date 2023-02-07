@@ -133,21 +133,23 @@ class PaymentService():
         changeBills = 0
         changeInCoins = 0
         # TODO: Descomentar
-        minimumBill = self.billWalletService.bv.minBill
-        change = round(amount, 2)
-        # TODO: Descomentar
-        changeInCoins = round(change % minimumBill, 2)
-        # CAMBIO DE MONEDAS
-        print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
-              " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
-        if(changeInCoins > 0 and int(changeInCoins) != int(minimumBill) ):
-                self.__coinBack( changeInCoins )
-                changeBills = change - changeInCoins
-        else:
-            changeBills = change 
+        # minimumBill = self.billWalletService.bv.minBill
+        # change = round(amount, 2)
+        # # TODO: Descomentar
+        # changeInCoins = round(change % minimumBill, 2)
+        # # CAMBIO DE MONEDAS
+        # print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
+        #       " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
+        # if(changeInCoins > 0 and int(changeInCoins) != int(minimumBill) ):
+        #         self.__coinBack( changeInCoins )
+        #         changeBills = change - changeInCoins
+        # else:
+        #     changeBills = change 
 
         # CAMBIO DE BILLETES
         # TODO: Descomentar
+        changeBills = round(amount, 2)
+        minimumBill = self.billWalletService.bv.minBill
         if(changeBills >= minimumBill):
             toReturn = round(changeBills)
             # Mientras tengamos que devolver dinero...
