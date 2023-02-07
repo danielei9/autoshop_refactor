@@ -388,7 +388,7 @@ class BillVal:
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
-        self.pausePollThread()
+        # self.pausePollThread()
         print("sending NOT inhibit")
         
         self.pausePollThread() 
