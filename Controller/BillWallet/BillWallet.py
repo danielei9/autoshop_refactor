@@ -372,7 +372,6 @@ class BillVal:
         self.pausePollThread() 
         inhibit = 0x01
         logging.debug("Setting inhibit: %r" % inhibit)
-        inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
@@ -452,11 +451,11 @@ class BillVal:
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
-        while status:
-                (status,data) = self.bv_status
-                time.sleep(.3)
-                print("payout():Status: %02x " % status)
-                # self.sendAckPay()
+        self.resumePollThread()
+        time.sleep(.3)
+        self.sendPayCommand(payFromStack1,payFromStack2)
+        time.sleep(.3)
+
         return 0
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
