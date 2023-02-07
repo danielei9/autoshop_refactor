@@ -371,7 +371,7 @@ class BillVal:
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
         self.pausePollThread() 
-        inhibit = 0x00
+        inhibit = 0x01
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
@@ -392,7 +392,7 @@ class BillVal:
         print("sending NOT inhibit")
         
         self.pausePollThread() 
-        inhibit = 0x01
+        inhibit = 0x00
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
