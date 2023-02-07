@@ -464,7 +464,7 @@ class BillVal:
 
         while True:
            self.resumePollThread()
-           (status,data) = self.bv_events
+           (status,data) = self.bv_status
            time.sleep(.3)
            print("payout():Status: " , status)
            if status == PAY_VALID:
