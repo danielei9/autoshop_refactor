@@ -226,7 +226,7 @@ class PaymentService():
         (status, data) = self.billWalletService.bv.bv_status
 
         while (status != IDLE):
-            print("__billBack: Esperando estado IDLE, actual: %02x" % status)
+            print("__billBack: Esperando estado IDLE, actual: " , status)
             (status, data) = self.billWalletService.bv.bv_status
             time.sleep(.2)
         # time.sleep(.2)
@@ -240,7 +240,7 @@ class PaymentService():
         print("startMachinesPayment")
         self.coinWalletService.coinwallet.enableInsertCoins()
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
-        
+
         self.billWalletService.bv.resumePollThread()
 
         if(DISPLAY):
