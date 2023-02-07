@@ -240,7 +240,7 @@ class PaymentService():
         print("startMachinesPayment")
         self.coinWalletService.coinwallet.enableInsertCoins()
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
-        # self.billWalletService.bv.set_not_inhibited()
+        
         self.billWalletService.bv.resumePollThread()
 
         if(DISPLAY):
