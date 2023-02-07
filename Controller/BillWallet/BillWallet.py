@@ -452,7 +452,11 @@ class BillVal:
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
-        status, data = self.read_response()
+        try:
+            status, data = self.req_status()
+        except:
+            print("Error parsing response")
+            pass
 
         while True:
            (status,data) = self.req_status()
@@ -464,7 +468,6 @@ class BillVal:
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
         #payout():Status: 1a 
-        print("sendPayCommand")
         if(payFromStack1):
             print("sendPayCommand to Stack1")
             return self.com.write(bytes([0xFC ,0x09, 0xF0, 0x20, 0x4A, 0x01, 0x01, 0x10, 0x6E]))
