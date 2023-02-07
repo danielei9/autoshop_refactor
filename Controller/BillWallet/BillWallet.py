@@ -462,7 +462,7 @@ class BillVal:
         while True:
            (status,data) = self.read_response()
            time.sleep(.3)
-           print("payout():Status: %02x " % status)
+           print("payout():Status: " , status)
            if status == PAY_VALID:
                break
     
