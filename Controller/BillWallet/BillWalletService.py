@@ -37,7 +37,8 @@ class BillWalletService(SerialCommunicator):
             elif self.bv.init_status == id003.POW_UP_BIS:
                 logging.info("BV powered up with bill in stacker.")
 
-            # self.startPollingService()
+            self.startPollingService()
+            self.bv.pausePollThread()
             
         except Exception as e:
             print("ERROR: " + str(e))
