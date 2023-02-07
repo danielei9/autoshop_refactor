@@ -362,7 +362,7 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
                 
-    def set_inhibited(self):
+    def set_inhibited(self,resumePoll=False):
         """
         Command to set the inhibit state
         ->:param bytes sec: [0x00, 0x00] default
@@ -373,7 +373,8 @@ class BillVal:
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
         print("response: ",self.com.read_all())
-        self.resumePollThread()
+        if(resumePoll):
+            self.resumePollThread()
     
     def set_not_inhibited(self):
         """
