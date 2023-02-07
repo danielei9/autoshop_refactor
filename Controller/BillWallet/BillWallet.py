@@ -17,7 +17,7 @@ class BillVal:
         self.threading = threading
         self.lastMessage = None
         self.all_statuses = NORM_STATUSES + ERROR_STATUSES + POW_STATUSES
-            
+        self.pause_flag = False
         self.bv_events = {
             IDLE: self._on_idle,
             ACEPTING: self._on_accepting,
@@ -64,6 +64,11 @@ class BillVal:
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
 
+    def pausePollThread(self):
+        self.pause_flag = True
+
+    def resumePollThread(self):
+        self.pause_flag = False
 
     def init(self):
         print("INITIALIZE")
@@ -87,7 +92,7 @@ class BillVal:
             print("Setting to INHIBIT/DISABLE (enable setting buchubills)")
 
         if (status == IDLE):
-            self.set_inhibit(1)
+            self.set_inhibited()
         
         try:
             self.getActualStacksConfig()
@@ -199,7 +204,7 @@ class BillVal:
         print("ACTUAL STATUS power_on: " , str(status))
                 # Si se vuelva iniciar pero ya estaba encendida e inhibida    
         if status == INHIBIT:
-            self.set_inhibit(1)
+            self.set_inhibited()
             logging.warning(
                 "Acceptor already powered up,but inhibited status: %02x" % status)
             return
@@ -331,52 +336,63 @@ class BillVal:
         """
         
         while True:
-                poll_start = time.time()
-                status, data = self.req_status()
-                if (status, data) != self.bv_status:
-                    if status in self.bv_events:
-                        self.bv_events[status](data)
-                self.bv_status = (status, data)
-                wait = interval - (time.time() - poll_start)
-                if wait > 0.0:
-                    time.sleep(wait)
+            while self.pause_flag:
+                time.sleep(0.1)
+            poll_start = time.time()
+            status, data = self.req_status()
+            if (status, data) != self.bv_status:
+                if status in self.bv_events:
+                    self.bv_events[status](data)
+            self.bv_status = (status, data)
+            wait = interval - (time.time() - poll_start)
+            if wait > 0.0:
+                time.sleep(wait)
                 
-    def set_inhibit(self,inhibit):
+    def set_inhibited(self):
         """
         Command to set the inhibit state
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
-        self.send_command(SET_INHIBIT, inhibit)
+        self.pausePollThread()
+        print("sending inhibit")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
-        (status,data) = self.bv_status 
-
-        if (status, data) != (SET_INHIBIT, inhibit):
-            logging.debug("Setting inhibit: %r" % inhibit)
-            print("set_inhibit")
-            inhibit = bytes(inhibit)
-            self.send_command(SET_INHIBIT, inhibit)
-            logging.warning("Acceptor did not echo inhibit settings")
+        print("response: ",self.com.read_all())
+        self.resumePollThread()
+    
+    def set_not_inhibited(self):
+        """
+        Command to set the inhibit state
+        ->:param bytes sec: [0x00, 0x00] default
+        :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
+        """
+        self.pausePollThread()
+        print("sending inhibit")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x8D,0xC7]))
+        time.sleep(.2)
+        print("response: ",self.com.read_all())
+        self.resumePollThread()
 
     def getActualStacksConfig(self):
-            print("sending get config Stacks")
-            self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-            time.sleep(.2)
-            print("response: ",self.com.read_all())
-            time.sleep(.2)
-            self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
-            time.sleep(.1)
-            response = str(self.com.readline().hex())
-            print()
-            time.sleep(.2)
-            # Volver a recogida de billetes, luz verde on bill
-            self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-            print(self.com.readline().hex())
-            time.sleep(.2)
-            self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
-            self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
-            print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
-            self.setStacksInOrden( self.stackA , self.stackB )
+        print("sending get config Stacks")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        time.sleep(.2)
+        print("response: ",self.com.read_all())
+        time.sleep(.2)
+        self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
+        time.sleep(.1)
+        response = str(self.com.readline().hex())
+        print()
+        time.sleep(.2)
+        # Volver a recogida de billetes, luz verde on bill
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        print(self.com.readline().hex())
+        time.sleep(.2)
+        self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
+        self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
+        print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
+        self.setStacksInOrden( self.stackA , self.stackB )
 
     def setStacksInOrden(self, stackA,stackB):
             if(stackA > stackB):
@@ -429,7 +445,7 @@ class BillVal:
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
         time.sleep(.3)
-        self.set_inhibit(1)
+        self.set_inhibited()
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)

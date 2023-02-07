@@ -53,6 +53,10 @@ class BillWalletService(SerialCommunicator):
             pollThread.start()
             pass
 
+ 
+
+
     def startPollThread(self):
         print("startPollThread")
         asyncio.run( self.bv.poll())   
+    
