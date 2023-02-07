@@ -103,6 +103,20 @@ class BillVal:
             self.getActualStacksConfig()
             self.set_recycler_config(self.stackA,self.stackB)
 
+    def process_stack_config(self,stack):
+        if stack == 0:
+            return 0x00
+        if stack == 5:
+            return 0x02
+        if stack == 10:
+            return 0x04
+        if stack == 20:
+            return 0x08
+        if stack == 50:
+            return 0x10
+        if stack == 100:
+            return 0x20
+    
 
     def set_recycler_config(self, stack1,stack2):
         """
