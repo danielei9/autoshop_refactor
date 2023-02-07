@@ -407,9 +407,6 @@ class BillVal:
 
     def getActualStacksConfig(self):
         print("get Actual Stacks Config ")
-        # self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-        # time.sleep(.2)
-        # print("response: ",self.com.read_all())
         self.set_inhibited()
         time.sleep(.2)
         self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
@@ -418,9 +415,9 @@ class BillVal:
         print()
         time.sleep(.2)
         # Volver a recogida de billetes, luz verde on bill
-        # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-        # print(self.com.readline().hex())
-        # time.sleep(.2)
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        print(self.com.readline().hex())
+        time.sleep(.2)
         self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
         self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
         print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
