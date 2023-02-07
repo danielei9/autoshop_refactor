@@ -185,7 +185,7 @@ class BillVal:
         command = self.com.read()
         
         if data_length:
-            data = self.com.read(data_length)
+            data = self.com.read(data_length).decode()
         else:
             data = b''
             
@@ -399,6 +399,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
             print(status, " data: " ,data)
+            print("Should be " ,SET_INHIBIT, " inhibit: " ,inhibit)
             logging.warning("Acceptor did not echo inhibit settings")
             time.sleep(2)
             self.set_inhibited()
