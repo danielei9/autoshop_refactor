@@ -128,8 +128,8 @@ class PaymentService():
 
     def checkIfPaymentComplete(self):
         if self.totalAmount >= self.priceClientShouldPay:
-                (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
                 while ( statusBillWallet != IDLE ):
+                    (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
                     time.sleep(.2)
                     print("BV : Waiting IDLE")
                 self.setPaymentDone()
