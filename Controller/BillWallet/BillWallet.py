@@ -397,7 +397,7 @@ class BillVal:
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
         status, data = self.read_response()
-        while (status, data) != (SET_INHIBIT, inhibit):
+        while (status) != (SET_INHIBIT):
             print(str(status), " data: " ,str(data))
             print("Should be " ,str(SET_INHIBIT), " inhibit: " ,str(inhibit))
             logging.warning("Acceptor did not echo inhibit settings")
