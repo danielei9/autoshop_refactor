@@ -119,6 +119,8 @@ class PaymentService():
         self.totalAmount = float(self.totalAmount) + float(cantidad)
         print("manageTotalAmount : TotalAmount ",
               self.totalAmount, " cantidad ", cantidad)
+        self.billWalletService.bv.resumePollThread()
+    
         if(DISPLAY):
             self.displayController.printProgress(str(round(
                 self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
@@ -127,7 +129,7 @@ class PaymentService():
             while ( statusBillWallet != IDLE ):
                 time.sleep(.2)
             self.coinWalletService.coinwallet.disableInsertCoins()
-            self.billWalletService.bv.pausePollThread()
+            # self.billWalletService.bv.pausePollThread()
             time.sleep(.2)            
             print("PAGO COMPLETADO")
             self.paymentDone = True

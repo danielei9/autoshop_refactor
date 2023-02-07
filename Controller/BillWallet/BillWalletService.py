@@ -26,7 +26,7 @@ class BillWalletService(SerialCommunicator):
         self.bv:BillVal = None
 
     def run(self):
-        print("init service pay billwallet...")
+        print("RUN  SERVICE pay billwallet...")
         try:
             self.bv = BillVal(self.com,self.cb)
             self.bv.init()
@@ -39,7 +39,7 @@ class BillWalletService(SerialCommunicator):
 
             self.startPollingService()
             self.bv.pausePollThread()
-            
+
         except Exception as e:
             print("ERROR: " + str(e))
             pass
