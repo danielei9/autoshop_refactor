@@ -120,7 +120,6 @@ class BillVal:
             return 0x10
         if stack == 100:
             return 0x20
-    
 
     def set_recycler_config(self, stack1,stack2):
         """
@@ -143,7 +142,6 @@ class BillVal:
         status, data = self.read_response()
         print("status: %02x" % status)
         return
-
 
     def _raw(self, pre, msg):
         if self.raw:
@@ -373,7 +371,7 @@ class BillVal:
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
         self.pausePollThread() 
-        inhibit = 0x01
+        inhibit = 0x00
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
@@ -394,7 +392,7 @@ class BillVal:
         print("sending NOT inhibit")
         
         self.pausePollThread() 
-        inhibit = 0x00
+        inhibit = 0x01
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
         self.send_command(SET_INHIBIT, inhibit)
@@ -408,7 +406,7 @@ class BillVal:
         # self.resumePollThread()
 
     def getActualStacksConfig(self):
-        print("sending get config Stacks")
+        print("get Actual Stacks Config ")
         # self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         # time.sleep(.2)
         # print("response: ",self.com.read_all())

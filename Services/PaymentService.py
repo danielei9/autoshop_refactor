@@ -226,8 +226,10 @@ class PaymentService():
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
         self.billWalletService.bv.set_not_inhibited()
         self.billWalletService.bv.resumePollThread()
+
         if(DISPLAY):
             self.displayController.display(self.payRequest)
+        
         self.payRequest = payRequest
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
