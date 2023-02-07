@@ -571,19 +571,19 @@ class BillVal:
     def _on_inhibit(self, data):
         logging.warning("BV inhibited.")
         # input("Press enter to reset and initialize BV.")
-        status = None
-        (status, data) = self.bv_status
+        # status = None
+        # (status, data) = self.bv_status
 
-        while status != ACK: 
-            logging.debug("Sending reset command")
-            self.send_command(RESET, b'')
-            status, data = self.read_response()
-            time.sleep(0.2)
-        logging.debug("Received ACK")
-        if self.req_status()[0] == INITIALIZE:
-            logging.info("Initializing bill validator...")
-            self.initialize()
-        # self.bv_status =  (0x00,0x00)
+        # while status != ACK: 
+        #     logging.debug("Sending reset command")
+        #     self.send_command(RESET, b'')
+        #     status, data = self.read_response()
+        #     time.sleep(0.2)
+        # logging.debug("Received ACK")
+        # if self.req_status()[0] == INITIALIZE:
+        #     logging.info("Initializing bill validator...")
+        #     self.initialize()
+        # # self.bv_status =  (0x00,0x00)
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
         # input("Press enter to reinitialize the BV.")
