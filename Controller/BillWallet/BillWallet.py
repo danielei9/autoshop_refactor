@@ -454,13 +454,13 @@ class BillVal:
         self.sendPayCommand(payFromStack1,payFromStack2)
         print("SENDED*********************")
         try:
-            status, data = self.read_response()
+            status, data = self.req_status()
         except:
             print("Error parsing response")
             pass
 
         while True:
-           (status,data) = self.read_response()
+           (status,data) = self.req_status()
            time.sleep(.3)
            print("payout():Status: " , status)
            if status == PAY_VALID:
