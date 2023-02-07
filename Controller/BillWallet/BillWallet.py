@@ -401,9 +401,9 @@ class BillVal:
         print()
         time.sleep(.2)
         # Volver a recogida de billetes, luz verde on bill
-        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-        print(self.com.readline().hex())
-        time.sleep(.2)
+        # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        # print(self.com.readline().hex())
+        # time.sleep(.2)
         self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
         self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
         print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
