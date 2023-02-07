@@ -370,12 +370,16 @@ class BillVal:
         ->:param bytes sec: [0x00, 0x00] default
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
-        self.pausePollThread()
-        print("sending inhibit")
-        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-        time.sleep(.2)
-        print("response: ",self.com.read_all())
-   
+        self.pausePollThread() 
+        inhibit = 0x01
+        logging.debug("Setting inhibit: %r" % inhibit)
+        inhibit = bytes(inhibit)
+        self.send_command(SET_INHIBIT, inhibit)
+        status, data = self.read_response()
+        while (status, data) != (SET_INHIBIT, inhibit):
+            logging.warning("Acceptor did not echo inhibit settings")
+            time.sleep(2)
+            self.set_inhibited()
     
     def set_not_inhibited(self):
         """
@@ -385,10 +389,18 @@ class BillVal:
         """
         self.pausePollThread()
         print("sending NOT inhibit")
-        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x8D,0xC7]))
-        time.sleep(.2)
-        print("response: ",self.com.read_all())
-        self.resumePollThread()
+        
+        self.pausePollThread() 
+        inhibit = 0x00
+        logging.debug("Setting inhibit: %r" % inhibit)
+        inhibit = bytes(inhibit)
+        self.send_command(SET_INHIBIT, inhibit)
+        status, data = self.read_response()
+        while (status, data) != (SET_INHIBIT, inhibit):
+            logging.warning("Acceptor did not echo inhibit settings")
+            time.sleep(2)
+            self.set_inhibited()
+        # self.resumePollThread()
 
     def getActualStacksConfig(self):
         print("sending get config Stacks")
