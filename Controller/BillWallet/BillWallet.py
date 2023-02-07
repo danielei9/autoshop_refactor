@@ -377,6 +377,7 @@ class BillVal:
         self.send_command(SET_INHIBIT, inhibit)
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
+            print(status, " data: " ,data)
             logging.warning("Acceptor did not echo inhibit settings")
             time.sleep(2)
             self.set_inhibited()
@@ -397,6 +398,7 @@ class BillVal:
         self.send_command(SET_INHIBIT, inhibit)
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
+            print(status, " data: " ,data)
             logging.warning("Acceptor did not echo inhibit settings")
             time.sleep(2)
             self.set_inhibited()
