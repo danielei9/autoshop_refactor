@@ -123,7 +123,9 @@ class PaymentService():
             self.displayController.printProgress(str(round(
                 self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
         if self.totalAmount >= self.priceClientShouldPay:
-            time.sleep(.2)
+            (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
+            while ( statusBillWallet != IDLE ):
+                time.sleep(.2)
             self.coinWalletService.coinwallet.disableInsertCoins()
             self.billWalletService.bv.pausePollThread()
             time.sleep(.2)            
