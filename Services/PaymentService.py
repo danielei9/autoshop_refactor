@@ -135,7 +135,7 @@ class PaymentService():
         changeInCoins = 0
         # TODO: Descomentar
         # minimumBill = self.billWalletService.bv.minBill
-        # change = round(amount, 2)
+        change = round(amount, 2)
         # # TODO: Descomentar
         # changeInCoins = round(change % minimumBill, 2)
         # # CAMBIO DE MONEDAS
