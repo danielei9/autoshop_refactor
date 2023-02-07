@@ -185,7 +185,7 @@ class BillVal:
         command = self.com.read()
         
         if data_length:
-            data = self.com.read(data_length).decode()
+            data = self.com.read(data_length)
         else:
             data = b''
             
