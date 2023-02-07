@@ -160,6 +160,9 @@ class PaymentService():
         # TODO: Descomentar
         changeBills = round(amount, 2)
         minimumBill = self.billWalletService.bv.minBill
+        print("MINIMO BILLETE",minimumBill)
+        changeBills = 5
+        minimumBill = 5
         if(changeBills >= minimumBill):
             toReturn = round(changeBills)
             # Mientras tengamos que devolver dinero...
