@@ -361,7 +361,7 @@ class BillVal:
             wait = interval - (time.time() - poll_start)
             if wait > 0.0:
                 time.sleep(wait)
-                
+
     def set_inhibited(self,resumePoll=False):
         """
         Command to set the inhibit state
@@ -383,7 +383,7 @@ class BillVal:
         :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
         """
         self.pausePollThread()
-        print("sending inhibit")
+        print("sending NOT inhibit")
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x8D,0xC7]))
         time.sleep(.2)
         print("response: ",self.com.read_all())
