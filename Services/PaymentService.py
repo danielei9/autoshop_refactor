@@ -124,13 +124,17 @@ class PaymentService():
         if(DISPLAY):
             self.displayController.printProgress(str(round(
                 self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
+       
+
+    def checkIfPaymentComplete(self):
         if self.totalAmount >= self.priceClientShouldPay:
-            (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
-            while ( statusBillWallet != IDLE ):
-                time.sleep(.2)
-            self.coinWalletService.coinwallet.disableInsertCoins()
-            # self.billWalletService.bv.pausePollThread()
-            time.sleep(.2)            
+                (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
+                while ( statusBillWallet != IDLE ):
+                    time.sleep(.2)
+                    print("BV : Waiting IDLE")
+                self.setPaymentDone()
+
+    def setPaymentDone(self):
             print("PAGO COMPLETADO")
             self.paymentDone = True
 
@@ -241,7 +245,8 @@ class PaymentService():
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
-            time.sleep(5)
+            self.checkIfPaymentComplete()
+            time.sleep(2)
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
