@@ -452,12 +452,14 @@ class BillVal:
         # self.set_recycler_config(10,20)
         time.sleep(.3)
         self.sendPayCommand(payFromStack1,payFromStack2)
-        while status:
-                (status,data) = self.bv_status
-                time.sleep(.3)
-                print("payout():Status: %02x " % status)
-                # self.sendAckPay()
-        return 0
+        status, data = self.read_response()
+
+        while True:
+           (status,data) = self.req_status()
+           time.sleep(.3)
+           print("payout():Status: %02x " % status)
+           if status == PAY_VALID:
+               break
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
