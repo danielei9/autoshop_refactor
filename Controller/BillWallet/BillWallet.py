@@ -70,7 +70,6 @@ class BillVal:
 
     def resumePollThread(self):
         print("BV: RESUME POLL")
-        self.set_not_inhibited()
         time.sleep(.2)
         self.pause_flag = False
 
@@ -415,8 +414,8 @@ class BillVal:
         print()
         time.sleep(.2)
         # Volver a recogida de billetes, luz verde on bill
-        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-        print(self.com.readline().hex())
+        # self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        # print(self.com.readline().hex())
         time.sleep(.2)
         self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
         self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
@@ -445,31 +444,6 @@ class BillVal:
             return 20
         if(stack == "10"):
             return 50
-
-    # def disableInsertBill(self,inhibit=0):
-    #     """
-    #     Command to set the inhibit state
-    #     ->:param bytes sec: [0x00, 0x00] default
-    #     :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
-    #     """
-    #     logging.debug("Setting inhibit: %r" % inhibit)
-    #     print("disableInsertBill")
-    #     inhibit = bytes(inhibit)
-    #     time.sleep(.2)
-    #     (status,data) = self.bv_status 
-    #     while(status != IDLE):
-    #         time.sleep(.2)
-    #         print("waiting IDLE status: ", status)
-    #         (status, data)  = self.bv_status 
-    #     time.sleep(.2)
-    #     while(status != INHIBIT):
-    #         self.send_command(SET_INHIBIT, inhibit)
-    #         time.sleep(.2)
-    #         print("waiting INHIBIT status: ", status)
-    #         (status, data)  = self.bv_status 
-
-    #     if (status, data) != (SET_INHIBIT, inhibit):
-    #         logging.warning("Acceptor did not echo inhibit settings")
 
     def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
@@ -596,7 +570,6 @@ class BillVal:
         if self.req_status()[0] == INITIALIZE:
             logging.info("Initializing bill validator...")
             self.initialize()
-        # self.bv_status =  (0x00,0x00)
     def _on_init(self, data):
         logging.warning("BV waiting for initialization")
         # input("Press enter to reinitialize the BV.")
