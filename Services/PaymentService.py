@@ -198,8 +198,7 @@ class PaymentService():
 
         maxBill = self.billWalletService.bv.maxBill
         minBill = self.billWalletService.bv.minBill
-        # TODO: BORRAR
-        minBill = 5
+
 
         if(changeBills >= maxBill):
             print("Pagar max billete ", maxBill)
@@ -220,7 +219,10 @@ class PaymentService():
                 payFromStack2 = True
         else:
             print("ERROR: TO PAY " , changeBills , " menor que minbill: ",minBill)
-
+            # TODO: BORRASR
+            payFromStack1 = True
+            payFromStack2 = False
+            
         (status, data) = self.billWalletService.bv.bv_status
 
         while (status != IDLE):
