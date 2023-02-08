@@ -455,6 +455,7 @@ class BillVal:
             return 50
 
     def payout(self,payFromStack1,payFromStack2):
+        self.pausePollThread()
         print("Corutina de devolución:")
         time.sleep(.3)
         # self.set_inhibited()
