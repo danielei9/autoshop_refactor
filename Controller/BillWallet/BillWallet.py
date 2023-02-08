@@ -418,6 +418,8 @@ class BillVal:
         self.com.write(bytes([0xFC,0X07,0XF0,0X20,0X90,0x39,0X84]))
         time.sleep(.1)
         response = str(self.com.readline().hex())
+        self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
+        self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
         print("BV Response : ",response)
         time.sleep(.2)
         # Volver a recogida de billetes, luz verde on bill
@@ -426,8 +428,6 @@ class BillVal:
         response = str(self.com.readline().hex())
         print("BV Response : ",response)
         time.sleep(.2)
-        self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
-        self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
         print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
         self.setStacksInOrden( self.stackA , self.stackB )
 
