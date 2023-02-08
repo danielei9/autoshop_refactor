@@ -451,32 +451,32 @@ class BillVal:
         self.set_inhibited()
         # self.set_recycler_config(10,20)
         time.sleep(.3)
-        self.sendPayCommand(payFromStack1,payFromStack2)
-        print("SENDED PAYOUT")
-        time.sleep(.2)
-        response = str(self.com.readline().hex())
-        print(response, "  *should be [FC 05 50 AA 05]")
-        time.sleep(.2)
+        # self.sendPayCommand(payFromStack1,payFromStack2)
+        # print("SENDED PAYOUT")
+        # time.sleep(.2)
+        # response = str(self.com.readline().hex())
+        # print(response, "  *should be [FC 05 50 AA 05]")
+        # time.sleep(.2)
         
-        # Request status
-        self.com.write(bytes([0xFC,0X05,0X11,0X27,0X56]))
-        response = str(self.com.readline().hex())
-        print(response,"Should be  Pay Stay [FC 05 24 09 30]")
-        time.sleep(.2)
+        # # Request status
+        # self.com.write(bytes([0xFC,0X05,0X11,0X27,0X56]))
+        # response = str(self.com.readline().hex())
+        # print(response,"Should be  Pay Stay [FC 05 24 09 30]")
+        # time.sleep(.2)
 
-        # ACK 
-        self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
-        response = str(self.com.readline().hex())
-        print(response,"Should be  []")
-        time.sleep(.2)
+        # # ACK 
+        # self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
+        # response = str(self.com.readline().hex())
+        # print(response,"Should be  []")
+        # time.sleep(.2)
 
-        try:
-            time.sleep(.1)
-            response = str(self.com.readline().hex())
-            print(response)
-        except:
-            print("Error parsing response")
-            pass
+        # try:
+        #     time.sleep(.1)
+        #     response = str(self.com.readline().hex())
+        #     print(response)
+        # except:
+        #     print("Error parsing response")
+        #     pass
 
         while True:
            self.resumePollThread()
