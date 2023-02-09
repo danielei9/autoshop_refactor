@@ -194,6 +194,7 @@ class PaymentService():
         maxBill = self.billWalletService.bv.maxBill
         minBill = self.billWalletService.bv.minBill
 
+
         if(changeBills >= maxBill):
             print("Pagar max billete ", maxBill)
             if(maxBill == self.billWalletService.bv.stackA):
@@ -221,10 +222,7 @@ class PaymentService():
 
         while (status != IDLE):
             print("__billBack: Esperando estado IDLE, actual: " , status)
-            self.billWalletService.bv.resumePollThread()
             (status, data) = self.billWalletService.bv.bv_status
-            print("BV Setting ON Leds green ...")
-            self.com.write(bytes([0xFC,0X06,0XC3,0X00,0X04,0xD6]))
             time.sleep(.2)
         # time.sleep(.2)
         self.billWalletService.bv.payout(payFromStack1, payFromStack2)
