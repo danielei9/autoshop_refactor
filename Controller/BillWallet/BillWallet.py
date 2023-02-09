@@ -467,10 +467,10 @@ class BillVal:
         status,data = self.read_response()
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
-        time.sleep(.2)
         while status not in [ INHIBIT,ACK,PAY_STAY, PAY_VALID ]:    
             if(status == INHIBIT):
-                print("-NO BILLS: ",hex(status))
+                # TODO: Comunicar que no hay billetes 
+                print("-NO HAY BILLS: ",hex(status))
                 time.sleep(.2)
                 self.payout(payFromStack1,payFromStack2)
             self.sendPayCommand(payFromStack1,payFromStack2)

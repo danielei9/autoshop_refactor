@@ -165,7 +165,7 @@ class PaymentService():
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
                 # Devolver Billetes
-                returnedToUser = self.__billBack(changeInBills)
+                returnedToUser = self.__billBack(toReturn)
                 # Recalcular dinero a devolver
                 toReturn = toReturn - returnedToUser
 
