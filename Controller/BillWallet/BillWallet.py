@@ -468,7 +468,13 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
         time.sleep(.2)
-        while status not in [ ACK,PAY_STAY, PAY_VALID ]:        
+        while status not in [ INHIBIT,ACK,PAY_STAY, PAY_VALID ]:    
+            if(status == INHIBIT):
+                self.com.write(bytes([0xFC,0X06,0XC3,0X01,0X8D,0xC7]))
+                time.sleep(.2)
+                status,data = self.read_response()
+                print("BV STATUS: ",hex(status))
+                time.sleep(.2)
             self.sendPayCommand(payFromStack1,payFromStack2)
             print("SENDED PAYOUT")
             time.sleep(.2)
