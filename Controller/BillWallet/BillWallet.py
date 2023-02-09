@@ -461,7 +461,7 @@ class BillVal:
         if(stack == "10"):
             return 50
 
-    def payout(self,payFromStack1,payFromStack2):º
+    def payout(self,payFromStack1,payFromStack2):
         print("Corutina de devolución:")
         self.pausePollThread()
         print("BV Setting inhibit...")
