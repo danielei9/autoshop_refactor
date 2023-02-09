@@ -66,7 +66,7 @@ class Router():
                 if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                     # self.initializePaymentService()
-                    self.paymentService.startMachinesPayment()
+                    self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                     return True
                 # Configurar
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
@@ -82,7 +82,7 @@ class Router():
                     #poner el precio de la orden a 0 así realizará la cancelación
                     self.actualProcessingRequest.price = 0
                     # self.initializePaymentService()
-                    self.paymentService.startMachinesPayment()
+                    # self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                     return True
             time.sleep(0.5)
         

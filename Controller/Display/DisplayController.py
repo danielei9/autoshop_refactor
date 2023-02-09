@@ -78,6 +78,7 @@ class DisplayController(SerialCommunicator):
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(percent))
     
     def display(self,request:PayRequest):
+        print("request displayController : ", request)
         (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequestToDisplay(request)
         self.putDataToDisplay(ticketQr,itemList,itemPriceList,priceTotal,percent) 
 
