@@ -500,21 +500,6 @@ class BillVal:
             print("Error parsing response")
             pass
 
-        while status is not PAYING:
-            time.sleep(.1)
-            # self.resumePollThread()
-            poll_start = time.time()
-            status, data = self.req_status()
-            self.bv_status = (status, data)
-            wait = 0.5 - (time.time() - poll_start)
-            try:
-                print(hex(status))
-            except:
-                print("!")
-                pass #
-            if wait > 0.0:
-                time.sleep(wait)
-            pass
         while status is not PAY_VALID:
             time.sleep(.1)
             # self.resumePollThread()
@@ -522,6 +507,8 @@ class BillVal:
             status, data = self.req_status()
             self.bv_status = (status, data)
             wait = 0.5 - (time.time() - poll_start)
+            if(status == PAYING):
+                print("BV PAYING")
             try:
                 print(hex(status))
             except:
@@ -533,9 +520,6 @@ class BillVal:
 
         self.resumePollThread()
         time.sleep(.3)
-        status,data = self.bv_events
-        while status is not PAY_VALID:
-             time.sleep(.1)
 
            
     def sendPayCommand(self,payFromStack1,payFromStack2):
