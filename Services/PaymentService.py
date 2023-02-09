@@ -146,7 +146,7 @@ class PaymentService():
         
         change = round(amount, 2)
         changeInCoins = round(change % minimumBill, 2)
-        changeInBills = changeInCoins - change 
+        changeInBills = change - changeInCoins  
         
         if(changeInCoins == minimumBill):
             changeInBills += changeInCoins
