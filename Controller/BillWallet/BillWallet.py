@@ -468,17 +468,16 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
         while status not in [ INHIBIT,ACK,PAY_STAY, PAY_VALID ]:    
-            if(status == INHIBIT):
-                # TODO: Comunicar que no hay billetes 
-                print("-NO HAY BILLS: ",hex(status))
-                time.sleep(.2)
-                self.payout(payFromStack1,payFromStack2)
+            time.sleep(.2)
             self.sendPayCommand(payFromStack1,payFromStack2)
             print("SENDED PAYOUT")
             time.sleep(.2)
             status,data = self.req_status()
             print("*should be [FC 05 50 AA 05]")
             print("BV STATUS: ",hex(status))
+            if(status == INHIBIT):
+                # TODO: Comunicar que no hay billetes 
+                logging.error("NO HAY BILLS: ",hex(status))
             time.sleep(.2)
         
         # Request status
