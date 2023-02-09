@@ -41,6 +41,8 @@ class BillVal:
             INVALID_COMMAND: self._on_invalid_command,
             INVALID_COMMAND: self._on_invalid_command,
             PAY_VALID: self._on_pay_valid,
+            PAY_STAY:self._on_pay_stay,
+            PAY_OUT_NOTE_ERROR:self._on_note_error
         }
         
         # TODO get this from version during powerup
@@ -542,8 +544,11 @@ class BillVal:
         status,data = self.read_response()
         print("Should be  []")
         print("BV STATUS: ",status)
-    def _on_pay_valid(self, data):
-        logging.info(" BV: PAY VALID")
+
+    def _on_note_error(self, data):
+        logging.error(" BV: note error")
+    def _on_pay_stay(self, data):
+        logging.info(" BV: Pay stay")
 
     def _on_idle(self, data):
         logging.info("BV idle.")
