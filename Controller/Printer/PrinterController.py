@@ -70,13 +70,13 @@ class PrinterController():
 
     def prepareOrderToPrint(self,requestAdpated: PayRequest):
         self.order = str( requestAdpated.order).replace("\'","\"")
-        self.idOrder = requestAdpated.idOrder()
-        self.price = requestAdpated.price()
-        self.status = requestAdpated.status()
-        self.date = requestAdpated.date()
-        self.shopName = requestAdpated.shopName()
-        self.address = requestAdpated.address()
-        self.phone = requestAdpated.phone()
+        self.idOrder = requestAdpated.idOrder
+        self.price = requestAdpated.price
+        self.status = requestAdpated.status
+        self.date = requestAdpated.date
+        self.shopName = requestAdpated.shopName
+        self.address = requestAdpated.address
+        self.phone = requestAdpated.phone
 
     def print(self):
         self.__printText()
