@@ -62,7 +62,7 @@ class BillVal:
                                 )
             console = logging.StreamHandler()
             console.setLevel(logging.INFO)
-            formatter = logging.Formatter("%(levelname)s: %(message)s")
+            formatter = logging.Formatter("BillWallet %(levelname)s: %(message)s")
             console.setFormatter(formatter)
             logging.getLogger('').addHandler(console)
 
@@ -479,29 +479,29 @@ class BillVal:
         print("BV STATUS: ",status)
         time.sleep(.2)
 
-        # ACK 
-        self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
-        status,data = self.read_response()
-        print("Should be  []")
-        print("BV STATUS: ",status)
-        time.sleep(.2)
+        # # ACK 
+        # self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
+        # status,data = self.read_response()
+        # print("Should be  []")
+        # print("BV STATUS: ",status)
+        # time.sleep(.2)
+        self.resumePollThread()
 
-        try:
-            time.sleep(.1)
-            response = str(self.com.readline().hex())
-            print(response)
-        except:
-            print("Error parsing response")
-            pass
+        # try:
+        #     time.sleep(.1)
+        #     response = str(self.com.readline().hex())
+        #     print(response)
+        # except:
+        #     print("Error parsing response")
+        #     pass
 
-        while True:
-        #    self.resumePollThread()
-           (status,data) = self.bv_status
-           time.sleep(.3)
-           print("payout():Status: " , status)
-           if status == PAY_VALID:
-                self.pausePollThread()
-                break
+        # while True:
+        #    (status,data) = self.bv_status
+        #    time.sleep(.3)
+        #    print("payout():Status: " , status)
+        #    if status == PAY_VALID:
+        #         self.pausePollThread()
+        #         break
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
@@ -542,6 +542,8 @@ class BillVal:
         status,data = self.read_response()
         print("Should be  []")
         print("BV STATUS: ",status)
+    def _on_pay_valid(self, data):
+        logging.info(" BV: PAY VALID")
 
     def _on_idle(self, data):
         logging.info("BV idle.")
