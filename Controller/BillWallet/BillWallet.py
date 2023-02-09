@@ -473,7 +473,7 @@ class BillVal:
                 self.com.write(bytes([0xFC,0X06,0XC3,0X01,0X8D,0xC7]))
                 time.sleep(.2)
                 status,data = self.read_response()
-                print("BV STATUS: ",hex(status))
+                print("-BV STATUS: ",hex(status))
                 time.sleep(.2)
             self.sendPayCommand(payFromStack1,payFromStack2)
             print("SENDED PAYOUT")
