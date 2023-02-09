@@ -468,14 +468,14 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
         time.sleep(.2)
-
-        self.sendPayCommand(payFromStack1,payFromStack2)
-        print("SENDED PAYOUT")
-        time.sleep(.2)
-        status,data = self.read_response()
-        print("*should be [FC 05 50 AA 05]")
-        print("BV STATUS: ",hex(status))
-        time.sleep(.2)
+        while status != ACK:        
+            self.sendPayCommand(payFromStack1,payFromStack2)
+            print("SENDED PAYOUT")
+            time.sleep(.2)
+            status,data = self.req_status()
+            print("*should be [FC 05 50 AA 05]")
+            print("BV STATUS: ",hex(status))
+            time.sleep(.2)
         
         # Request status
         self.com.write(bytes([0xFC,0X05,0X11,0X27,0X56]))
