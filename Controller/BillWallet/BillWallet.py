@@ -529,7 +529,7 @@ class BillVal:
         self.com.write(bytes([0xFC,0X06,0XC3,0X00,0X04,0xD6]))
         status,data = self.read_response()
         print("BV STATUS: ",hex(status))
-        self.resumePollThread()
+        # self.resumePollThread()
         time.sleep(.3)
 
            
