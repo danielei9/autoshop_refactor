@@ -522,7 +522,10 @@ class BillVal:
         time.sleep(0.2)
         res = self.com.write(bytes([0xFC ,0x05, 0x50, 0xAA, 0x05]))
         time.sleep(0.2)
-        
+        print("BV Setting inhibit...")
+        self.com.write(bytes([0xFC,0X06,0XC3,0X01,0X8D,0xC7]))
+        status,data = self.read_response()
+        print("BV STATUS: ",hex(status))
         # self.resumePollThread()
         time.sleep(.3)
 
