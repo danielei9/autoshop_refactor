@@ -122,9 +122,11 @@ class PaymentService():
         # self.billWalletService.bv.resumePollThread()
     
         if(DISPLAY):
-            self.displayController.printProgress(str(round(
-                self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
-       
+            try:
+                self.displayController.printProgress(str(round(
+                    self.totalAmount*1.00, 2)) + "", round((self.totalAmount/self.priceClientShouldPay) * 100))
+            except ZeroDivisionError:
+                print("DISPLAY: 100% Pagado")
 
     def checkIfPaymentComplete(self):
         if self.totalAmount >= self.priceClientShouldPay:
