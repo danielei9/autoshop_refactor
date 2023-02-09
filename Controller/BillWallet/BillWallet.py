@@ -503,7 +503,7 @@ class BillVal:
             print("Error parsing response")
             pass
 
-        while status is not PAY_VALID:
+        while status not in [  PAY_VALID, IDLE,PAYING,INHIBIT]:
             time.sleep(.1)
             # self.resumePollThread()
             poll_start = time.time()
