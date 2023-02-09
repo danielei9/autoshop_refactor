@@ -488,15 +488,22 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
 
+        try:
+            time.sleep(.1)
+            response = str(self.com.readline().hex())
+            print(response)
+        except:
+            print("Error parsing response")
+            pass
         while True:
         #    self.resumePollThread()
-            status,data = self.read_response()
-            time.sleep(.3)
-            print("payout():Status: " , status)
-            if status == PAY_VALID:
-                    self.pausePollThread()
-                    break
-    
+           (status,data) = self.bv_status
+           time.sleep(.3)
+           print("payout():Status: " , status)
+           if status == PAY_VALID:
+                self.pausePollThread()
+                break
+           
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
         #payout():Status: 1a 
