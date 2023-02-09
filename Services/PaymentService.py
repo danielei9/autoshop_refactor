@@ -257,7 +257,7 @@ class PaymentService():
         self.coinWalletService.coinwallet.disableInsertCoins()
         self.printerController.prepareOrderToPrint(self.payRequest)
         self.printerController.print()
-        self.printerController.printerClose()
+        # self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
