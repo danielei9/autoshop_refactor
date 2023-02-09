@@ -482,12 +482,15 @@ class BillVal:
         time.sleep(.2)
 
         # ACK 
-        self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
-        status,data = self.read_response()
-        print("Should be  []")
-        print("BV STATUS: ",hex(status))
-        time.sleep(.2)
-
+        try:
+            self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
+            status,data = self.read_response()
+            print("Should be  []")
+            print("BV STATUS: ",hex(status))
+            time.sleep(.2)
+        except Exception as e :
+            print("Error parsing response  : ",e)
+            pass
         try:
             time.sleep(.1)
             response = str(self.com.readline().hex())
