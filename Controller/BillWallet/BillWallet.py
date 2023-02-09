@@ -517,7 +517,12 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
             pass
-
+        
+        print("sendingACK Confirmed Pay")
+        time.sleep(0.2)
+        res = self.com.write(bytes([0xFC ,0x05, 0x50, 0xAA, 0x05]))
+        time.sleep(0.2)
+        
         # self.resumePollThread()
         time.sleep(.3)
 
