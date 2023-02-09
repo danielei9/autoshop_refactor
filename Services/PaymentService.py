@@ -225,7 +225,7 @@ class PaymentService():
             (status, data) = self.billWalletService.bv.bv_status
             time.sleep(.2)
             if(self.billWalletService.bv.pause_flag):
-                (status, data) = self.billWalletService.bv.read_response()
+                (status, data) = self.billWalletService.bv.req_status()
         # time.sleep(.2)
         self.billWalletService.bv.payout(payFromStack1, payFromStack2)
         if(payFromStack1 == True):
