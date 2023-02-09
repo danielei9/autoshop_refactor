@@ -7,6 +7,8 @@ class PrinterController():
     def __init__(self):
         try:
             self.printer = Usb(0x10c5,0x0009,in_ep=0x81,out_ep=0x02)
+            print("Printer is OK connected")
+
         except :
             print("Printer is not connected")
 
