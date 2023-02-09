@@ -502,6 +502,7 @@ class BillVal:
 
         while status is not PAYING:
             time.sleep(.1)
+            self.resumePollThread()
             pass
 
         self.resumePollThread()
