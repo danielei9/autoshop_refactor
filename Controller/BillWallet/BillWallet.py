@@ -515,6 +515,21 @@ class BillVal:
             if wait > 0.0:
                 time.sleep(wait)
             pass
+        while status is not PAY_VALID:
+            time.sleep(.1)
+            # self.resumePollThread()
+            poll_start = time.time()
+            status, data = self.req_status()
+            self.bv_status = (status, data)
+            wait = 0.5 - (time.time() - poll_start)
+            try:
+                print(hex(status))
+            except:
+                print("!")
+                pass #
+            if wait > 0.0:
+                time.sleep(wait)
+            pass
 
         self.resumePollThread()
         time.sleep(.3)
