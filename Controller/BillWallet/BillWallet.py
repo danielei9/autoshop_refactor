@@ -165,7 +165,7 @@ class BillVal:
         
     def read_response(self):
         """Parse data from the bill validator. Returns a tuple (command, data)"""
-        
+        time.sleep(.2)
         start = None
         while start == None:
             start = self.com.read(1)
@@ -198,7 +198,7 @@ class BillVal:
         # if get_crc(full_msg) != crc:
         #     raise CRCError("CRC mismatch")
         if(full_msg != self.last_full_msg):
-            print("Received: " + str(full_msg))
+            print("BV Received: " + str(full_msg))
             self.last_full_msg = full_msg
         return ord(command), data
         
@@ -455,36 +455,33 @@ class BillVal:
             return 50
 
     def payout(self,payFromStack1,payFromStack2):
-        self.pausePollThread()
         print("Corutina de devolución:")
-        time.sleep(.3)
-        # self.set_inhibited()
-        # self.set_recycler_config(10,20)
-        time.sleep(.3)
-        time.sleep(.2)
+        self.pausePollThread()
         print("BV Setting inhibit...")
         self.com.write(bytes([0xFC,0X06,0XC3,0X01,0X8D,0xC7]))
+        status,data = self.read_response()
+        print("BV STATUS: ",status)
         time.sleep(.2)
-        response = str(self.com.readline().hex())
-        print("BV Response : ",response)
 
         self.sendPayCommand(payFromStack1,payFromStack2)
         print("SENDED PAYOUT")
-        time.sleep(.2)
-        response = str(self.com.readline().hex())
-        print(response, "  *should be [FC 05 50 AA 05]")
+        status,data = self.read_response()
+        print("*should be [FC 05 50 AA 05]")
+        print("BV STATUS: ",status)
         time.sleep(.2)
         
         # Request status
         self.com.write(bytes([0xFC,0X05,0X11,0X27,0X56]))
-        response = str(self.com.readline().hex())
-        print(response,"Should be  Pay Stay [FC 05 24 09 30]")
+        status,data = self.read_response()
+        print("Should be  Pay Stay [FC 05 24 09 30]")
+        print("BV STATUS: ",status)
         time.sleep(.2)
 
         # ACK 
         self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
-        response = str(self.com.readline().hex())
-        print(response,"Should be  []")
+        status,data = self.read_response()
+        print("Should be  []")
+        print("BV STATUS: ",status)
         time.sleep(.2)
 
         try:
