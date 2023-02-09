@@ -239,13 +239,13 @@ class PaymentService():
         # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
 
         self.billWalletService.bv.resumePollThread()
-
-        if(DISPLAY):
-            self.displayController.display(self.payRequest)
         
         self.payRequest = payRequest
         self.paymentDone = False
         self.priceClientShouldPay = payRequest.price
+
+        if(DISPLAY):
+            self.displayController.display(self.payRequest)
         
         # Esperando a pagar
         while self.paymentDone == False:
