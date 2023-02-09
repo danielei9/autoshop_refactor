@@ -119,7 +119,7 @@ class PaymentService():
         self.totalAmount = float(self.totalAmount) + float(cantidad)
         print("manageTotalAmount : TotalAmount ",
               self.totalAmount, " cantidad ", cantidad)
-        self.billWalletService.bv.resumePollThread()
+        # self.billWalletService.bv.resumePollThread()
     
         if(DISPLAY):
             self.displayController.printProgress(str(round(
