@@ -10,7 +10,7 @@ from Controller.BillWallet.BillWalletService import *
 PRINTER = False
 COINWALLET = True
 BILLWALLET = True
-DISPLAY = False
+DISPLAY = True
 LEDS = False
 
 
