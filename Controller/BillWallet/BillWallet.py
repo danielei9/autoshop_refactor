@@ -518,7 +518,7 @@ class BillVal:
                 time.sleep(wait)
             pass
 
-        self.resumePollThread()
+        # self.resumePollThread()
         time.sleep(.3)
 
            
