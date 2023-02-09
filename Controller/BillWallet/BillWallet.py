@@ -522,7 +522,7 @@ class BillVal:
         time.sleep(0.2)
         res = self.com.write(bytes([0xFC ,0x05, 0x50, 0xAA, 0x05]))
         time.sleep(0.2)
-        print("BV Setting inhibit...")
+        print("BV Setting ON Leds green ...")
         self.com.write(bytes([0xFC,0X06,0XC3,0X00,0X04,0xD6]))
         status,data = self.read_response()
         print("BV STATUS: ",hex(status))
