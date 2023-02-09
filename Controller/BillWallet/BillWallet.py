@@ -39,6 +39,8 @@ class BillVal:
             FAILURE: self._on_failure,
             COMM_ERROR: self._on_comm_error,
             INVALID_COMMAND: self._on_invalid_command,
+            INVALID_COMMAND: self._on_invalid_command,
+            PAY_VALID: self._on_pay_valid,
         }
         
         # TODO get this from version during powerup
@@ -54,7 +56,7 @@ class BillVal:
 
         if not logging.getLogger('').hasHandlers():
             logging.basicConfig(level=logging.DEBUG,
-                                format="[%(asctime)s] %(levelname)s: %(message)s",
+                                format=" BillWallet [%(asctime)s] %(levelname)s: %(message)s",
                                 filename='debug.log',
                                 filemode='w',
                                 )
@@ -534,6 +536,13 @@ class BillVal:
         logging.debug("Details: %r" % ['0x%02x' % x for x in data])
     def _on_invalid_command(self, data):
         logging.warning("Invalid command.")
+    def _on_pay_valid(self, data):
+        logging.info(" BV: PAY VALID")
+        self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
+        status,data = self.read_response()
+        print("Should be  []")
+        print("BV STATUS: ",status)
+
     def _on_idle(self, data):
         logging.info("BV idle.")
     def _on_accepting(self, data):
