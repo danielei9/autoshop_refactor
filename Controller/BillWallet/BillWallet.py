@@ -477,7 +477,7 @@ class BillVal:
             print("BV STATUS: ",hex(status))
             if(status == INHIBIT):
                 # TODO: Comunicar que no hay billetes 
-                logging.error("NO HAY BILLS: ",hex(status))
+                logging.error("NO HAY BILLS: " + str(hex(status)))
             time.sleep(.2)
         
         # Request status
