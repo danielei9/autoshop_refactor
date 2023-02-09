@@ -224,6 +224,8 @@ class PaymentService():
             print("__billBack: Esperando estado IDLE, actual: " , status)
             (status, data) = self.billWalletService.bv.bv_status
             time.sleep(.2)
+            if(self.billWalletService.bv.pause_flag):
+                (status, data) = self.billWalletService.bv.read_response()
         # time.sleep(.2)
         self.billWalletService.bv.payout(payFromStack1, payFromStack2)
         if(payFromStack1 == True):
