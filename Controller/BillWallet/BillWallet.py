@@ -486,11 +486,12 @@ class BillVal:
             self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
             status,data = self.read_response()
             print("Should be  []")
-            print("BV STATUS: ",hex(status))
+            print("BV STATUS: ",str(status))
             time.sleep(.2)
         except Exception as e :
             print("Error parsing response  : ",e)
             pass
+
         try:
             time.sleep(.1)
             response = str(self.com.readline().hex())
@@ -498,14 +499,17 @@ class BillVal:
         except:
             print("Error parsing response")
             pass
-        while True:
-        #    self.resumePollThread()
-           (status,data) = self.bv_status
-           time.sleep(.3)
-           print("payout():Status: " , status)
-           if status == PAY_VALID:
-                self.pausePollThread()
-                break
+
+        while status is not PAYING:
+            time.sleep(.1)
+            pass
+
+        self.resumePollThread()
+        time.sleep(.3)
+        status,data = self.bv_events
+        while status is not PAY_VALID:
+             time.sleep(.1)
+
            
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
