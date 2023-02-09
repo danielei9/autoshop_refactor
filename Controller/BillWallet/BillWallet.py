@@ -468,7 +468,7 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         time.sleep(.2)
         time.sleep(.2)
-        while status not in [ ACK,PAY_STAY ]:        
+        while status not in [ ACK,PAY_STAY, PAY_VALID ]:        
             self.sendPayCommand(payFromStack1,payFromStack2)
             print("SENDED PAYOUT")
             time.sleep(.2)
