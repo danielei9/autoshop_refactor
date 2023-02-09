@@ -497,7 +497,7 @@ class BillVal:
             pass
 
         while True:
-           self.resumePollThread()
+        #    self.resumePollThread()
            (status,data) = self.bv_status
            time.sleep(.3)
            print("payout():Status: " , status)
@@ -540,9 +540,9 @@ class BillVal:
         logging.warning("Invalid command.")
     def _on_pay_valid(self, data):
         logging.info(" BV: PAY VALID")
+        time.sleep(.2)
         self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
         status,data = self.read_response()
-        print("Should be  []")
         print("BV STATUS: ",status)
     def _on_note_error(self, data):
         logging.error(" BV: note error")

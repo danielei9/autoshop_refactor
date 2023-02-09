@@ -71,7 +71,7 @@ POW_UP = 0x40
 POW_UP_BIA = 0x41  # Power up with bill in acceptor
 POW_UP_BIS = 0x42  # Power up with bill in stacker
 POW_STATUSES = 0x40, 0x41, 0x42
-PAYING_STATUSES = 0x23,0x24
+PAYING_STATUSES =  PAYING, PAY_STAY, PAY_VALID
 ## Error status ##
 STACKER_FULL = 0x43
 STACKER_OPEN = 0x44
