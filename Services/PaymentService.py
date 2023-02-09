@@ -142,35 +142,30 @@ class PaymentService():
     def returnChangeToClient(self, amount):
         changeBills = 0
         changeInCoins = 0
-        # TODO: Descomentar
-        # minimumBill = self.billWalletService.bv.minBill
+        minimumBill = self.billWalletService.bv.minBill
+        
         change = round(amount, 2)
-        # # TODO: Descomentar
-        # changeInCoins = round(change % minimumBill, 2)
-        # # CAMBIO DE MONEDAS
-        # print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
-        #       " changeBills" + str(changeBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
-        # if(changeInCoins > 0 and int(changeInCoins) != int(minimumBill) ):
-        #         self.__coinBack( changeInCoins )
-        #         changeBills = change - changeInCoins
-        # else:
-        #     changeBills = change 
+        changeInCoins = round(change % minimumBill, 2)
+        changeInBills = changeInCoins - change 
+        
+        if(changeInCoins == minimumBill):
+            changeInBills += changeInCoins
+            changeInCoins = 0
+        
+        # CAMBIO DE MONEDAS
+        if(changeInCoins > 0 ):
+                self.__coinBack( changeInCoins )
 
         # CAMBIO DE BILLETES
-        # TODO: Descomentar
-        changeBills = round(amount, 2)
-        minimumBill = self.billWalletService.bv.minBill
         print("MINIMO BILLETE",minimumBill)
-        changeBills = 5
-        minimumBill = 5
         if(changeBills >= minimumBill):
-            toReturn = round(changeBills)
+            toReturn = round(changeInBills)
             # Mientras tengamos que devolver dinero...
             while(toReturn > 0):
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
                 # Devolver Billetes
-                returnedToUser = self.__billBack(changeBills)
+                returnedToUser = self.__billBack(changeInBills)
                 # Recalcular dinero a devolver
                 toReturn = toReturn - returnedToUser
 
