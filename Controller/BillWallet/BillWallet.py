@@ -16,7 +16,7 @@ class BillVal:
         self.last_full_msg = None
         self.threading = threading
         self.lastMessage = None
-        self.all_statuses = NORM_STATUSES + ERROR_STATUSES + POW_STATUSES
+        self.all_statuses = NORM_STATUSES + ERROR_STATUSES + POW_STATUSES + PAYING_STATUSES
         self.pause_flag = False
         self.bv_events = {
             IDLE: self._on_idle,
@@ -502,7 +502,7 @@ class BillVal:
            time.sleep(.3)
            print("payout():Status: " , status)
            if status == PAY_VALID:
-                # self.pausePollThread()
+                self.pausePollThread()
                 break
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
@@ -544,12 +544,10 @@ class BillVal:
         status,data = self.read_response()
         print("Should be  []")
         print("BV STATUS: ",status)
-
     def _on_note_error(self, data):
         logging.error(" BV: note error")
     def _on_pay_stay(self, data):
         logging.info(" BV: Pay stay")
-
     def _on_idle(self, data):
         logging.info("BV idle.")
     def _on_accepting(self, data):
