@@ -7,7 +7,7 @@ from Controller.UsbPortDetector import *
 import threading
 from Controller.BillWallet.BillWalletService import *
 
-PRINTER = False
+PRINTER = True
 COINWALLET = True
 BILLWALLET = True
 DISPLAY = True
@@ -255,6 +255,9 @@ class PaymentService():
 
         self.billWalletService.bv.pausePollThread()
         self.coinWalletService.coinwallet.disableInsertCoins()
+        self.printerController.prepareOrderToPrint(self.payRequest)
+        self.printerController.print()
+        self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")

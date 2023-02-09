@@ -1,5 +1,6 @@
 from escpos.printer import Usb
 import json
+from Model.TPVCommunication.Request.PayRequest import *
 
 class PrinterController():
 
@@ -47,9 +48,9 @@ class PrinterController():
                 print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
         self.printer.set(width=5, align='right',bold=True)
         if(str(self.idOrder) != "-1"):
-            self.printer.text("\n\nsubtotal: "+ str(round(self.price*1.00,2)) + "\n")
+            self.printer.text("\n\nsubtotal: "+ str(round(self.price*0.79,2)) + "\n")
             self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "\n")
-            self.printer.text("TOTAL: "+ str(round(self.price*1.21,2)) + "\n")
+            self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "\n")
             self.printer.text("\n")
             self.printer.set(width=3 ,height=3, align='center',bold=True)
             self.printer.text("Vuelva pronto ;)")
@@ -65,15 +66,15 @@ class PrinterController():
         return obj
         print(obj['id'])
 
-    def prepareOrderToPrint(self,requestAdpated):
-        self.order = str( requestAdpated.getOrder() ).replace("\'","\"")
-        self.idOrder = requestAdpated.getIdOrder()
-        self.price = requestAdpated.getPrice()
-        self.status = requestAdpated.getStatus()
-        self.date = requestAdpated.getDate()
-        self.shopName = requestAdpated.getShopName()
-        self.address = requestAdpated.getAddress()
-        self.phone = requestAdpated.getPhone()
+    def prepareOrderToPrint(self,requestAdpated: PayRequest):
+        self.order = str( requestAdpated.order).replace("\'","\"")
+        self.idOrder = requestAdpated.idOrder()
+        self.price = requestAdpated.price()
+        self.status = requestAdpated.status()
+        self.date = requestAdpated.date()
+        self.shopName = requestAdpated.shopName()
+        self.address = requestAdpated.address()
+        self.phone = requestAdpated.phone()
 
     def print(self):
         self.__printText()
