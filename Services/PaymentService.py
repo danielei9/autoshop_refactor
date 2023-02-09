@@ -153,8 +153,8 @@ class PaymentService():
             changeInCoins = 0
         
         # CAMBIO DE MONEDAS
-        # if(changeInCoins > 0 ):
-        #         self.__coinBack( changeInCoins )
+        if(changeInCoins > 0 ):
+                self.__coinBack( changeInCoins )
 
         # CAMBIO DE BILLETES
         print("MINIMO BILLETE",minimumBill)
