@@ -166,6 +166,9 @@ class BillVal:
             print("Sending " + str(message))
             self.lastMessage = message
         return self.com.write(message)
+    def send_command_set_denom(self, command, data=b''):
+        """Send a generic command to the bill validator"""
+        return self.com.write(bytes([0xFC, 0x07, 0xC0, 0x00,  0x00, 0x2D, 0xB5 ]))
         
     def read_response(self):
         """Parse data from the bill validator. Returns a tuple (command, data)"""
@@ -266,7 +269,7 @@ class BillVal:
         
         logging.debug("Setting denom inhibit: %r" % denom)
         denom = bytes(denom)
-        self.send_command(SET_DENOM, denom)
+        self.send_command_set_denom()
         status, data = self.read_response()
         while (status, data) != (SET_DENOM, denom):
             logging.warning("Acceptor did not echo denom settings")
