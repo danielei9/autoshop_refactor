@@ -260,7 +260,7 @@ class BillVal:
                     
         return self.init_status
     
-    def initialize(self, denom=[0x82, 0], sec=[0, 0], dir=[0], opt_func=[0, 0], 
+    def initialize(self, denom=[0x00, 0], sec=[0, 0], dir=[0], opt_func=[0, 0], 
                    inhibit=[0], bar_func=[0x01, 0x12], bar_inhibit=[0]):
         """Initialize BV settings"""
         
@@ -458,7 +458,7 @@ class BillVal:
         if(stack == "10"):
             return 50
 
-    def payout(self,payFromStack1,payFromStack2):
+    def payout(self,payFromStack1,payFromStack2):º
         print("Corutina de devolución:")
         self.pausePollThread()
         print("BV Setting inhibit...")
