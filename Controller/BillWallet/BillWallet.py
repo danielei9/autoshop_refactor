@@ -464,46 +464,38 @@ class BillVal:
         print("BV Setting inhibit...")
         self.com.write(bytes([0xFC,0X06,0XC3,0X01,0X8D,0xC7]))
         status,data = self.read_response()
-        print("BV STATUS: ",status)
+        print("BV STATUS: ",hex(status))
         time.sleep(.2)
 
         self.sendPayCommand(payFromStack1,payFromStack2)
         print("SENDED PAYOUT")
         status,data = self.read_response()
         print("*should be [FC 05 50 AA 05]")
-        print("BV STATUS: ",status)
+        print("BV STATUS: ",hex(status))
         time.sleep(.2)
         
         # Request status
         self.com.write(bytes([0xFC,0X05,0X11,0X27,0X56]))
         status,data = self.read_response()
         print("Should be  Pay Stay [FC 05 24 09 30]")
-        print("BV STATUS: ",status)
+        print("BV STATUS: ",hex(status))
         time.sleep(.2)
 
         # ACK 
         self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
         status,data = self.read_response()
         print("Should be  []")
-        print("BV STATUS: ",status)
+        print("BV STATUS: ",hex(status))
         time.sleep(.2)
-
-        try:
-            time.sleep(.1)
-            response = str(self.com.readline().hex())
-            print(response)
-        except:
-            print("Error parsing response")
-            pass
 
         while True:
         #    self.resumePollThread()
-           (status,data) = self.bv_status
-           time.sleep(.3)
-           print("payout():Status: " , status)
-           if status == PAY_VALID:
-                self.pausePollThread()
-                break
+            status,data = self.read_response()
+            time.sleep(.3)
+            print("payout():Status: " , status)
+            if status == PAY_VALID:
+                    self.pausePollThread()
+                    break
     
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
