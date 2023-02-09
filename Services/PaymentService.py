@@ -252,6 +252,9 @@ class PaymentService():
             print("waiting pay")
             self.checkIfPaymentComplete()
             time.sleep(2)
+
+        self.billWalletService.bv.pausePollThread()
+        self.coinWalletService.coinwallet.disableInsertCoins()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
