@@ -174,8 +174,8 @@ class BillVal:
         """
         self.pausePollThread()
         print("set_recycler_config")
-        self.stackA = stack1
-        self.stackB = stack2
+        self.stackA = 5
+        self.stackB = 10
         print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
         self.sendConfigCommand(stack1,stack2)
         # print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
