@@ -174,7 +174,7 @@ class BillVal:
         self.stackA = stack1
         self.stackB = stack2
         print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
-        self.sendConfigCommand()
+        self.sendConfigCommand(stack1,stack2)
         # print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
         # status = ""
         # self.com.flushInput()
