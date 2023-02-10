@@ -48,7 +48,7 @@ class Router():
     def enrouteConfigRequest(self,request):
         if( isinstance(request,ConfigStackRequest ) ): 
             print("Arrive ConfigRequest")
-            self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
+            self.paymentService.billWalletService.bv.set_recycler_config(request.stackA, request.stackB)
             return True
            
         
