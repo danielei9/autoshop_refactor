@@ -29,7 +29,7 @@ class Router():
         while True:
             # print(type(self.actualProcessingRequest))
             # print(type(self.lastRequestArrived))
-            if(self.actualProcessingRequest == None and self.lastRequestArrived != None):
+            if(self.actualProcessingRequest == None ): # and self.lastRequestArrived != None):
                 print("Arrived request None actual pending")
                 self.actualProcessingRequest = self.lastRequestArrived
                 
@@ -38,12 +38,12 @@ class Router():
                     print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                     
                     self.paymentService.startMachinesPayment(self.actualProcessingRequest)
-                    try:
-                        if(self.actualProcessingRequest.idOrder == self.lastRequestArrived.idOrder):
-                            self.lastRequestArrived = None
-                            self.actualProcessingRequest = None
-                    except:
-                        pass
+                    # try:
+                    #     if(self.actualProcessingRequest.idOrder == self.lastRequestArrived.idOrder):
+                    #         self.lastRequestArrived = None
+                    #         self.actualProcessingRequest = None
+                    # except:
+                    #     pass
                     return True
                 
                 # Cancelar 
