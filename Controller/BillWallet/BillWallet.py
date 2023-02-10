@@ -185,8 +185,6 @@ class BillVal:
         confByteStack1 = self.process_stack_config(stack1)
         confByteStack2 = self.process_stack_config(stack2)
         print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
-        self.com.flushInput()
-        self.com.flushOutput()
         time.sleep(0.2)
         message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x02, 0x00, 0x01,0x04,0x00,0x02])
         message += get_crc(message)
