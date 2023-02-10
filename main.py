@@ -35,7 +35,9 @@ class Main():
             #poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
             self.lastRequestArrived = None
-            self.paymentService.paymentDone = True
+            # self.paymentService.paymentDone = True
+            stop_event.set()
+
             return True
 
     def initTPVListener(self):
@@ -90,12 +92,12 @@ class Main():
             # else:
             #     print("error with tpv Listener thread")
             
-            if isinstance(self.lastRequestArrived,CancelRequest):
-                self.router.setlastRequestArrived(None)
-                self.router.setActualProcessingRequest(None)
-                self.actualProcessingRequest = None 
-                self.lastRequestArrived = None
-                # stop_event.set()
+            # if isinstance(self.lastRequestArrived,CancelRequest):
+            #     self.router.setlastRequestArrived(None)
+            #     self.router.setActualProcessingRequest(None)
+            #     self.actualProcessingRequest = None 
+            #     self.lastRequestArrived = None
+            #     # stop_event.set()
 
 
 service = Main()
