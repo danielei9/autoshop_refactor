@@ -189,6 +189,8 @@ class BillVal:
         message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x02, 0x00, 0x01,0x04,0x00,0x02])
         message += get_crc(message)
         time.sleep(0.2)
+        self.com.write(message)
+        time.sleep(0.2)
         # print("Finish set_recycler_config ")
         status, data = self.read_response()
         time.sleep(0.2)
