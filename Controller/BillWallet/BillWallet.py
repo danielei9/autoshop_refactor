@@ -184,10 +184,9 @@ class BillVal:
         # message += get_crc(message)
 
         # self.com.write(message)
-        # time.sleep(0.2)
+        time.sleep(0.2)
         # print("Finish set_recycler_config ")
         status, data = self.read_response()
-        print("status: ", hex(status))
         time.sleep(0.2)
         self.getActualStacksConfig()
         return
