@@ -150,6 +150,7 @@ class BillVal:
             self.set_recycler_config(self.stackA,self.stackB)
 
     def process_stack_config(self,stack):
+        print("process_stack_config")
         if stack == 0:
             return 0x00
         if stack == 5:
@@ -172,8 +173,8 @@ class BillVal:
         print("set_recycler_config")
         self.stackA = stack1
         self.stackB = stack2
-        confByteStack1 = int(self.process_stack_config(stack1))
-        confByteStack2 = int(self.process_stack_config(stack2))
+        confByteStack1 = self.process_stack_config(stack1)
+        confByteStack2 = self.process_stack_config(stack2)
         print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
         status = ""
         self.com.flushInput()
