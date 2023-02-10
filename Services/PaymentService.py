@@ -33,6 +33,7 @@ class PaymentService():
         self.totalAmount = 0
         self.priceClientShouldPay = 0
         self.payRequest: PayRequest = None
+        self.actualCancelled = False
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
