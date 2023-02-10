@@ -31,15 +31,15 @@ class Main():
         print("Adapt request")
         print(self.lastRequestArrived)
 
-        if( isinstance(self.lastRequestArrived,CancelRequest ) ): 
-            print("Arrive paymentDone") 
-            #poner el precio de la orden a 0 así realizará la cancelación
-            self.actualProcessingRequest = None
-            self.lastRequestArrived = None
+        # if( isinstance(self.lastRequestArrived,CancelRequest ) ): 
+        #     print("Arrive paymentDone") 
+        #     #poner el precio de la orden a 0 así realizará la cancelación
+        #     self.actualProcessingRequest = None
+        #     self.lastRequestArrived = None
 
-            self.router.paymentService.paymentDone = True
-            self.router.paymentService.actualCancelled = True
-            return True
+        #     self.router.paymentService.paymentDone = True
+        #     self.router.paymentService.actualCancelled = True
+        #     return True
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
