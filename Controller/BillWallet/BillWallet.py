@@ -181,16 +181,15 @@ class BillVal:
         self.stackA = 5
         self.stackB = 10
         print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
-        self.sendConfigCommand(stack1,stack2)
-        # print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
-        # status = ""
-        # self.com.flushInput()
-        # self.com.flushOutput()
-        # time.sleep(0.2)
-        # message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, bytes(confByteStack1), 0x00, 0x01,bytes(confByteStack2),0x00,0x02])
-        # message += get_crc(message)
-
-        # self.com.write(message)
+        self.sendConfigCommand(stack1,stack2)    
+        confByteStack1 = self.process_stack_config(stack1)
+        confByteStack2 = self.process_stack_config(stack2)
+        print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
+        self.com.flushInput()
+        self.com.flushOutput()
+        time.sleep(0.2)
+        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x02, 0x00, 0x01,0x04,0x00,0x02])
+        message += get_crc(message)
         time.sleep(0.2)
         # print("Finish set_recycler_config ")
         status, data = self.read_response()
@@ -590,7 +589,6 @@ class BillVal:
         # self.resumePollThread()
         time.sleep(.3)
 
-           
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
         #payout():Status: 1a 
