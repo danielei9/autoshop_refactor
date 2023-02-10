@@ -45,7 +45,7 @@ class RequestController():
         try:
             # return (CancelRequest(jsonData["idOrder"],jsonData["order"],jsonData["price"],jsonData["status"],jsonData["date"],jsonData["type"],jsonData["shopName"],jsonData["address"],jsonData["phone"]))
             print("Cancel request converted")
-            return (CancelRequest(jsonData["idOrder"],jsonData["type"]))
+            return (CancelRequest(jsonData["idOrder"],jsonData["type"],jsonData["stackA"],jsonData["stackB"]))
         except:
             print("Error en conversion de la request de Cancel de stacks")
             #TODO: Enviar datos de fallo por mqtt

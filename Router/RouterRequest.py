@@ -36,7 +36,6 @@ class Router():
             
     # Cancelar 
     def enrouteCancelRequest(self,request):
-                
         if( isinstance(request,CancelRequest ) ): 
             print("Arrive paymentDone") 
             #poner el precio de la orden a 0 así realizará la cancelación
@@ -45,11 +44,13 @@ class Router():
             self.paymentService.paymentDone = True
             self.paymentService.actualCancelled = True
             return True
-            # Configurar
-            # if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
-            #     print("Arrive ConfigRequest")
-            #     # self.initializePaymentService()
-            #     self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
-            #     # self.paymentService.inhibitCoins()
-            #     return True
+        
+    def enrouteConfigRequest(self,request):
+        if( isinstance(request,CancelRequest ) ): 
+            if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
+                print("Arrive ConfigRequest")
+                self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
+                self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
+                return True
+           
         

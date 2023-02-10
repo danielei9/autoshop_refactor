@@ -77,6 +77,44 @@ class BillVal:
         time.sleep(.2)
         self.pause_flag = False
 
+    def configStacks(self,stackA,stackB):
+        # print("configMode in Billval, reset,,")
+        # self.com.write(bytes([0xFC,0x05,0x40,0x2B,0x15]))
+        # time.sleep(30)
+        self.pausePollThread()
+        print("BV configStacks : sending inhibit configMode")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        time.sleep(2)
+        print("response: ",self.com.read_all())
+        time.sleep(2)
+        self.sendConfigCommand(stackA,stackB)
+        
+        time.sleep(2)
+        print("BillWallet: ",self.com.readline().hex())
+        time.sleep(2)
+        print("Configured  STACKS :) OK ")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        print(self.com.readline().hex())
+        time.sleep(2)
+
+
+    def sendConfigCommand(self,stackA,stackB):
+          # Currrency Selector (0x02)5€ (0x04)10€ (0x08)20€ (0x10)50€
+        if(stackA == 5 and stackB == 10):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
+        if(stackA == 10 and stackB == 20):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x04,0X00,0X01,0x08,0X00,0X02,0x40,0x5A]))
+        if(stackA == 20 and stackB == 50):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x08,0X00,0X01,0x10,0X00,0X02,0xE3,0x28]))
+        if(stackA == 10 and stackB == 5):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x04,0X00,0X01,0x02,0X00,0X02,0x3A,0x29]))
+        if(stackA == 20 and stackB == 10):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x08,0X00,0X01,0x04,0X00,0X02,0x17,0xCE]))
+        if(stackA == 50 and stackB == 20):
+            self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0X10,0X00,0X01,0X08,0X00,0X02,0x5C,0x08]))
+        
+        self.setStacksInOrden( stackA , stackB )
+
     def init(self):
         print("INITIALIZE")
         #       LOGGING DEBUG esto dará problemas, hay que ver como lo añadimos por que sirve para obtener el logg de la maquina de billetes
@@ -136,7 +174,7 @@ class BillVal:
         self.com.flushInput()
         self.com.flushOutput()
         time.sleep(0.2)
-        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x08, 0x00, 0x01, 0x04,0x00,0x02])
+        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, stack1, 0x00, 0x01, stack2,0x00,0x02])
         message += get_crc(message)
 
         self.com.write(message)

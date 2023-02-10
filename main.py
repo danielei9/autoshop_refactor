@@ -24,24 +24,13 @@ class Main():
         self.router = None
 
     def adaptRequestCB(self,rawPayload):
+        print("Adapt request CB ")
         self.router.paymentService.paymentDone = False
-        print("Adapt")
         self.lastRequestArrived = RequestController(rawPayload).requestAdapted
-        self.router.setlastRequestArrived(self.lastRequestArrived)
-        print("Adapt request")
         print(self.lastRequestArrived)
-
+        self.router.setlastRequestArrived(self.lastRequestArrived)
         self.router.enrouteCancelRequest(self.lastRequestArrived)
-
-        # if( isinstance(self.lastRequestArrived,CancelRequest ) ): 
-        #     print("Arrive paymentDone") 
-        #     #poner el precio de la orden a 0 así realizará la cancelación
-        #     self.actualProcessingRequest = None
-        #     self.lastRequestArrived = None
-
-        #     self.router.paymentService.paymentDone = True
-        #     self.router.paymentService.actualCancelled = True
-        #     return True
+        self.router.enrouteConfigRequest(self.lastRequestArrived)
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
@@ -95,12 +84,6 @@ class Main():
             # else:
             #     print("error with tpv Listener thread")
             
-            # if isinstance(self.lastRequestArrived,CancelRequest):
-            #     self.router.setlastRequestArrived(None)
-            #     self.router.setActualProcessingRequest(None)
-            #     self.actualProcessingRequest = None 
-            #     self.lastRequestArrived = None
-            #     # stop_event.set()
 
 
 service = Main()

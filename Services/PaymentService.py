@@ -273,6 +273,5 @@ class PaymentService():
         print("paymentDone",self.paymentDone)
 
     def startMachinesConfig(self, stackA, stackB):
-        self.billWalletService = BillWalletService(
-            self.manageTotalAmount, port=self.portBilletero)
-        # self.billWalletService.configMode(stackA,stackB)
+        self.billWalletService.bv.pausePollThread()
+        self.billWalletService.bv.configStacks(stackA,stackB)
