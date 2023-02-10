@@ -61,6 +61,8 @@ class CoinWalletController(SerialCommunicator):
         time.sleep(0.2)
         self.setup()
         time.sleep(0.2)
+        self.enableDisableChargeCoins()
+        time.sleep(0.2)
         self.disableInsertCoins()
         # self.enableInsertCoins()
     """-------------------------- EVENTS ------------------------------"""
@@ -156,6 +158,9 @@ class CoinWalletController(SerialCommunicator):
     """-------------------------- Reset ------------------------------"""
     def reset(self): 
         return self.__sendCommand(RESET)
+    
+    def enableDisableChargeCoins(self): 
+        return self.__sendCommandAndReceive([0x0C,0x00,0x00])
     
     """-------------------------- tubeStatus ------------------------------"""
     def tubeStatus(self):  
