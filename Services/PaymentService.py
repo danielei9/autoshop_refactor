@@ -270,6 +270,7 @@ class PaymentService():
         # self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         print("payment done from __startMachinesPayment")
+        print("paymentDone",self.paymentDone)
 
     def startMachinesConfig(self, stackA, stackB):
         self.billWalletService = BillWalletService(

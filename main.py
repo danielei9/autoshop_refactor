@@ -36,10 +36,9 @@ class Main():
             #poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
             self.lastRequestArrived = None
+
             self.router.paymentService.paymentDone = True
             self.router.paymentService.actualCancelled = True
-            self.actualProcessingRequest = None
-            self.lastRequestArrived = None
             return True
 
     def initTPVListener(self):
