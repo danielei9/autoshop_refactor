@@ -27,6 +27,16 @@ class Main():
         print("Adapt")
         self.lastRequestArrived = RequestController(rawPayload).requestAdapted
         self.router.setlastRequestArrived(self.lastRequestArrived)
+        print("Adapt request")
+        print(self.lastRequestArrived)
+
+        if( isinstance(self.actualProcessingRequest,CancelRequest ) ): 
+            print("Arrive paymentDone") 
+            #poner el precio de la orden a 0 así realizará la cancelación
+            self.actualProcessingRequest = None
+            self.lastRequestArrived = None
+            self.paymentService.paymentDone = True
+            return True
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
