@@ -161,7 +161,7 @@ class CoinWalletController(SerialCommunicator):
         return self.__sendCommand(RESET)
     
     def enableDisableChargeCoins(self): 
-        return self.__sendCommandAndReceive([0x0C,0x00,0x00])
+        return self.__sendCommandAndReceive([0x0C,0xFF,0xFF])
     
     """-------------------------- tubeStatus ------------------------------"""
     def tubeStatus(self):  
