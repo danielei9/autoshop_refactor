@@ -31,6 +31,8 @@ class Main():
         print("Adapt request")
         print(self.lastRequestArrived)
 
+        self.router.enrouteCancelRequest(self.lastRequestArrived)
+
         # if( isinstance(self.lastRequestArrived,CancelRequest ) ): 
         #     print("Arrive paymentDone") 
         #     #poner el precio de la orden a 0 así realizará la cancelación

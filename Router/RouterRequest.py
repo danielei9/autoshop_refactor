@@ -34,22 +34,22 @@ class Router():
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 return True
             
-            # Cancelar 
-            
-            if( isinstance(self.lastRequestArrived,CancelRequest ) ): 
-                print("Arrive paymentDone") 
-                #poner el precio de la orden a 0 así realizará la cancelación
-                self.actualProcessingRequest = None
-                self.lastRequestArrived = None
-
-                self.router.paymentService.paymentDone = True
-                self.router.paymentService.actualCancelled = True
-                return True
+    # Cancelar 
+    def enrouteCancelRequest(self,request):
+                
+        if( isinstance(request,CancelRequest ) ): 
+            print("Arrive paymentDone") 
+            #poner el precio de la orden a 0 así realizará la cancelación
+            self.actualProcessingRequest = None
+            self.lastRequestArrived = None
+            self.router.paymentService.paymentDone = True
+            self.router.paymentService.actualCancelled = True
+            return True
             # Configurar
-            if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
-                print("Arrive ConfigRequest")
-                # self.initializePaymentService()
-                self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
-                # self.paymentService.inhibitCoins()
-                return True
+            # if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
+            #     print("Arrive ConfigRequest")
+            #     # self.initializePaymentService()
+            #     self.paymentService.startMachinesConfig(self.actualProcessingRequest.stackA,self.actualProcessingRequest.stackB)
+            #     # self.paymentService.inhibitCoins()
+            #     return True
         
