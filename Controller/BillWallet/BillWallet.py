@@ -104,6 +104,7 @@ class BillVal:
         print(type(stackA))
         print(type(stackB))
         print(stackB)
+        self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
         if(stackA == 5 and stackB == 10):
             print("1")
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
