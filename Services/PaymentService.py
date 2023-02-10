@@ -40,7 +40,7 @@ class PaymentService():
             self.displayController.displayError(error)
 
     def initializeControllers(self):
-        self.checkPorsConnected()
+        self.checkPortsConnected()
         if(DISPLAY):
             try:
                 self.displayController = DisplayController(self.portDisplay)
@@ -100,7 +100,7 @@ class PaymentService():
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
 
-    def checkPorsConnected(self):
+    def checkPortsConnected(self):
         print("Trying to connect Ports")
 
         if(self.portBilletero == None):
@@ -272,6 +272,6 @@ class PaymentService():
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
 
-    def startMachinesConfig(self, stackA, stackB):
-        self.billWalletService.bv.pausePollThread()
-        self.billWalletService.bv.configStacks(stackA,stackB)
+    # def startMachinesConfig(self, stackA, stackB):
+    #     self.billWalletService.bv.pausePollThread()
+    #     self.billWalletService.bv.configStacks(stackA,stackB)
