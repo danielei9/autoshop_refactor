@@ -148,7 +148,7 @@ class BillVal:
         
         try:
             self.getActualStacksConfig()
-            self.set_recycler_config(self.stackA,self.stackB)
+            self.configMode(self.stackA,self.stackB)
         except Exception as e:
             print("Error getting stacks config: ", e)
             time.sleep(2)
@@ -177,8 +177,8 @@ class BillVal:
         """
         self.pausePollThread()
         print("set_recycler_config")
-        self.stackA = 5
-        self.stackB = 10
+        self.stackA = stack1
+        self.stackB = stack2
         print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
         # self.sendConfigCommand(stack1,stack2)    
         # confByteStack1 = self.process_stack_config(stack1)
@@ -716,6 +716,8 @@ class BillVal:
 
     def configMode(self,stackA,stackB):
         print("sending inhibit configMode")
+        print("Configuring stack A ", str(stackA) )
+        print("Configuring stack B ", str(stackB) )
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(2)
         print("response: ",self.com.read_all())
