@@ -104,15 +104,12 @@ class BillVal:
         print(type(stackA))
         print(type(stackB))
         print(stackB)
-        self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
+            # Currrency Selector (0x02)5€ (0x04)10€ (0x08)20€ (0x10)50€
         if(stackA == 5 and stackB == 10):
-            print("1")
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
         if(stackA == 10 and stackB == 20):
-            print("2")
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x04,0X00,0X01,0x08,0X00,0X02,0x40,0x5A]))
         if(stackA == 20 and stackB == 50):
-            print("3")
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x08,0X00,0X01,0x10,0X00,0X02,0xE3,0x28]))
         if(stackA == 10 and stackB == 5):
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x04,0X00,0X01,0x02,0X00,0X02,0x3A,0x29]))
@@ -122,6 +119,8 @@ class BillVal:
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0X10,0X00,0X01,0X08,0X00,0X02,0x5C,0x08]))
         
         self.setStacksInOrden( stackA , stackB )
+
+
 
     def init(self):
         print("INITIALIZE")
@@ -713,3 +712,20 @@ class BillVal:
         logging.warning("BV waiting for initialization")
         # input("Press enter to reinitialize the BV.")
         self.initialize()
+
+
+    def configMode(self,stackA,stackB):
+        print("sending inhibit configMode")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        time.sleep(2)
+        print("response: ",self.com.read_all())
+        time.sleep(2)
+        self.sendConfigCommand(stackA,stackB)
+        
+        time.sleep(2)
+        print(self.com.readline().hex())
+        time.sleep(2)
+        print("Configured :) OK ")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        print(self.com.readline().hex())
+        time.sleep(2)
