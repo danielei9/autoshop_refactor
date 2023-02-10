@@ -37,6 +37,8 @@ class Main():
             self.lastRequestArrived = None
             self.router.paymentService.paymentDone = True
             self.router.paymentService.actualCancelled = True
+            self.actualProcessingRequest = None
+            self.lastRequestArrived = None
             return True
 
     def initTPVListener(self):
