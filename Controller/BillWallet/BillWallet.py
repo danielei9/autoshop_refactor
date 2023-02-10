@@ -168,6 +168,9 @@ class BillVal:
             Stack2 === 0,5,10,20,50,100
         """
         print("set_recycler_config")
+        self.stackA = stack1
+        self.stackB = stack2
+        print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
         confByteStack1 = self.process_stack_config(stack1)
         confByteStack2 = self.process_stack_config(stack2)
         status = ""
@@ -182,6 +185,8 @@ class BillVal:
         print("Finish set_recycler_config ")
         status, data = self.read_response()
         print("status: %02x" % status)
+        time.sleep(0.2)
+        self.getActualStacksConfig()
         return
 
     def _raw(self, pre, msg):
