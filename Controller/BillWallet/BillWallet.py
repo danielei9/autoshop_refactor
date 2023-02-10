@@ -167,7 +167,7 @@ class BillVal:
             Stack1 === 0,5,10,20,50,100
             Stack2 === 0,5,10,20,50,100
         """
-        self.pausePollThread = True
+        self.pausePollThread()
         print("set_recycler_config")
         self.stackA = stack1
         self.stackB = stack2
