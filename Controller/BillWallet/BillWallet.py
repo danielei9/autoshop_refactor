@@ -187,7 +187,7 @@ class BillVal:
         # time.sleep(0.2)
         # print("Finish set_recycler_config ")
         status, data = self.read_response()
-        print("status: %02x" % status)
+        print("status: ", hex(status))
         time.sleep(0.2)
         self.getActualStacksConfig()
         return
