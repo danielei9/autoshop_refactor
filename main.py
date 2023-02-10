@@ -24,6 +24,7 @@ class Main():
         self.router = None
 
     def adaptRequestCB(self,rawPayload):
+        self.router.paymentService.paymentDone = False
         print("Adapt")
         self.lastRequestArrived = RequestController(rawPayload).requestAdapted
         self.router.setlastRequestArrived(self.lastRequestArrived)
