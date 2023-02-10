@@ -77,6 +77,7 @@ class BillVal:
         time.sleep(.2)
         self.pause_flag = False
 
+# TODO: SI NO SE USA BORRAR
     def configStacks(self,stackA,stackB):
         # print("configMode in Billval, reset,,")
         # self.com.write(bytes([0xFC,0x05,0x40,0x2B,0x15]))
@@ -171,9 +172,9 @@ class BillVal:
         print("set_recycler_config")
         self.stackA = stack1
         self.stackB = stack2
-        print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
-        confByteStack1 = self.process_stack_config(stack1)
-        confByteStack2 = self.process_stack_config(stack2)
+        print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
+        confByteStack1 = int(self.process_stack_config(stack1))
+        confByteStack2 = int(self.process_stack_config(stack2))
         status = ""
         self.com.flushInput()
         self.com.flushOutput()
