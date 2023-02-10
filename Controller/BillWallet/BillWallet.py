@@ -171,6 +171,7 @@ class BillVal:
         """
         self.pausePollThread()
         print("set_recycler_config")
+        print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
         self.stackA = stack1
         self.stackB = stack2
         confByteStack1 = self.process_stack_config(stack1)
@@ -180,7 +181,7 @@ class BillVal:
         self.com.flushInput()
         self.com.flushOutput()
         time.sleep(0.2)
-        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, confByteStack1, 0x00, 0x01, confByteStack2,0x00,0x02])
+        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, bytes(confByteStack1), 0x00, 0x01,bytes(confByteStack2),0x00,0x02])
         message += get_crc(message)
 
         self.com.write(message)
