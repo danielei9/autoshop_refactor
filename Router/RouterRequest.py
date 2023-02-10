@@ -27,8 +27,8 @@ class Router():
          # Si actualmente esta libre, NO hay request pendiente de pago y esta esperando uno y  acepta la request que venga
         # self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
         while True:
-            # print(type(self.actualProcessingRequest))
-            # print(type(self.lastRequestArrived))
+            print(type(self.actualProcessingRequest))
+            print(type(self.lastRequestArrived))
             if(self.actualProcessingRequest == None and self.lastRequestArrived != None):
                 print("Arrived request None actual pending")
                 self.actualProcessingRequest = self.lastRequestArrived
@@ -76,13 +76,12 @@ class Router():
                     # self.paymentService.inhibitCoins()
                     return True
             # Si  hay alguna request pendiente de pago, Esta OCUPADO, solo puede aceptar Cancelación
-            else:
                 if( isinstance(self.lastRequestArrived,CancelRequest ) ):
-                    print("Arrive CancelRequest") 
-                    #poner el precio de la orden a 0 así realizará la cancelación
-                    self.actualProcessingRequest.price = 0
-                    # self.initializePaymentService()
-                    # self.paymentService.startMachinesPayment(self.actualProcessingRequest)
-                    return True
+                        print("Arrive CancelRequest") 
+                        #poner el precio de la orden a 0 así realizará la cancelación
+                        self.actualProcessingRequest.price = 0
+                        # self.initializePaymentService()
+                        # self.paymentService.startMachinesPayment(self.actualProcessingRequest)
+                        return True
             time.sleep(0.5)
         

@@ -68,7 +68,7 @@ class PaymentService():
                 time.sleep(5)
         if(COINWALLET):
             try:
-                print("MON: ", self.portMonedero)
+                # print("MON: ", self.portMonedero)
                 self.coinWalletService: CoinWalletService = CoinWalletService(
                     self.manageTotalAmount, port=self.portMonedero)
                 time.sleep(.4)
