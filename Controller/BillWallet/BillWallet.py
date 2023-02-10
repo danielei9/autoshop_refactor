@@ -77,26 +77,26 @@ class BillVal:
         time.sleep(.2)
         self.pause_flag = False
 
-# # TODO: SI NO SE USA BORRAR
-#     def configStacks(self,stackA,stackB):
-#         # print("configMode in Billval, reset,,")
-#         # self.com.write(bytes([0xFC,0x05,0x40,0x2B,0x15]))
-#         # time.sleep(30)
-#         self.pausePollThread()
-#         print("BV configStacks : sending inhibit configMode")
-#         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-#         time.sleep(2)
-#         print("response: ",self.com.read_all())
-#         time.sleep(2)
-#         self.sendConfigCommand(stackA,stackB)
+# TODO: SI NO SE USA BORRAR
+    def configStacks(self,stackA,stackB):
+        # print("configMode in Billval, reset,,")
+        # self.com.write(bytes([0xFC,0x05,0x40,0x2B,0x15]))
+        # time.sleep(30)
+        self.pausePollThread()
+        print("BV configStacks : sending inhibit configMode")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        time.sleep(2)
+        print("response: ",self.com.read_all())
+        time.sleep(2)
+        self.sendConfigCommand(stackA,stackB)
         
-#         time.sleep(2)
-#         print("BillWallet: ",self.com.readline().hex())
-#         time.sleep(2)
-#         print("Configured  STACKS :) OK ")
-#         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-#         print(self.com.readline().hex())
-#         time.sleep(2)
+        time.sleep(2)
+        print("BillWallet: ",self.com.readline().hex())
+        time.sleep(2)
+        print("Configured  STACKS :) OK ")
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        print(self.com.readline().hex())
+        time.sleep(2)
 
 
     def sendConfigCommand(self,stackA,stackB):
@@ -153,48 +153,48 @@ class BillVal:
             print("Error getting stacks config: ", e)
             time.sleep(2)
             self.getActualStacksConfig()
-            self.configMode(self.stackA,self.stackB)
+            self.set_recycler_config(self.stackA,self.stackB)
 
-    # def process_stack_config(self,stack):
-    #     print("process_stack_config")
-    #     if stack == 0:
-    #         return 0x00
-    #     if stack == 5:
-    #         return 0x02
-    #     if stack == 10:
-    #         return 0x04
-    #     if stack == 20:
-    #         return 0x08
-    #     if stack == 50:
-    #         return 0x10
-    #     if stack == 100:
-    #         return 0x20
+    def process_stack_config(self,stack):
+        print("process_stack_config")
+        if stack == 0:
+            return 0x00
+        if stack == 5:
+            return 0x02
+        if stack == 10:
+            return 0x04
+        if stack == 20:
+            return 0x08
+        if stack == 50:
+            return 0x10
+        if stack == 100:
+            return 0x20
 
-    # def set_recycler_config(self, stack1,stack2):
-    #     """
-    #         Stack1 === 0,5,10,20,50,100
-    #         Stack2 === 0,5,10,20,50,100
-    #     """
-    #     self.pausePollThread()
-    #     print("set_recycler_config")
-    #     self.stackA = stack1
-    #     self.stackB = stack2
-    #     print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
-    #     # self.sendConfigCommand(stack1,stack2)    
-    #     # confByteStack1 = self.process_stack_config(stack1)
-    #     # confByteStack2 = self.process_stack_config(stack2)
-    #     # print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
-    #     time.sleep(0.2)
-    #     message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x02, 0x00, 0x01,0x04,0x00,0x02])
-    #     message += get_crc(message)
-    #     time.sleep(0.2)
-    #     self.com.write(message)
-    #     time.sleep(0.2)
-    #     # print("Finish set_recycler_config ")
-    #     status, data = self.read_response()
-    #     time.sleep(0.2)
-    #     self.getActualStacksConfig()
-    #     return
+    def set_recycler_config(self, stack1,stack2):
+        """
+            Stack1 === 0,5,10,20,50,100
+            Stack2 === 0,5,10,20,50,100
+        """
+        self.pausePollThread()
+        print("set_recycler_config")
+        self.stackA = stack1
+        self.stackB = stack2
+        print("SETTING: config in stacks : ", self.stackA, "  " ,self.stackB)
+        # self.sendConfigCommand(stack1,stack2)    
+        # confByteStack1 = self.process_stack_config(stack1)
+        # confByteStack2 = self.process_stack_config(stack2)
+        # print("SETTING: config in stacks : ", confByteStack1, "  " ,confByteStack2)
+        time.sleep(0.2)
+        message = bytes([0xFC ,0x0D, 0xF0, 0x20, 0xD0, 0x02, 0x00, 0x01,0x04,0x00,0x02])
+        message += get_crc(message)
+        time.sleep(0.2)
+        self.com.write(message)
+        time.sleep(0.2)
+        # print("Finish set_recycler_config ")
+        status, data = self.read_response()
+        time.sleep(0.2)
+        self.getActualStacksConfig()
+        return
 
     def _raw(self, pre, msg):
         if self.raw:
