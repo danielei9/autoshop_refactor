@@ -61,7 +61,6 @@ class CoinWalletController(SerialCommunicator):
         time.sleep(0.2)
         self.setup()
         time.sleep(0.2)
-        print("***************IMOPRT")
         print(self.enableDisableChargeCoins())
         time.sleep(0.2)
         self.disableInsertCoins()

@@ -52,7 +52,7 @@ class Router():
                     #poner el precio de la orden a 0 así realizará la cancelación
                     self.actualProcessingRequest = None
                     self.lastRequestArrived = None
-                    # await self.paymentService.startMachinesPayment()
+                    self.paymentService.paymentDone = True
                     return True
                 # Configurar
                 if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
