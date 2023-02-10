@@ -46,11 +46,9 @@ class Router():
             return True
         
     def enrouteConfigRequest(self,request):
-        if( isinstance(request,CancelRequest ) ): 
-            if( isinstance(self.actualProcessingRequest,ConfigStackRequest ) ):
-                print("Arrive ConfigRequest")
-                self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
-                self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
-                return True
+        if( isinstance(request,ConfigStackRequest ) ): 
+            print("Arrive ConfigRequest")
+            self.paymentService.billWalletService.bv.configStacks(request.stackA, request.stackB)
+            return True
            
         
