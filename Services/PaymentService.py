@@ -58,7 +58,7 @@ class PaymentService():
                 # TODO: Informar al tpv de que no estan conectados
                 self.setErrorInDisplay("Please Connect Display")
                 self.sendErrorTPV("Some problems ocurred when init Display")
-                time.sleep(5)
+                time.sleep(3)
                 self.initializeControllers()
         if(BILLWALLET):
             try:
@@ -74,7 +74,7 @@ class PaymentService():
             except:
                 print("Please Connect BillWallet ")
                 # TODO: Informar al tpv de que no estan conectados
-                time.sleep(5)
+                time.sleep(3)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Billwallet")
         if(COINWALLET):
@@ -99,7 +99,7 @@ class PaymentService():
             except:
                 print("Please Connect Printer ")
                 # TODO: Informar al tpv de que no estan conectados
-                time.sleep(5)
+                time.sleep(3)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Printer")
         if(LEDS):
@@ -111,7 +111,7 @@ class PaymentService():
             except:
                 print("Please Connect Leds ")
                 # TODO: Informar al tpv de que no estan conectados
-                time.sleep(5)
+                time.sleep(3)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Leds")
         
@@ -275,7 +275,7 @@ class PaymentService():
             #     self.printerController.print("CHARGE")
         except:
             self.sendErrorTPV("Error: Printer is disconnected")
-            time.sleep(2)
+            time.sleep(3)
             self.printTicket()
             pass
 
@@ -312,23 +312,19 @@ class PaymentService():
             print("waiting payOut")
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
-            time.sleep(5)
+            time.sleep(1)
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         self.displayController.setByePage()
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
-        time.sleep(2)
+        time.sleep(1)
 
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.paymentDone = True
-
-    # def startMachinesConfig(self, stackA, stackB):
-    #     self.billWalletService.bv.pausePollThread()
-    #     self.billWalletService.bv.configStacks(stackA,stackB)
 
 
 class LedsPortNotConnected(Exception):

@@ -77,28 +77,6 @@ class BillVal:
         time.sleep(.2)
         self.pause_flag = False
 
-# TODO: SI NO SE USA BORRAR
-    def configStacks(self,stackA,stackB):
-        # print("configMode in Billval, reset,,")
-        # self.com.write(bytes([0xFC,0x05,0x40,0x2B,0x15]))
-        # time.sleep(30)
-        self.pausePollThread()
-        print("BV configStacks : sending inhibit configMode")
-        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-        time.sleep(2)
-        print("response: ",self.com.read_all())
-        time.sleep(2)
-        self.sendConfigCommand(stackA,stackB)
-        
-        time.sleep(2)
-        print("BillWallet: ",self.com.readline().hex())
-        time.sleep(2)
-        print("Configured  STACKS :) OK ")
-        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
-        print(self.com.readline().hex())
-        time.sleep(2)
-
-
     def sendConfigCommand(self,stackA,stackB):
           # Currrency Selector (0x02)5€ (0x04)10€ (0x08)20€ (0x10)50€
         if(stackA == 5 and stackB == 10):
@@ -431,7 +409,7 @@ class BillVal:
         while (status, data) != (SET_INHIBIT, inhibit):
             print(status, " data: " ,data)
             logging.warning("Acceptor did not echo inhibit settings")
-            time.sleep(2)
+            time.sleep(.2)
             self.set_inhibited()
     
     def set_not_inhibited(self):
@@ -480,7 +458,6 @@ class BillVal:
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
         response = str(self.com.readline().hex())
         print("BV Response : ",response)
-        time.sleep(.2)
         print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
         self.setStacksInOrden( self.stackA , self.stackB )
 
@@ -715,15 +692,15 @@ class BillVal:
         print("Configuring stack A ", str(stackA) )
         print("Configuring stack B ", str(stackB) )
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
-        time.sleep(2)
+        time.sleep(.2)
         print("response: ",self.com.read_all())
-        time.sleep(2)
+        time.sleep(.2)
         self.sendConfigCommand(stackA,stackB)
         
-        time.sleep(2)
+        time.sleep(.2)
         print(self.com.readline().hex())
-        time.sleep(2)
+        time.sleep(.2)
         print("Configured :) OK ")
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
         print(self.com.readline().hex())
-        time.sleep(2)
+        time.sleep(.2)
