@@ -49,8 +49,9 @@ class PaymentService():
                 print("Please Connect Display")
                 # TODO: Informar al tpv de que no estan conectados
                 self.setErrorInDisplay("Please Connect Display")
+                self.sendErrorTPV("Some problems ocurred when init Display")
                 time.sleep(5)
-                self.sendErrorTPV("Display")
+                self.initializeControllers()
         if(BILLWALLET):
             try:
                 self.billWalletService: BillWalletService = BillWalletService(
@@ -66,7 +67,8 @@ class PaymentService():
                 print("Please Connect BillWallet ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
-                self.sendErrorTPV("Billwallet")
+                self.initializeControllers()
+                self.sendErrorTPV("Some problems ocurred when init Billwallet")
         if(COINWALLET):
             try:
                 # print("MON: ", self.portMonedero)
@@ -80,7 +82,8 @@ class PaymentService():
                 print("Please Connect CoinWallet ", e)
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(3)
-                self.sendErrorTPV("CoinWallet")
+                self.initializeControllers()
+                self.sendErrorTPV("Some problems ocurred when init CoinWallet")
         if(PRINTER):
             try:
                 self.printerController = PrinterController()
@@ -89,7 +92,8 @@ class PaymentService():
                 print("Please Connect Printer ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
-                self.sendErrorTPV("Printer")
+                self.initializeControllers()
+                self.sendErrorTPV("Some problems ocurred when init Printer")
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
@@ -100,7 +104,8 @@ class PaymentService():
                 print("Please Connect Leds ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
-                self.sendErrorTPV("LEDS")
+                self.initializeControllers()
+                self.sendErrorTPV("Some problems ocurred when init Leds")
     
         
     def checkPortsConnected(self):
@@ -108,26 +113,33 @@ class PaymentService():
 
         if(self.portBilletero == None):
             # TODO: Informar al tpv de que no estan conectados
-            print("BillWallet NO connected")
+            print("ERROR: BillWallet NO connected")
             self.sendErrorTPV("Billwallet::")
-
+            time.sleep(3)
+            self.checkPortsConnected()
             # raise BillwalletPortNotConnected("Error: Failed to connect Billwallet")
         if(self.portMonedero == None):
             # TODO: Informar al tpv de que no estan conectados
             print("CoinWallet NO connected")
             # raise CoinwalletPortNotConnected("Error: Failed to connect Coinwallet")
             self.sendErrorTPV("CoinWallet::")
+            time.sleep(3)
+            self.checkPortsConnected()
 
         if(self.portDisplay == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Display NO connected")
             # raise DisplayPortNotConnected("Error: Failed to connect Display")
             self.sendErrorTPV("Display::")
+            time.sleep(3)
+            self.checkPortsConnected()
 
         if(self.portLeds == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Leds NO connected")
             self.sendErrorTPV("LEDS::")
+            time.sleep(3)
+            self.checkPortsConnected()
 
             # raise LedsPortNotConnected("Error: Failed to connect LEDS")
 
