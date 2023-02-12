@@ -105,7 +105,7 @@ class MainProcess():
 
     def  startProcess(self):
         self.process = multiprocessing.Process(target=self.service.run, args=())
-        print(f'Process ID: {self.process.pid}')
+        # print(f'Process ID: {self.process.pid}')
 
     def  endProcess(self):
         self.process.terminate()
