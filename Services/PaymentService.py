@@ -62,7 +62,7 @@ class PaymentService():
         if(BILLWALLET):
             try:
                 self.billWalletService: BillWalletService = BillWalletService(
-                    self.manageTotalAmount, port=self.portBilletero)
+                    self.manageTotalAmount, port=self.portBilletero, sendErrorTpv=self.sendErrorTPV)
 
                 billwWalletThread = threading.Thread(
                     target=self.billWalletService.run)

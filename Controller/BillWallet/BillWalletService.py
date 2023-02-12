@@ -19,18 +19,19 @@ import threading
 class BillWalletService(SerialCommunicator):
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
 
-    def __init__(self,cb, port,log_raw=False, threading=False):
+    def __init__(self,cb, port,sendErrorTpv,log_raw=False, threading=False):
         super().__init__(port)
         self.initializeSerial()
         self.cb = cb
         self.bv:BillVal = None
         self.stackA = None
         self.stackB = None
+        self.sendErrorTpv = sendErrorTpv
 
     def run(self):
         print("RUN  SERVICE pay billwallet...")
         try:
-            self.bv = BillVal(self.com,self.cb)
+            self.bv = BillVal(self.com,self.cb,self.sendErrorTpv)
             self.bv.init()
             if self.bv.init_status == id003.POW_UP:
                 logging.info("BV powered up normally.")

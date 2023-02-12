@@ -8,8 +8,9 @@ from  .CodesBillVal import *
 class BillVal:
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
     
-    def __init__(self, com,cb, log_raw=False, threading=False):
+    def __init__(self, com,cb, sendErrorTpv ,log_raw=False, threading=False):
         self.com = com  
+        self.sendErrorTpv = sendErrorTpv
         self.cb = cb
         self.bv_status = (0x00,0x00)
         self.bv_version = None
@@ -574,16 +575,22 @@ class BillVal:
 
     def _on_stacker_full(self, data):
         logging.error("Stacker full.")
+        self.sendErrorTpv ("Stacker de billetes lleno. Retire billetes.")
     def _on_stacker_open(self, data):
         logging.warning("Stacker open.")
+        self.sendErrorTpv ("Validador de billetes abierto.")
     def _on_acceptor_jam(self, data):
         logging.error("Acceptor jam.")
+        self.sendErrorTpv ("Validador de billetes atascado. Retire el billete.")
     def _on_stacker_jam(self, data):
         logging.error("Stacker jam.")
+        self.sendErrorTpv ("Stacker de billetes atascado. Retire el billete.")
     def _on_pause(self, data):
         logging.warning("BV paused. If there's a second bill being inserted, remove it.")
+        self.sendErrorTpv ("Billetero pausado, si hay un segundo billete retírelo..")
     def _on_cheated(self, data):
         logging.warning("BV cheated.")
+        self.sendErrorTpv ("Billetero estafado..")
     def _on_failure(self, data):
         fault = ord(data)
         if fault not in FAILURE_CODES:
@@ -593,10 +600,12 @@ class BillVal:
     def _on_comm_error(self, data):
         logging.warning("Communication error.")
         logging.debug("Details: %r" % ['0x%02x' % x for x in data])
+        self.sendErrorTpv ("Error de comunicacioón con billetero")
     def _on_invalid_command(self, data):
         logging.warning("Invalid command.")
     def _on_pay_valid(self, data):
         logging.info(" BV: PAY VALID")
+        self.sendErrorTpv ("Venta validada")
         time.sleep(.2)
         self.com.write(bytes([0xFC,0X05,0X50,0XAA,0X05]))
         status,data = self.read_response()
