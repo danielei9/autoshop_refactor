@@ -101,10 +101,6 @@ class BillVal:
 
     def sendConfigCommand(self,stackA,stackB):
           # Currrency Selector (0x02)5€ (0x04)10€ (0x08)20€ (0x10)50€
-        print(type(stackA))
-        print(type(stackB))
-        print(stackB)
-            # Currrency Selector (0x02)5€ (0x04)10€ (0x08)20€ (0x10)50€
         if(stackA == 5 and stackB == 10):
             self.com.write(bytes([0xFC,0X0D,0XF0,0X20,0XD0,0x02,0X00,0X01,0x04,0X00,0X02,0x19,0xE7]))
         if(stackA == 10 and stackB == 20):

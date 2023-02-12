@@ -153,6 +153,7 @@ class PaymentService():
                 print("DISPLAY: 100% Pagado")
 
     def checkIfPaymentComplete(self):
+        print("self.totalAmount >= self.priceClientShouldPay  ", self.totalAmount, "  ",self.priceClientShouldPay  )
         if self.totalAmount >= self.priceClientShouldPay:
                 (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
                 while ( statusBillWallet != IDLE ):
