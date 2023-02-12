@@ -16,13 +16,13 @@ import asyncio
 stop_event = threading.Event()
 
 class Main():
-    def __init__(self, resetMachine):
+    def __init__(self):
         print("init")
         self.lastRequestArrived:Request = None
         self.actualProcessingRequest:Request = None
         self.tpv = None
         self.router = None
-        self.resetMachine = resetMachine
+        self.resetMachine = None
 
     def adaptRequestCB(self,rawPayload):
         print("Adapt request CB ")
@@ -61,8 +61,9 @@ class Main():
             routerThread = threading.Thread(target=self.startRouterThread)
             routerThread.start()
 
-    def run(self):
+    def run(self,resetMachine):
         try:
+            self.resetMachine = resetMachine
             print("run")
             # crear hilo para manejar las solicitudes de MQTT
             # tpvListenerThread = threading.Thread(target=self.initTPVListener())
@@ -100,13 +101,13 @@ import time
 
 class MainProcess():
     def __init__(self):
+        self.service = Main()
+        self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess))
         self.startProcess()
-        self.service = Main(self.endProcess)
 
     def  startProcess(self):
-        self.process = multiprocessing.Process(target=self.service.run, args=())
         self.process.start()
-        # print(f'Process ID: {self.process.pid}')
+        print(f'Process ID: {self.process.pid}')
 
     def  endProcess(self):
         self.process.terminate()
