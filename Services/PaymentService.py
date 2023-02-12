@@ -208,7 +208,7 @@ class PaymentService():
 
         # TODO: inhibir monedas
         # self.inhibitCoins()
-        self.paymentDone = True
+        # self.paymentDone = True
    
 
     def __coinBack(self, change):
@@ -324,7 +324,6 @@ class PaymentService():
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
-        self.paymentDone = True
 
 
 class LedsPortNotConnected(Exception):
