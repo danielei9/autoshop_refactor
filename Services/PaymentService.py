@@ -299,6 +299,7 @@ class PaymentService():
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.paymentDone = True
+        
     # def startMachinesConfig(self, stackA, stackB):
     #     self.billWalletService.bv.pausePollThread()
     #     self.billWalletService.bv.configStacks(stackA,stackB)
