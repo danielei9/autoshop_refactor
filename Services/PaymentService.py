@@ -282,6 +282,7 @@ class PaymentService():
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
         self.actualCancelled = False
+        self.totalAmount = 0
         self.coinWalletService.coinwallet.enableInsertCoins()
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.payStatus)
