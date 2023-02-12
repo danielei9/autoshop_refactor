@@ -293,7 +293,7 @@ class BillVal:
         
         logging.debug("Setting denom inhibit: %r" % denom)
         denom = bytes(denom)
-        self.send_command_set_denom()
+        self.send_command_set_denom(denom)
         status, data = self.read_response()
         while (status, data) != (SET_DENOM, denom):
             logging.warning("Acceptor did not echo denom settings")
