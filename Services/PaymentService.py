@@ -50,8 +50,7 @@ class PaymentService():
                 # TODO: Informar al tpv de que no estan conectados
                 self.setErrorInDisplay("Please Connect Display")
                 time.sleep(5)
-                pass
-                self.initializeControllers()
+                raise PrinterPortNotConnected("Error: Failed to connect Billwallet")
         if(BILLWALLET):
             try:
                 self.billWalletService: BillWalletService = BillWalletService(
@@ -67,6 +66,8 @@ class PaymentService():
                 print("Please Connect BillWallet ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
+                raise PrinterPortNotConnected("Error: Failed to connect Billwallet")
+
         if(COINWALLET):
             try:
                 # print("MON: ", self.portMonedero)
@@ -80,7 +81,7 @@ class PaymentService():
                 print("Please Connect CoinWallet ", e)
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(3)
-                self.initializeControllers()
+                raise PrinterPortNotConnected("Error: Failed to connect Coinwallet")
         if(PRINTER):
             try:
                 self.printerController = PrinterController()
@@ -89,6 +90,8 @@ class PaymentService():
                 print("Please Connect Printer ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
+                raise PrinterPortNotConnected("Error: Failed to connect Printer")
+
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
@@ -99,13 +102,14 @@ class PaymentService():
                 print("Please Connect Leds ")
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
-
+                raise LedsPortNotConnected("Error: Failed to connect Leds")
     def checkPortsConnected(self):
         print("Trying to connect Ports")
 
         if(self.portBilletero == None):
             # TODO: Informar al tpv de que no estan conectados
             print("BillWallet NO connected")
+            raise("BillWallet NO connected")
         if(self.portMonedero == None):
             # TODO: Informar al tpv de que no estan conectados
             print("CoinWallet NO connected")
@@ -275,3 +279,15 @@ class PaymentService():
     # def startMachinesConfig(self, stackA, stackB):
     #     self.billWalletService.bv.pausePollThread()
     #     self.billWalletService.bv.configStacks(stackA,stackB)
+
+
+class LedsPortNotConnected(Exception):
+    pass
+class DisplayPortNotConnected(Exception):
+    pass
+class BillwalletPortNotConnected(Exception):
+    pass
+class CoinwalletPortNotConnected(Exception):
+    pass
+class PrinterPortNotConnected(Exception):
+    pass
