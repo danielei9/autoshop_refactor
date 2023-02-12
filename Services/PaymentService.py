@@ -38,6 +38,7 @@ class PaymentService():
         self.priceClientShouldPay = 0
         self.payRequest: PayRequest = None
         self.actualCancelled = False
+        self.sendData('{"INIT":"OK"}')
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
@@ -259,6 +260,14 @@ class PaymentService():
             return minBill
         if(payFromStack2 == True):
             return maxBill
+    def printTicket(self):
+        self.printerController.prepareOrderToPrint(self.payRequest)
+        try:
+            self.printerController.print()
+        except:
+            self.sendErrorTPV("Error: Printer is disconnected")
+            time.sleep(2)
+            self.printTicket()
 
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
@@ -284,8 +293,8 @@ class PaymentService():
 
         self.billWalletService.bv.pausePollThread()
         self.coinWalletService.coinwallet.disableInsertCoins()
-        self.printerController.prepareOrderToPrint(self.payRequest)
-        self.printerController.print()
+        if(PRINTER):
+            self.printTicket()
         # self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
@@ -293,12 +302,13 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(5)
-            self.displayController.setByePage()
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
+        self.displayController.setByePage()
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
+        time.sleep(2)
 
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
