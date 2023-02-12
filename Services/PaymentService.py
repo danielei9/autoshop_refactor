@@ -324,8 +324,6 @@ class PaymentService():
             self.returnChangeToClient(change)
             time.sleep(1)
         
-            self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
-        
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
         self.coinWalletService.coinwallet.disableInsertCoins()
@@ -333,6 +331,8 @@ class PaymentService():
         self.paymentDone = False
         print("paymentDone",self.paymentDone)
         time.sleep(3)
+        self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
+
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
