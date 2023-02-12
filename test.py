@@ -63,7 +63,8 @@ class Main():
             routerThread = threading.Thread(target=self.startRouterThread)
             routerThread.start()
 
-    def run(self):
+    def run(self, resetMachine,):
+        self.resetMachine = resetMachine
         try:
             print("run")
             # crear hilo para manejar las solicitudes de MQTT
@@ -101,7 +102,7 @@ class Main():
 class MainProcess():
     def __init__(self):
         self.service = Main()
-        self.process = multiprocessing.Process(target=self.service.run, args=())
+        self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess,))
         self.service.resetMachine = self.endProcess
 
     def  startProcess(self):
@@ -111,7 +112,6 @@ class MainProcess():
     def  endProcess(self):
         self.process.terminate()
         print('Process terminated')
-
 
 p = MainProcess()
 
