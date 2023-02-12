@@ -34,24 +34,24 @@ class PrinterController():
         self.printer.text("{:>22}".format("Precio"))
 
         self.printer.text("\n")
+        if(str(self.idOrder) != "-1"):
+            print("Printing: %s" % self.order)
+            order_dict = json.loads(self.order)
 
-        print("Printing: %s" % self.order)
-        order_dict = json.loads(self.order)
+            for key in order_dict:
+                self.printer.set(width=3, align='left',bold=False)
+                # self.printer.text(str(key)) # 36 de largo 
+                self.printer.text("{:>2}".format(str(key)))
 
-        for key in order_dict:
-            self.printer.set(width=3, align='left',bold=False)
-            # self.printer.text(str(key)) # 36 de largo 
-            self.printer.text("{:>2}".format(str(key)))
+                if(str(self.idOrder) != "-1"):
+                    self.printer.set(width=3, align='right',bold=False)
+                    self.printer.text("{:>27}".format(str(order_dict[key])  + " \n"))
 
-            if(str(self.idOrder) != "-1"):
-                self.printer.set(width=3, align='right',bold=False)
-                self.printer.text("{:>27}".format(str(order_dict[key])  + " \n"))
-
-                # self.printer.text(str(order_dict[key]) + " \n") # 36 de largo 
-                print(str(key) + "\n") # 36 de largo 
-                print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
-                
-        self.printer.set(width=5, align='right',bold=True)
+                    # self.printer.text(str(order_dict[key]) + " \n") # 36 de largo 
+                    print(str(key) + "\n") # 36 de largo 
+                    print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
+                    
+            self.printer.set(width=5, align='right',bold=True)
 
         if(str(self.idOrder) != "-1"):
             self.printer.text("\n\nsubtotal: "+ str(round(self.price*0.79,2)) + "\n")
@@ -66,6 +66,7 @@ class PrinterController():
                 pass
         else:
             self.printer.text("MAQUINA CARGADA: ")
+            print("PRINTER CONTROLLER TOTAL : " , str(self.price))
             self.printer.text("\n\nTotal: "+ str(round(self.price,2)) + "\n")
             return
 
