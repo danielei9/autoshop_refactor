@@ -41,7 +41,6 @@ class PaymentService():
         while(self.billWalletService.stackA == None ):
             time.sleep(.5)
 
-        self.sendDataTPV('{"typeRequest":"1","stackA":"' + str(self.billWalletService.stackA )+ '","stackB":"'+str(self.billWalletService.stackB)+'"}')
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
@@ -251,6 +250,7 @@ class PaymentService():
             # TODO: BORRASR
             payFromStack1 = True
             payFromStack2 = False
+            self.sendErrorTPV("Failed to pay bills")
             
         (status, data) = self.billWalletService.bv.bv_status
 
@@ -261,7 +261,9 @@ class PaymentService():
             if(self.billWalletService.bv.pause_flag):
                 (status, data) = self.billWalletService.bv.req_status()
         # time.sleep(.2)
-        self.billWalletService.bv.payout(payFromStack1, payFromStack2)
+        payoutDone = self.billWalletService.bv.payout(payFromStack1, payFromStack2)
+        if(payoutDone == -1):
+            self.sendErrorTPV("Not bills available to pay")
         if(payFromStack1 == True):
             return minBill
         if(payFromStack2 == True):

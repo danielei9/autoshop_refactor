@@ -2,6 +2,7 @@ import json
 from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Model.TPVCommunication.Request.PayRequest import *
 from Model.TPVCommunication.Request.CancelRequest import *
+from Model.TPVCommunication.Request.ConnectedRequest import *
 from utils.RequestCodes import *
 
 class RequestController():
@@ -21,6 +22,8 @@ class RequestController():
             return self.processConfigStackRequest(jsonData)
         elif(jsonData['typeRequest'] == TYPE_CANCELLED_REQUEST):
             return self.processCancelRequest(jsonData)
+        elif(jsonData['typeRequest'] == TYPE_CONNECTED_REQUEST):
+            return self.processConnectedRequest(jsonData)
         else:
             # TODO: Revisar y enviar to tpv error
             assert("Not valid typeRequest")
@@ -29,6 +32,14 @@ class RequestController():
         try:
             print("Config request converted")
             return ConfigStackRequest(jsonData["typeRequest"],jsonData["stackA"],jsonData["stackB"])
+        except:
+            print("Error en conversion de la request de config de stacks")
+            #TODO: Enviar datos de fallo por mqtt
+
+    def processConnectedRequest(self,jsonData):
+        try:
+            print("Connect request converted")
+            return ConnectedRequest(jsonData["typeRequest"],jsonData["connected"])
         except:
             print("Error en conversion de la request de config de stacks")
             #TODO: Enviar datos de fallo por mqtt

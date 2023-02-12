@@ -504,6 +504,7 @@ class BillVal:
             if(status == INHIBIT):
                 # TODO: Comunicar que no hay billetes 
                 logging.error("NO HAY BILLS: " + str(hex(status)))
+                return -1
             time.sleep(.2)
         
         # Request status
@@ -560,7 +561,7 @@ class BillVal:
         print("BV STATUS: ",hex(status))
         # self.resumePollThread()
         time.sleep(.3)
-
+        return 1
     def sendPayCommand(self,payFromStack1,payFromStack2):
         
         #payout():Status: 1a 

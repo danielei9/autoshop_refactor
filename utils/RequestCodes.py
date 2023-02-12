@@ -26,3 +26,5 @@ TYPE_PAY_REQUEST = 0
 TYPE_CONFIG_REQUEST = 1
 #- ha recibido una request de cancelación de la maquina
 TYPE_CANCELLED_REQUEST = 2 
+
+TYPE_CONNECTED_REQUEST = 3
