@@ -5,7 +5,7 @@ class LedsController(SerialCommunicator):
 
     def __init__(self, port):
         super().__init__(port,baudrate=115200)
-        # self.doneStatus = "RED_"
+        self.cancelStatus = "RED_"
         # self.doneStatus = "CYAN_"
         self.doneStatus = "GREEN_"
         self.offStatus = "OFF_" 

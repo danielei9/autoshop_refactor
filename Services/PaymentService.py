@@ -11,7 +11,7 @@ PRINTER = True
 COINWALLET = True
 BILLWALLET = True
 DISPLAY = True
-LEDS = False
+LEDS = True
 
 
 class PaymentService():

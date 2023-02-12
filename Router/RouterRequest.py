@@ -47,6 +47,7 @@ class Router():
     # Cancelar 
     def enrouteCancelRequest(self,request):
         if( isinstance(request,CancelRequest ) ): 
+            self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
             print("Arrive paymentDone") 
             #poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
@@ -58,8 +59,11 @@ class Router():
         
     def enrouteConfigRequest(self,request):
         if( isinstance(request,ConfigStackRequest ) ): 
+            self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
+
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
+            self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
 
     def enrouteResetRequest(self,request):
