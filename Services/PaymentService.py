@@ -263,14 +263,22 @@ class PaymentService():
     def printTicket(self):
         self.printerController.prepareOrderToPrint(self.payRequest)
         try:
-            self.printerController.print()
+            if(self.actualCancelled == True):
+                self.printerController.print("CANCELLED")
+            else:
+                self.printerController.print("PAY")
+                # TODO: REVISAR CHARGE
+            # if(self.actualCharge == True):
+            #     self.printerController.print("CHARGE")
         except:
             self.sendErrorTPV("Error: Printer is disconnected")
             time.sleep(2)
             self.printTicket()
+            pass
 
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
+        self.actualCancelled = False
         self.coinWalletService.coinwallet.enableInsertCoins()
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.payStatus)

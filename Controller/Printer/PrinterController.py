@@ -8,6 +8,7 @@ class PrinterController():
         try:
             self.printer = Usb(0x10c5,0x0009,in_ep=0x81,out_ep=0x02)
             print("Printer is OK connected")
+            self.type = ""
 
         except :
             print("Printer is not connected")
@@ -55,6 +56,13 @@ class PrinterController():
             self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "\n")
             self.printer.text("\n")
             self.printer.set(width=3 ,height=3, align='center',bold=True)
+            if(self.type == "CANCELLED"):
+                self.printer.text("ORDEN CANCELADA")
+                return
+            if(self.type == "CHARGE"):
+                self.printer.text("MAQUINA CARGADA")
+                return
+
             self.printer.text("Vuelva pronto ;)")
 
     def __printerCutPaper(self):
@@ -78,6 +86,7 @@ class PrinterController():
         self.address = requestAdpated.address
         self.phone = requestAdpated.phone
 
-    def print(self):
+    def print(self,type):
+        self.type = type
         self.__printText()
         self.__printerCutPaper()
