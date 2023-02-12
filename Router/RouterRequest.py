@@ -36,6 +36,10 @@ class Router():
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 return True
             
+            self.actualProcessingRequest = None
+            self.lastRequestArrived = None
+            self.paymentService.paymentDone = True
+
     # Cancelar 
     def enrouteCancelRequest(self,request):
         if( isinstance(request,CancelRequest ) ): 
