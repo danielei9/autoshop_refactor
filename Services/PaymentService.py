@@ -101,7 +101,7 @@ class PaymentService():
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
-                # self.ledsController.setLedsPayingState(self.ledsController.configStatus)
+                self.ledsController.setLedsPayingState(self.ledsController.configStatus)
                 print("Leds Initialized OK")
 
             except:
@@ -132,7 +132,7 @@ class PaymentService():
                 self.sendErrorTPV("ERROR: Display NO connected")
                 time.sleep(3)
                 self.checkPortsConnected()
-        
+        # TODO: Cuando obtenga un error crear una funcion aqui que envie al tpv y muestre color rojo con los leds que será pasada como referencia a los siguientes niveles
         if(LEDS):
             if(self.portLeds == None):
                 self.sendErrorTPV("ERROR: Leds NO connected")
@@ -263,7 +263,8 @@ class PaymentService():
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
         self.coinWalletService.coinwallet.enableInsertCoins()
-        # self.ledsController.setLedsPayingState(self.ledsController.payStatus)
+        if(LEDS):
+            self.ledsController.setLedsPayingState(self.ledsController.payStatus)
 
         self.billWalletService.bv.resumePollThread()
         
@@ -272,6 +273,7 @@ class PaymentService():
         self.priceClientShouldPay = payRequest.price
 
         if(DISPLAY):
+            self.displayController.setOrderPage()
             self.displayController.display(self.payRequest)
         
         # Esperando a pagar
@@ -291,11 +293,14 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(5)
-        # self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
+            self.displayController.setByePage()
+        if(LEDS):
+            self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
-                    
+
+        self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.paymentDone = True
