@@ -78,6 +78,9 @@ class Main():
             else:
                 time.sleep(3)
                 print("error with router thread")
+                self.tpv.sendError("error with router thread")
+                self.run()
+
             # if(tpvListenerThread.is_alive()):
             #     # print("Tpv Listener is alive")
             #     pass
