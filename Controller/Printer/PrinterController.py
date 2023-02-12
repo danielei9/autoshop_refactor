@@ -63,6 +63,7 @@ class PrinterController():
                 self.printer.text("ORDEN CANCELADA")
                 return
             else:
+                self.printer.text("Vuelva pronto ;)")
                 pass
         else:
             self.printer.text("MAQUINA CARGADA: ")
@@ -71,7 +72,6 @@ class PrinterController():
             return
 
 
-            self.printer.text("Vuelva pronto ;)")
 
     def __printerCutPaper(self):
         self.printer.cut()
