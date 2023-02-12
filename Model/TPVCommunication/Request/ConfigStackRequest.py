@@ -5,5 +5,6 @@ class ConfigStackRequest(Request):
             print("init configrequest")
             self.stackA = stackA
             self.stackB = stackB
-            super().__init__(typeRequest,idOrder)
+            self.idOrder = idOrder
+            super().__init__(0,typeRequest)
             
