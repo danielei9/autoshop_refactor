@@ -191,7 +191,6 @@ class PaymentService():
 
         # CAMBIO DE BILLETES
         print("MINIMO BILLETE",minimumBill)
-        self.coinWalletService.coinwallet.disableInsertCoins()
 
         if(changeInBills >= minimumBill):
             toReturn = round(changeInBills)
@@ -220,6 +219,10 @@ class PaymentService():
         self.coinWalletService.coinwallet.enableInsertCoins()
         time.sleep(.2)
         self.coinWalletService.coinwallet.cashBack(change)
+        time.sleep(.2)
+        self.coinWalletService.coinwallet.disableInsertCoins()
+        time.sleep(.2)
+
 
     def __billBack(self, changeBills):
         print("Devolver: " + str(changeBills) + " €")
