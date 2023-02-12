@@ -332,9 +332,7 @@ class PaymentService():
         print("payment done from __startMachinesPayment")
         self.paymentDone = False
         print("paymentDone",self.paymentDone)
-        time.sleep(1)
-        self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
-
+        time.sleep(3)
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
