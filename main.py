@@ -61,9 +61,8 @@ class Main():
             routerThread = threading.Thread(target=self.startRouterThread)
             routerThread.start()
 
-    def run(self,resetMachine):
+    def run(self):
         try:
-            self.resetMachine = resetMachine
             print("run")
             # crear hilo para manejar las solicitudes de MQTT
             # tpvListenerThread = threading.Thread(target=self.initTPVListener())
@@ -102,9 +101,9 @@ import time
 class MainProcess():
     def __init__(self):
         self.service = Main()
-        self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess,))
+        self.process = multiprocessing.Process(target=self.service.run, args=())
         self.service.resetMachine = self.endProcess
-        
+
     def  startProcess(self):
         self.process.start()
         print(f'Process ID: {self.process.pid}')
