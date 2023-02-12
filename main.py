@@ -103,8 +103,8 @@ class MainProcess():
     def __init__(self):
         self.service = Main()
         self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess,))
-        self.startProcess()
-
+        self.service.resetMachine = self.endProcess
+        
     def  startProcess(self):
         self.process.start()
         print(f'Process ID: {self.process.pid}')
