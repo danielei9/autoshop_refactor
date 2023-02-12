@@ -326,7 +326,9 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(1)
-        
+        if(self.actualCancelled == True):
+            self.billWalletService.bv.pausePollThread()
+
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
         self.coinWalletService.coinwallet.disableInsertCoins()
