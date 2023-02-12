@@ -707,3 +707,4 @@ class BillVal:
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
         print(self.com.readline().hex())
         time.sleep(.2)
+        self.setStacksInOrden(stackA,stackB)
