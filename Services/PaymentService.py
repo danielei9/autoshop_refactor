@@ -117,31 +117,25 @@ class PaymentService():
 
         if(BILLWALLET):
             if(self.portBilletero == None):
-                self.sendErrorTPV("ERROR: BillWallet NO connected::")
+                self.sendErrorTPV("ERROR: BillWallet NO connected")
                 time.sleep(3)
                 self.checkPortsConnected()
 
         if(COINWALLET):
             if(self.portMonedero == None):
-                # TODO: Informar al tpv de que no estan conectados
-                print("")
-                self.sendErrorTPV("ERROR: CoinWallet NO connected::")
+                self.sendErrorTPV("ERROR: CoinWallet NO connected")
                 time.sleep(3)
                 self.checkPortsConnected()
        
         if(DISPLAY):
             if(self.portDisplay == None):
-                # TODO: Informar al tpv de que no estan conectados
-                print("Display NO connected")
-                self.sendErrorTPV("Display::")
+                self.sendErrorTPV("ERROR: Display NO connected")
                 time.sleep(3)
                 self.checkPortsConnected()
         
         if(LEDS):
             if(self.portLeds == None):
-                # TODO: Informar al tpv de que no estan conectados
-                print("Leds NO connected")
-                self.sendErrorTPV("LEDS::")
+                self.sendErrorTPV("ERROR: Leds NO connected")
                 time.sleep(3)
                 self.checkPortsConnected()
 
