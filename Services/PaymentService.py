@@ -6,7 +6,7 @@ import asyncio
 from Controller.UsbPortDetector import *
 import threading
 from Controller.BillWallet.BillWalletService import *
-
+from utils.RequestCodes import *
 PRINTER = True
 COINWALLET = True
 BILLWALLET = True
@@ -41,7 +41,7 @@ class PaymentService():
         while(self.billWalletService.stackA == None ):
             time.sleep(.5)
 
-        self.sendDataTPV('{"INIT":"OK","stackA":"' + str(self.billWalletService.stackA )+ '","stackB":"'+str(self.billWalletService.stackB)+'"}')
+        self.sendDataTPV('{"typeRequest":"1","stackA":"' + str(self.billWalletService.stackA )+ '","stackB":"'+str(self.billWalletService.stackB)+'"}')
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
@@ -279,9 +279,13 @@ class PaymentService():
             time.sleep(3)
             self.printTicket()
             pass
+    
+    def sendAckRequest(self, status, idOrder):
+        self.sendDataTPV('{"status":"' + str(status)+ '","idOrder":"'+str(idOrder)+'"}')
 
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
+        self.sendAckRequest(STATUS_MACHINES_RECEIVED_REQUEST,payRequest.idOrder)
         self.actualCancelled = False
         self.totalAmount = 0
         self.coinWalletService.coinwallet.enableInsertCoins()
@@ -297,24 +301,31 @@ class PaymentService():
         if(DISPLAY):
             self.displayController.setOrderPage()
             self.displayController.display(self.payRequest)
+        self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
         
         # Esperando a pagar
         while self.paymentDone == False:
             print("waiting pay")
             self.checkIfPaymentComplete()
             time.sleep(1)
+        self.sendAckRequest(STATUS_MACHINES_PAYING_REQUEST_FINISHED,payRequest.idOrder)
 
         if(PRINTER):
             if(str(self.payRequest.idOrder) == str(-1)):
                 print("CHARGE MACHINEEEES")
                 self.payRequest.price = self.totalAmount 
+            self.sendAckRequest(STATUS_MACHINES_PRINTING_TICKET,payRequest.idOrder)
             self.printTicket()
+
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(1)
+        
+            self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
+        
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
         self.coinWalletService.coinwallet.disableInsertCoins()
@@ -322,6 +333,7 @@ class PaymentService():
         self.paymentDone = False
         print("paymentDone",self.paymentDone)
         time.sleep(1)
+        self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
 
         self.displayController.setWelcomePage()
         self.actualProcessingRequest = None

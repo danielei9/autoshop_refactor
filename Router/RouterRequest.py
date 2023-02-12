@@ -4,6 +4,7 @@ from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Services.PaymentService import *
 from TpvYsolveMqtt import *
+from utils.RequestCodes import *
 class Router():
     def __init__(self,actualProcessingRequest, lastRequestArrived, tpvComm:TpvYsolveMqtt):
         self.actualProcessingRequest = actualProcessingRequest
@@ -34,10 +35,13 @@ class Router():
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
+                self.sendDataTPV("")
                 self.paymentService.paymentDone = True
                 self.actualProcessingRequest = None
                 self.lastRequestArrived = None
                 return True
+
+
 
     # Cancelar 
     def enrouteCancelRequest(self,request):
@@ -48,6 +52,7 @@ class Router():
             self.lastRequestArrived = None
             self.paymentService.paymentDone = True
             self.paymentService.actualCancelled = True
+            self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
             return True
         
     def enrouteConfigRequest(self,request):

@@ -10,5 +10,6 @@ class PayRequest(Request):
             self.address = address
             self.phone = phone
             self.idOrder = idOrder
-            super().__init__(typeRequest,status)
+            self.status = status
+            super().__init__(typeRequest)
             
