@@ -154,7 +154,7 @@ class PaymentService():
 
     def checkIfPaymentComplete(self):
         print("self.totalAmount >= self.priceClientShouldPay  ", self.totalAmount, "  ",self.priceClientShouldPay  )
-        if self.totalAmount > self.priceClientShouldPay:
+        if (self.totalAmount > self.priceClientShouldPay):
                 (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
                 while ( statusBillWallet != IDLE ):
                     (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
@@ -195,12 +195,12 @@ class PaymentService():
                 returnedToUser = self.__billBack(toReturn)
                 # Recalcular dinero a devolver
                 toReturn = toReturn - returnedToUser
-
-        print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
-              " changeInBills" + str(changeInBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
         
         self.totalAmount = 0
         self.priceClientShouldPay = 0
+
+        print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
+              " changeInBills" + str(changeInBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
 
         # TODO: inhibir monedas
         # self.inhibitCoins()
