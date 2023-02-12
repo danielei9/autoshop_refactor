@@ -85,8 +85,9 @@ class PrinterController():
         print(obj['id'])
 
     def prepareOrderToPrint(self,requestAdpated: PayRequest):
-        self.order = str( requestAdpated.order).replace("\'","\"")
         self.idOrder = requestAdpated.idOrder
+        if(self.idOrder != -1):
+            self.order = str( requestAdpated.order).replace("\'","\"")
         self.price = requestAdpated.price
         self.status = requestAdpated.status
         self.date = requestAdpated.date
