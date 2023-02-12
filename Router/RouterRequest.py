@@ -35,10 +35,7 @@ class Router():
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 return True
-            
-            self.actualProcessingRequest = None
-            self.lastRequestArrived = None
-            self.paymentService.paymentDone = True
+
 
     # Cancelar 
     def enrouteCancelRequest(self,request):

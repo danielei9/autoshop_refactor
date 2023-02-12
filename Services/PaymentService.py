@@ -204,7 +204,7 @@ class PaymentService():
 
         # TODO: inhibir monedas
         # self.inhibitCoins()
-        # self.paymentDone = True
+        self.paymentDone = True
    
 
     def __coinBack(self, change):
@@ -295,7 +295,10 @@ class PaymentService():
 
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
-
+                    
+        self.actualProcessingRequest = None
+        self.lastRequestArrived = None
+        self.paymentDone = True
     # def startMachinesConfig(self, stackA, stackB):
     #     self.billWalletService.bv.pausePollThread()
     #     self.billWalletService.bv.configStacks(stackA,stackB)
