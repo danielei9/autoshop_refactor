@@ -191,6 +191,8 @@ class PaymentService():
 
         # CAMBIO DE BILLETES
         print("MINIMO BILLETE",minimumBill)
+        self.coinWalletService.coinwallet.disableInsertCoins()
+
         if(changeInBills >= minimumBill):
             toReturn = round(changeInBills)
             # Mientras tengamos que devolver dinero...

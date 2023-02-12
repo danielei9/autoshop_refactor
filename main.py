@@ -1,7 +1,3 @@
-# inicializar Mqtt 
-# subscribe mqtt
-# esperar a obtener un request
-# Procesar request
 from TpvYsolveMqtt import *
 from Model.TPVCommunication.Request.Request import *
 from Model.TPVCommunication.Request.PayRequest import *
@@ -33,11 +29,7 @@ class Main():
         self.router.enrouteCancelRequest(self.lastRequestArrived)
         self.router.enrouteConfigRequest(self.lastRequestArrived)
         self.router.enrouteConnectedRequest(self.lastRequestArrived)
-        try:
-            self.router.enrouteResetRequest(self.lastRequestArrived)
-        except:
-            raise ValueError("adaptRequestCB") 
-
+        self.router.enrouteResetRequest(self.lastRequestArrived)
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
