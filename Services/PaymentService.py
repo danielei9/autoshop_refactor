@@ -38,7 +38,7 @@ class PaymentService():
         self.priceClientShouldPay = 0
         self.payRequest: PayRequest = None
         self.actualCancelled = False
-        self.sendData('{"INIT":"OK"}')
+        self.sendDataTPV('{"INIT":"OK"}')
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
