@@ -22,7 +22,6 @@ class Main():
         self.actualProcessingRequest:Request = None
         self.tpv = None
         self.router = None
-        self.resetMachine = None
 
     def adaptRequestCB(self,rawPayload):
         print("Adapt request CB ")
@@ -34,7 +33,7 @@ class Main():
         self.router.enrouteCancelRequest(self.lastRequestArrived)
         self.router.enrouteConfigRequest(self.lastRequestArrived)
         self.router.enrouteConnectedRequest(self.lastRequestArrived)
-        self.router.enrouteResetRequest(self.lastRequestArrived,self.resetMachine)
+        self.router.enrouteResetRequest(self.lastRequestArrived)
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
@@ -102,7 +101,6 @@ class MainProcess():
     def __init__(self):
         self.service = Main()
         self.process = multiprocessing.Process(target=self.service.run, args=())
-        self.service.resetMachine = self.endProcess
 
     def  startProcess(self):
         self.process.start()
