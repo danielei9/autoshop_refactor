@@ -50,7 +50,7 @@ class PaymentService():
                 # TODO: Informar al tpv de que no estan conectados
                 self.setErrorInDisplay("Please Connect Display")
                 time.sleep(5)
-                raise PrinterPortNotConnected("Error: Failed to connect Billwallet")
+                raise DisplayPortNotConnected("Error: Failed to connect Billwallet")
         if(BILLWALLET):
             try:
                 self.billWalletService: BillWalletService = BillWalletService(
@@ -103,22 +103,29 @@ class PaymentService():
                 # TODO: Informar al tpv de que no estan conectados
                 time.sleep(5)
                 raise LedsPortNotConnected("Error: Failed to connect Leds")
+    
+        
     def checkPortsConnected(self):
         print("Trying to connect Ports")
 
         if(self.portBilletero == None):
             # TODO: Informar al tpv de que no estan conectados
             print("BillWallet NO connected")
-            raise("BillWallet NO connected")
+            raise BillwalletPortNotConnected("Error: Failed to connect Billwallet")
         if(self.portMonedero == None):
             # TODO: Informar al tpv de que no estan conectados
             print("CoinWallet NO connected")
+            raise CoinwalletPortNotConnected("Error: Failed to connect Coinwallet")
+
         if(self.portDisplay == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Display NO connected")
+            raise DisplayPortNotConnected("Error: Failed to connect Display")
+
         if(self.portLeds == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Leds NO connected")
+            raise LedsPortNotConnected("Error: Failed to connect LEDS")
 
     def manageTotalAmount(self, cantidad):
         self.totalAmount = float(self.totalAmount) + float(cantidad)
