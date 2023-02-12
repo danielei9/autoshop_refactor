@@ -324,8 +324,9 @@ class PaymentService():
             self.sendAckRequest(STATUS_MACHINES_PRINTING_TICKET,payRequest.idOrder)
             self.printTicket()
 
-        if(self.actualCancelled == True and payRequest.idOrder != -1 ):
-            self.priceClientShouldPay = 0 
+        if(self.actualCancelled == True ):
+            if( payRequest.idOrder != -1 ):
+                self.priceClientShouldPay = 0 
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
