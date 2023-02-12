@@ -5,14 +5,15 @@ from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Services.PaymentService import *
 
 class Router():
-    def __init__(self,actualProcessingRequest, lastRequestArrived):
+    def __init__(self,actualProcessingRequest, lastRequestArrived, sendErrorTpv):
         self.actualProcessingRequest = actualProcessingRequest
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
         self.initializePaymentService()
-
+        self.sendErrorTPV = sendErrorTpv
+        
     def initializePaymentService(self):
-        self.paymentService = PaymentService()
+        self.paymentService = PaymentService(self.sendErrorTPV)
     
     def setActualProcessingRequest(self,request):
         self.actualProcessingRequest= request
