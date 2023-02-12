@@ -308,6 +308,7 @@ class PaymentService():
             self.printTicket()
         # self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
+        self.displayController.setByePage()
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
             change = self.totalAmount - self.priceClientShouldPay
@@ -316,7 +317,6 @@ class PaymentService():
         if(LEDS):
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
-        self.displayController.setByePage()
         print("payment done from __startMachinesPayment")
         print("paymentDone",self.paymentDone)
         time.sleep(1)
