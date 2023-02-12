@@ -102,7 +102,7 @@ import time
 class MainProcess():
     def __init__(self):
         self.service = Main()
-        self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess))
+        self.process = multiprocessing.Process(target=self.service.run, args=(self.endProcess,))
         self.startProcess()
 
     def  startProcess(self):
