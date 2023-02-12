@@ -64,7 +64,7 @@ class Router():
 
     def enrouteResetRequest(self,request, resetMachine):
         if( isinstance(request,ResetRequest ) ): 
-            print("Arrive ConfigRequest")
+            print("Arrive ResetRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
             resetMachine()
             return True

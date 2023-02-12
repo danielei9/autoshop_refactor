@@ -25,6 +25,8 @@ class RequestController():
             return self.processCancelRequest(jsonData)
         elif(jsonData['typeRequest'] == TYPE_CONNECTED_REQUEST):
             return self.processConnectedRequest(jsonData)
+        elif(jsonData['typeRequest'] == TYPE_RESET_REQUEST):
+            return self.processResetRequest(jsonData)
         else:
             # TODO: Revisar y enviar to tpv error
             assert("Not valid typeRequest")
