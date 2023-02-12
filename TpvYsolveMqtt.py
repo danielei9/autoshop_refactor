@@ -31,7 +31,7 @@ class TpvYsolveMqtt():
         self.conn.create_loop_mqtt_receive(self.cb_adapt_request)
         
     def sendError(self,error):
-        print("Sending error to tpv")
+        print("Sending error to tpv: ", error)
         self.sendData('{"error":"' + str(error)+'"}')
 
     def sendData(self,data):

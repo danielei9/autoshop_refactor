@@ -24,9 +24,9 @@ class PaymentService():
         self.portMonedero = None
         self.portDisplay = None
         self.portLeds = None
-        UsbDetector = USBPortDetector()
+        self.UsbDetector = USBPortDetector()
         (self.portBilletero, self.portMonedero, self.portDisplay,
-         self.portLeds) = UsbDetector.detect_ports()
+         self.portLeds) = self.UsbDetector.detect_ports()
 
         self.initializeControllers()
 
@@ -109,27 +109,24 @@ class PaymentService():
     
         
     def checkPortsConnected(self):
-        print("Trying to connect Ports")
+        print("Finding Ports...")
+        (self.portBilletero, self.portMonedero, self.portDisplay, self.portLeds) = self.UsbDetector.detect_ports()
 
         if(self.portBilletero == None):
-            # TODO: Informar al tpv de que no estan conectados
-            print("ERROR: BillWallet NO connected")
-            self.sendErrorTPV("Billwallet::")
+            self.sendErrorTPV("ERROR: BillWallet NO connected::")
             time.sleep(3)
             self.checkPortsConnected()
-            # raise BillwalletPortNotConnected("Error: Failed to connect Billwallet")
+            
         if(self.portMonedero == None):
             # TODO: Informar al tpv de que no estan conectados
-            print("CoinWallet NO connected")
-            # raise CoinwalletPortNotConnected("Error: Failed to connect Coinwallet")
-            self.sendErrorTPV("CoinWallet::")
+            print("")
+            self.sendErrorTPV("ERROR: CoinWallet NO connected::")
             time.sleep(3)
             self.checkPortsConnected()
 
         if(self.portDisplay == None):
             # TODO: Informar al tpv de que no estan conectados
             print("Display NO connected")
-            # raise DisplayPortNotConnected("Error: Failed to connect Display")
             self.sendErrorTPV("Display::")
             time.sleep(3)
             self.checkPortsConnected()
@@ -140,8 +137,6 @@ class PaymentService():
             self.sendErrorTPV("LEDS::")
             time.sleep(3)
             self.checkPortsConnected()
-
-            # raise LedsPortNotConnected("Error: Failed to connect LEDS")
 
     def manageTotalAmount(self, cantidad):
         self.totalAmount = float(self.totalAmount) + float(cantidad)
