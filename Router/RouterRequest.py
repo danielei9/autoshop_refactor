@@ -56,4 +56,3 @@ class Router():
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
             return True
            
-        

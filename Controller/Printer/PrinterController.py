@@ -42,6 +42,7 @@ class PrinterController():
             self.printer.set(width=3, align='left',bold=False)
             # self.printer.text(str(key)) # 36 de largo 
             self.printer.text("{:>2}".format(str(key)))
+
             if(str(self.idOrder) != "-1"):
                 self.printer.set(width=3, align='right',bold=False)
                 self.printer.text("{:>27}".format(str(order_dict[key])  + " \n"))
@@ -49,7 +50,9 @@ class PrinterController():
                 # self.printer.text(str(order_dict[key]) + " \n") # 36 de largo 
                 print(str(key) + "\n") # 36 de largo 
                 print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
+                
         self.printer.set(width=5, align='right',bold=True)
+
         if(str(self.idOrder) != "-1"):
             self.printer.text("\n\nsubtotal: "+ str(round(self.price*0.79,2)) + "\n")
             self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "\n")
@@ -59,9 +62,13 @@ class PrinterController():
             if(self.type == "CANCELLED"):
                 self.printer.text("ORDEN CANCELADA")
                 return
-            if(self.type == "CHARGE"):
-                self.printer.text("MAQUINA CARGADA")
-                return
+            else:
+                pass
+        else:
+            self.printer.text("MAQUINA CARGADA: ")
+            self.printer.text("\n\nTotal: "+ str(round(self.price,2)) + "\n")
+            return
+
 
             self.printer.text("Vuelva pronto ;)")
 

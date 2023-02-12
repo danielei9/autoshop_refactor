@@ -168,6 +168,9 @@ class PaymentService():
 
     def setPaymentDone(self):
             print("PAGO COMPLETADO")
+            self.billWalletService.bv.pausePollThread()
+            self.coinWalletService.coinwallet.disableInsertCoins()
+            self.displayController.setByePage()
             self.paymentDone = True
 
     def returnChangeToClient(self, amount):
@@ -268,11 +271,9 @@ class PaymentService():
         try:
             if(self.actualCancelled == True):
                 self.printerController.print("CANCELLED")
+                return
             else:
                 self.printerController.print("PAY")
-                # TODO: REVISAR CHARGE
-            # if(self.actualCharge == True):
-            #     self.printerController.print("CHARGE")
         except:
             self.sendErrorTPV("Error: Printer is disconnected")
             time.sleep(3)
@@ -303,12 +304,10 @@ class PaymentService():
             self.checkIfPaymentComplete()
             time.sleep(1)
 
-        self.billWalletService.bv.pausePollThread()
-        self.coinWalletService.coinwallet.disableInsertCoins()
-        self.displayController.setByePage()
         if(PRINTER):
+            if(str(self.payRequest.idOrder) == str(-1)):
+                self.payRequest = self.totalAmount 
             self.printTicket()
-        # self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")

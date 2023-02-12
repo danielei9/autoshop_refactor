@@ -50,7 +50,6 @@ class Main():
             time.sleep(1)
             try:
                 self.tpv.sendError(e)
-                # self.router.setErrorPayingInDisplay(e)
             except Exception as er :
                 print ("Error al reportar un error previo. Revisar mqtt")
                 print (er)
@@ -87,7 +86,9 @@ class Main():
             # else:
             #     print("error with tpv Listener thread")
             
-
-
 service = Main()
-service.run()
+try:
+    service.run()
+except Exception as e :
+    service.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. ", e)
+    service.run()
