@@ -300,15 +300,15 @@ class PaymentService():
         while self.paymentDone == False:
             print("waiting pay")
             self.checkIfPaymentComplete()
-            time.sleep(2)
+            time.sleep(1)
 
         self.billWalletService.bv.pausePollThread()
         self.coinWalletService.coinwallet.disableInsertCoins()
+        self.displayController.setByePage()
         if(PRINTER):
             self.printTicket()
         # self.printerController.printerClose()
         # Esperando a devolver en caso de tener que devolver
-        self.displayController.setByePage()
         while self.totalAmount > self.priceClientShouldPay:
             print("waiting payOut")
             change = self.totalAmount - self.priceClientShouldPay
