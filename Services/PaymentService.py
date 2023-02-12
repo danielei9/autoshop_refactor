@@ -318,6 +318,7 @@ class PaymentService():
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
 
         print("payment done from __startMachinesPayment")
+        self.paymentDone = False
         print("paymentDone",self.paymentDone)
         time.sleep(1)
 
