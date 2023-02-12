@@ -281,7 +281,7 @@ class PaymentService():
             pass
     
     def sendAckRequest(self, status, idOrder):
-        self.sendDataTPV('{"status":"' + str(status)+ '","idOrder":'+str(idOrder)+'}')
+        self.sendDataTPV('{"status":' + str(status)+ ',"idOrder":'+str(idOrder)+'}')
 
     def startMachinesPayment(self, payRequest: PayRequest):
         print("startMachinesPayment")
