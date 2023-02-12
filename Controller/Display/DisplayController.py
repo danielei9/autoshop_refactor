@@ -45,19 +45,19 @@ class DisplayController(SerialCommunicator):
         except:
             self.sendError("Error Sending To Display")
 
-    def setWelcomePage(self, page):
+    def setWelcomePage(self):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x31\xFF\xFF\xFF")
         except:
             self.sendError("Error change page in Display")
-    def setOrderPage(self, page):
+    def setOrderPage(self):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x30\xFF\xFF\xFF")
         except:
             self.sendError("Error change page in Display")
-    def setByePage(self, page):
+    def setByePage(self):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x32\xFF\xFF\xFF")
