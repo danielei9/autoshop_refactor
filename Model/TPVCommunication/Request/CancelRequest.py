@@ -1,7 +1,6 @@
 from Model.TPVCommunication.Request.Request import *
 class CancelRequest(Request):
-        def __init__(self,idOrder, typeRequest, stackA, stackB):
+        def __init__(self,idOrder, typeRequest, status):
             print("init cancel request")
-            super().__init__(typeRequest,idOrder)
-            self.stackA = stackA
-            self.stackB = stackB
+            super().__init__(status,typeRequest)
+            self.idOrder = idOrder
