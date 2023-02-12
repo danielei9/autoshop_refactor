@@ -9,8 +9,8 @@ class Router():
         self.actualProcessingRequest = actualProcessingRequest
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
-        self.sendErrorTPV = tpvComm.sendError()
-        self.sendDataTPV = tpvComm.sendData()
+        self.sendErrorTPV = tpvComm.sendError
+        self.sendDataTPV = tpvComm.sendData
         self.initializePaymentService()
         
     def initializePaymentService(self):
