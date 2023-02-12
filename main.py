@@ -36,7 +36,7 @@ class Main():
         try:
             self.router.enrouteResetRequest(self.lastRequestArrived)
         except:
-            raise ValueError("ResetRequest") 
+            raise ValueError("adaptRequestCB") 
 
 
     def initTPVListener(self):
