@@ -64,5 +64,5 @@ class Router():
     def enrouteConnectedRequest(self,request):
         if( isinstance(request,ConnectedRequest ) ): 
             print("Arrive ConfigRequest")
-            self.sendDataTPV('{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+',"stackA":' + str(self.paymentService.billWalletService.stackA )+ ',"stackB":'+str(self.paymentService.billWalletService.stackB)+'}')
+            self.sendDataTPV('{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+ ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+'}')
             return True

@@ -692,6 +692,8 @@ class BillVal:
         print("sending inhibit configMode")
         print("Configuring stack A ", str(stackA) )
         print("Configuring stack B ", str(stackB) )
+        self.stackA = stackA
+        self.stackB = stackB
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
         print("response: ",self.com.read_all())
