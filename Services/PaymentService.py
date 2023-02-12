@@ -112,31 +112,35 @@ class PaymentService():
         print("Finding Ports...")
         (self.portBilletero, self.portMonedero, self.portDisplay, self.portLeds) = self.UsbDetector.detect_ports()
 
-        if(self.portBilletero == None):
-            self.sendErrorTPV("ERROR: BillWallet NO connected::")
-            time.sleep(3)
-            self.checkPortsConnected()
-            
-        if(self.portMonedero == None):
-            # TODO: Informar al tpv de que no estan conectados
-            print("")
-            self.sendErrorTPV("ERROR: CoinWallet NO connected::")
-            time.sleep(3)
-            self.checkPortsConnected()
+        if(BILLWALLET):
+            if(self.portBilletero == None):
+                self.sendErrorTPV("ERROR: BillWallet NO connected::")
+                time.sleep(3)
+                self.checkPortsConnected()
 
-        if(self.portDisplay == None):
-            # TODO: Informar al tpv de que no estan conectados
-            print("Display NO connected")
-            self.sendErrorTPV("Display::")
-            time.sleep(3)
-            self.checkPortsConnected()
-
-        if(self.portLeds == None):
-            # TODO: Informar al tpv de que no estan conectados
-            print("Leds NO connected")
-            self.sendErrorTPV("LEDS::")
-            time.sleep(3)
-            self.checkPortsConnected()
+        if(COINWALLET):
+            if(self.portMonedero == None):
+                # TODO: Informar al tpv de que no estan conectados
+                print("")
+                self.sendErrorTPV("ERROR: CoinWallet NO connected::")
+                time.sleep(3)
+                self.checkPortsConnected()
+       
+        if(DISPLAY):
+            if(self.portDisplay == None):
+                # TODO: Informar al tpv de que no estan conectados
+                print("Display NO connected")
+                self.sendErrorTPV("Display::")
+                time.sleep(3)
+                self.checkPortsConnected()
+        
+        if(LEDS):
+            if(self.portLeds == None):
+                # TODO: Informar al tpv de que no estan conectados
+                print("Leds NO connected")
+                self.sendErrorTPV("LEDS::")
+                time.sleep(3)
+                self.checkPortsConnected()
 
     def manageTotalAmount(self, cantidad):
         self.totalAmount = float(self.totalAmount) + float(cantidad)
