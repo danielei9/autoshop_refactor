@@ -16,10 +16,9 @@ LEDS = False
 
 class PaymentService():
 
-    def __init__(self, sendErrorTPV):
+    def __init__(self, sendErrorTPV, sendDataTPV):
         self.billWalletService: BillWalletService = None
         self.coinWalletService: CoinWalletService = None
-        self.sendErrorTPV = sendErrorTPV
         self.portBilletero = None
         self.portMonedero = None
         self.portDisplay = None
@@ -27,6 +26,11 @@ class PaymentService():
         self.UsbDetector = USBPortDetector()
         (self.portBilletero, self.portMonedero, self.portDisplay,
          self.portLeds) = self.UsbDetector.detect_ports()
+        
+        self.sendDataTPV = sendDataTPV
+        self.sendErrorTPV = sendErrorTPV
+
+        self.tpv = (self.sendDataTPV,self.sendErrorTPV)
 
         self.initializeControllers()
 
@@ -43,7 +47,7 @@ class PaymentService():
         self.checkPortsConnected()
         if(DISPLAY):
             try:
-                self.displayController = DisplayController(self.portDisplay)
+                self.displayController = DisplayController(self.portDisplay, self.tpv)
                 print("Display Initialized OK")
             except:
                 print("Please Connect Display")
@@ -106,7 +110,6 @@ class PaymentService():
                 time.sleep(5)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Leds")
-    
         
     def checkPortsConnected(self):
         print("Finding Ports...")

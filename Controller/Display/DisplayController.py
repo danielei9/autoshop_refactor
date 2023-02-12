@@ -3,11 +3,13 @@ import time
 from Controller.SerialCommunicator import *
 from Controller.Display.CodesDisplay import *
 from Model.TPVCommunication.Request.PayRequest import *
+
 class DisplayController(SerialCommunicator):
-    def __init__(self,port):
+    def __init__(self,port,tpv):
         try:
             super().__init__(port)
             self.initialize()
+            self.sendData, self.sendError = tpv
         except:
             assert Exception("Error with DisplayController in port: " + str(port))
             time.sleep(3)
@@ -41,7 +43,7 @@ class DisplayController(SerialCommunicator):
                 self.com.write((id+".txt=\"" + data + "\"").encode('unicode_escape'))
             self.com.write(b"\xFF\xFF\xFF")
         except:
-            print("Error Sending To Display")
+            self.sendError("Error Sending To Display")
 
     def adaptRequestToDisplay(self,obj:PayRequest,p = 0):
         print(obj)
@@ -66,7 +68,7 @@ class DisplayController(SerialCommunicator):
             print(itemList)
             return (ticketQr,itemList,itemPriceList,priceTotal,percent)
         except:
-            print("Error to display order")
+            self.sendError("Error to display order")
  
     def putDataToDisplay(self,ticketQr,itemList,itemPriceList,priceTotal,percent):
         print(itemPriceList)

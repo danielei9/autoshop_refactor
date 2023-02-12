@@ -3,17 +3,18 @@ from Model.TPVCommunication.Request.PayRequest import *
 from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Services.PaymentService import *
-
+from TpvYsolveMqtt import *
 class Router():
-    def __init__(self,actualProcessingRequest, lastRequestArrived, sendErrorTPV):
+    def __init__(self,actualProcessingRequest, lastRequestArrived, tpvComm:TpvYsolveMqtt):
         self.actualProcessingRequest = actualProcessingRequest
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
-        self.sendErrorTPV = sendErrorTPV
+        self.sendErrorTPV = tpvComm.sendError()
+        self.sendDataTPV = tpvComm.sendData()
         self.initializePaymentService()
         
     def initializePaymentService(self):
-        self.paymentService = PaymentService(self.sendErrorTPV)
+        self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV)
     
     def setActualProcessingRequest(self,request):
         self.actualProcessingRequest= request
