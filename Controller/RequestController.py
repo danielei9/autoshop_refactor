@@ -3,6 +3,7 @@ from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Model.TPVCommunication.Request.PayRequest import *
 from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConnectedRequest import *
+from Model.TPVCommunication.Request.ResetRequest import *
 from utils.RequestCodes import *
 
 class RequestController():
@@ -32,6 +33,14 @@ class RequestController():
         try:
             print("Config request converted")
             return ConfigStackRequest(jsonData["typeRequest"],jsonData["stackA"],jsonData["stackB"])
+        except:
+            print("Error en conversion de la request de config de stacks")
+            #TODO: Enviar datos de fallo por mqtt
+
+    def processResetRequest(self,jsonData):
+        try:
+            print("RESET request converted")
+            return ResetRequest(jsonData["typeRequest"])
         except:
             print("Error en conversion de la request de config de stacks")
             #TODO: Enviar datos de fallo por mqtt

@@ -16,12 +16,13 @@ import asyncio
 stop_event = threading.Event()
 
 class Main():
-    def __init__(self):
+    def __init__(self, resetMachine):
         print("init")
         self.lastRequestArrived:Request = None
         self.actualProcessingRequest:Request = None
         self.tpv = None
         self.router = None
+        self.resetMachine = resetMachine
 
     def adaptRequestCB(self,rawPayload):
         print("Adapt request CB ")
@@ -29,9 +30,11 @@ class Main():
         self.lastRequestArrived = RequestController(rawPayload).requestAdapted
         print(self.lastRequestArrived)
         self.router.setlastRequestArrived(self.lastRequestArrived)
+
         self.router.enrouteCancelRequest(self.lastRequestArrived)
         self.router.enrouteConfigRequest(self.lastRequestArrived)
         self.router.enrouteConnectedRequest(self.lastRequestArrived)
+        self.router.enrouteResetRequest(self.lastRequestArrived,self.resetMachine)
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
@@ -59,37 +62,61 @@ class Main():
             routerThread.start()
 
     def run(self):
-        print("run")
-        # crear hilo para manejar las solicitudes de MQTT
-        # tpvListenerThread = threading.Thread(target=self.initTPVListener())
-        # tpvListenerThread.start()
-        self.initTPVListener()
-        # crear hilo para ejecutar el bucle de eventos asíncronos
-        routerThread = threading.Thread(target=self.startRouterThread)
-        routerThread.start()
-         
-        # código para manejar las solicitudes de MQTT
-        while True:
-            # comprobar si se debe cancelar la solicitud
-            time.sleep(.1)
-            if(routerThread.is_alive()):
-                # print("Router is alive")
-                pass
-            else:
-                time.sleep(3)
-                print("error with router thread")
-                self.tpv.sendError("error with router thread")
-                self.run()
-
-            # if(tpvListenerThread.is_alive()):
-            #     # print("Tpv Listener is alive")
-            #     pass
-            # else:
-            #     print("error with tpv Listener thread")
+        try:
+            print("run")
+            # crear hilo para manejar las solicitudes de MQTT
+            # tpvListenerThread = threading.Thread(target=self.initTPVListener())
+            # tpvListenerThread.start()
+            self.initTPVListener()
+            # crear hilo para ejecutar el bucle de eventos asíncronos
+            routerThread = threading.Thread(target=self.startRouterThread)
+            routerThread.start()
             
-service = Main()
-try:
-    service.run()
-except Exception as e :
-    service.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. ", e)
-    service.run()
+            # código para manejar las solicitudes de MQTT
+            while True:
+                # comprobar si se debe cancelar la solicitud
+                time.sleep(.1)
+                if(routerThread.is_alive()):
+                    # print("Router is alive")
+                    pass
+                else:
+                    time.sleep(3)
+                    print("error with router thread")
+                    self.tpv.sendError("error with router thread")
+                    self.run()
+
+                # if(tpvListenerThread.is_alive()):
+                #     # print("Tpv Listener is alive")
+                #     pass
+                # else:
+                #     print("error with tpv Listener thread")
+                    
+        except Exception as e :
+            self.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. ", e)
+            self.run()
+
+import multiprocessing
+import time
+
+class MainProcess():
+    def __init__(self):
+        self.service = Main(self.endProcess)
+        self.startProcess()
+
+    def  startProcess(self):
+        self.process = multiprocessing.Process(target=self.service.run, args=())
+        print(f'Process ID: {self.process.pid}')
+
+    def  endProcess(self):
+        self.process.terminate()
+        print('Process terminated')
+
+
+p = MainProcess()
+
+while True: 
+    if(p.process.is_alive()):
+        pass
+    else:
+        p.startProcess()
+

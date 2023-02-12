@@ -3,6 +3,7 @@ from Model.TPVCommunication.Request.PayRequest import *
 from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Model.TPVCommunication.Request.ConnectedRequest import *
+from Model.TPVCommunication.Request.ResetRequest import *
 from Services.PaymentService import * 
 from TpvYsolveMqtt import *
 from utils.RequestCodes import *
@@ -59,6 +60,13 @@ class Router():
         if( isinstance(request,ConfigStackRequest ) ): 
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
+            return True
+
+    def enrouteResetRequest(self,request, resetMachine):
+        if( isinstance(request,ResetRequest ) ): 
+            print("Arrive ConfigRequest")
+            self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
+            resetMachine()
             return True
         
     def enrouteConnectedRequest(self,request):
