@@ -307,7 +307,7 @@ class PaymentService():
         if(PRINTER):
             if(str(self.payRequest.idOrder) == str(-1)):
                 print("CHARGE MACHINEEEES")
-                self.payRequest = self.totalAmount 
+                self.payRequest.price = self.totalAmount 
             self.printTicket()
         # Esperando a devolver en caso de tener que devolver
         while self.totalAmount > self.priceClientShouldPay:
