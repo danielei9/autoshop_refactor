@@ -24,6 +24,8 @@ class BillWalletService(SerialCommunicator):
         self.initializeSerial()
         self.cb = cb
         self.bv:BillVal = None
+        self.stackA = None
+        self.stackB = None
 
     def run(self):
         print("RUN  SERVICE pay billwallet...")
@@ -36,7 +38,8 @@ class BillWalletService(SerialCommunicator):
                 logging.info("BV powered up with bill in acceptor.")
             elif self.bv.init_status == id003.POW_UP_BIS:
                 logging.info("BV powered up with bill in stacker.")
-
+            self.stackA = self.bv.stackA
+            self.stackB = self.bv.stackB
             self.startPollingService()
             self.bv.pausePollThread()
 

@@ -38,7 +38,7 @@ class PaymentService():
         self.priceClientShouldPay = 0
         self.payRequest: PayRequest = None
         self.actualCancelled = False
-        self.sendDataTPV('{"INIT":"OK"}')
+        self.sendDataTPV('{"INIT":"OK","stackA":"' +self.billWalletService.stackA+ '","stackB":"'+self.billWalletService.stackB+'"}')
 
     def setErrorInDisplay(self, error):
         if(DISPLAY):
@@ -155,7 +155,7 @@ class PaymentService():
 
     def checkIfPaymentComplete(self):
         print("self.totalAmount >= self.priceClientShouldPay  ", self.totalAmount, "  ",self.priceClientShouldPay  )
-        if (self.totalAmount > self.priceClientShouldPay):
+        if (self.totalAmount >= self.priceClientShouldPay):
                 (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
                 while ( statusBillWallet != IDLE ):
                     (statusBillWallet,dataBillWallet ) = self.billWalletService.bv.bv_status 
