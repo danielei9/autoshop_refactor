@@ -10,7 +10,7 @@ from Controller.BillWallet.BillWalletService import *
 PRINTER = True
 COINWALLET = True
 BILLWALLET = True
-DISPLAY = True
+DISPLAY = False
 LEDS = False
 
 
@@ -299,7 +299,7 @@ class PaymentService():
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.paymentDone = True
-        
+
     # def startMachinesConfig(self, stackA, stackB):
     #     self.billWalletService.bv.pausePollThread()
     #     self.billWalletService.bv.configStacks(stackA,stackB)
