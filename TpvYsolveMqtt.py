@@ -12,7 +12,7 @@ username = "ysolve"
 password = "y-solve2022"
 
 #TODO:   quitar
-broker = 'broker.hivemq.com'
+# broker = 'broker.hivemq.com'
 
 class TpvYsolveMqtt():
     def __init__(self,adaptRequest):
@@ -37,9 +37,9 @@ class TpvYsolveMqtt():
     def sendData(self,data):
         try:
             # print("Sending to:" + self.credentials.topicSend)
-            print("Sending to: payMachine/rx \n" , data)
+            print("Sending to: ", str(self.credentials.topicSend) , data)
             # self.clt.publish(topic +"/data",json.dumps(dataJson))
-            self.conn.clt.publish("payMachine/rx" ,data)
+            self.conn.clt.publish(str(self.credentials.topicSend)  ,data)
             print("Sended!")
             
         except Exception as e :

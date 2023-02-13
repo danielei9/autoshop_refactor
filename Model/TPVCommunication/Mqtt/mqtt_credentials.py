@@ -8,7 +8,7 @@ class MqttCredentials:
         eth_mac = str(get_mac_address(interface="eth0")).replace(':',"")
         self.port = port
         self.broker = broker
-        self.topic = "payMachine/" #+ eth_mac
+        self.topic = "payMachine/" + eth_mac
         # From TPV to Machines
         self.topicSubscribed = self.topic + "/tx"
         # From Machines to TPV

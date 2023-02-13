@@ -320,7 +320,7 @@ class PaymentService():
             time.sleep(1)
         self.sendAckRequest(STATUS_MACHINES_PAYING_REQUEST_FINISHED,payRequest.idOrder)
 
-        if(PRINTER):
+        if(PRINTER):   
             if(str(self.payRequest.idOrder) == str(-1)):
                 print("CHARGE MACHINEEEES")
                 self.payRequest.price = self.totalAmount 
