@@ -10,7 +10,7 @@ from utils.RequestCodes import *
 PRINTER = True
 COINWALLET = True
 BILLWALLET = True
-DISPLAY = False
+DISPLAY = True
 LEDS = True
 
 
