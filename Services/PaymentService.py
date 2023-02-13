@@ -337,6 +337,7 @@ class PaymentService():
             self.billWalletService.bv.pausePollThread()
 
         if(LEDS):
+            time.sleep(.2)
             self.ledsController.setLedsPayingState(self.ledsController.doneStatus)
         self.coinWalletService.coinwallet.disableInsertCoins()
         print("payment done from __startMachinesPayment")

@@ -48,6 +48,7 @@ class Router():
     def enrouteCancelRequest(self,request):
         if( isinstance(request,CancelRequest ) ): 
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
+            time.sleep(1)
             print("Arrive paymentDone") 
             #poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
