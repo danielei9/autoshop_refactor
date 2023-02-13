@@ -51,6 +51,7 @@ class PaymentService():
         if(LEDS):
             try:
                 self.ledsController = LedsController(self.portLeds)
+                time.sleep(.2)
                 self.ledsController.setLedsPayingState(self.ledsController.configStatus)
                 print("Leds Initialized OK")
 
@@ -60,7 +61,7 @@ class PaymentService():
                 time.sleep(3)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Leds")
-                
+
         if(DISPLAY):
             try:
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
