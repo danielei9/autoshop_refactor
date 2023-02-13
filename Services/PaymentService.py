@@ -48,6 +48,19 @@ class PaymentService():
 
     def initializeControllers(self):
         self.checkPortsConnected()
+        if(LEDS):
+            try:
+                self.ledsController = LedsController(self.portLeds)
+                self.ledsController.setLedsPayingState(self.ledsController.configStatus)
+                print("Leds Initialized OK")
+
+            except:
+                print("Please Connect Leds ")
+                # TODO: Informar al tpv de que no estan conectados
+                time.sleep(3)
+                self.initializeControllers()
+                self.sendErrorTPV("Some problems ocurred when init Leds")
+                
         if(DISPLAY):
             try:
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
@@ -101,18 +114,7 @@ class PaymentService():
                 time.sleep(3)
                 self.initializeControllers()
                 self.sendErrorTPV("Some problems ocurred when init Printer")
-        if(LEDS):
-            try:
-                self.ledsController = LedsController(self.portLeds)
-                self.ledsController.setLedsPayingState(self.ledsController.configStatus)
-                print("Leds Initialized OK")
-
-            except:
-                print("Please Connect Leds ")
-                # TODO: Informar al tpv de que no estan conectados
-                time.sleep(3)
-                self.initializeControllers()
-                self.sendErrorTPV("Some problems ocurred when init Leds")
+     
         
     def checkPortsConnected(self):
         print("Finding Ports...")
