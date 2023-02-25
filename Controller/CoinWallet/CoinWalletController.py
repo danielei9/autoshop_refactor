@@ -146,8 +146,11 @@ class CoinWalletController(SerialCommunicator):
             para devolver el dinero indicado por parámetros
         """
         print("CoinWallet.cashback:  DEVOLVER" + str(moneyBack))
-        countCoins = moneyBack / 0.05
-        return self.__sendCommand([0x0F, 0x02, int(countCoins) ])
+        # MONEDERO OLD
+        # countCoins = moneyBack / 0.05
+        # MONEDERO NEW
+        countCoins = moneyBack / 0.01
+        return self.__sendCommand([0x0F, 0x02, bytes(countCoins) ])
     """-------------------------- PUBLIC FUNCTIONS ------------------------------"""
     """-------------------------- startThreadReceived ------------------------------"""
    
