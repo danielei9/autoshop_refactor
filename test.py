@@ -95,7 +95,7 @@ class Main():
                 #     print("error with tpv Listener thread")
                     
         except Exception as e :
-            self.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. ", e)
+            self.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. " + str(e))
             self.run()
 
 
