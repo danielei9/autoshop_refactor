@@ -150,7 +150,7 @@ class CoinWalletController(SerialCommunicator):
         # countCoins = moneyBack / 0.05
         # MONEDERO NEW
         countCoins = moneyBack / 0.01
-        return self.__sendCommand([0x0F, 0x02, bytes(countCoins) ])
+        return self.__sendCommand([0x0F, 0x02, int(countCoins) ])
     """-------------------------- PUBLIC FUNCTIONS ------------------------------"""
     """-------------------------- startThreadReceived ------------------------------"""
    
