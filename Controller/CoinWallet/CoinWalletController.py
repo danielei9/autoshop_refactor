@@ -151,9 +151,9 @@ class CoinWalletController(SerialCommunicator):
         # MONEDERO NEW
         countCoins = moneyBack / 0.01
         while countCoins > 255:
-            self.__sendCommand([0x0F, 0x02, int(255) ])
+            self.__sendCommand([0x0F, 0x02, 0xFF ])
             countCoins = countCoins - 255
-            time.sleep(2)
+            time.sleep(5)
         return self.__sendCommand([0x0F, 0x02, int(countCoins) ])
     """-------------------------- PUBLIC FUNCTIONS ------------------------------"""
     """-------------------------- startThreadReceived ------------------------------"""
