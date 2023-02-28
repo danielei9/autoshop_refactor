@@ -27,6 +27,7 @@ class Router():
         self.paymentService.setErrorInDisplay(error)
 
     def routeRequest(self):
+        self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
 
         while True:
             # print(type(self.actualProcessingRequest))
