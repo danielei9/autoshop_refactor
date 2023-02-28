@@ -68,8 +68,6 @@ class PaymentService():
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
                 time.sleep(.2)
                 self.displayController.setWelcomePage()
-                time.sleep(.1)
-                self.displayController.setWelcomePage()
                 time.sleep(.2)
 
                 print("Display Initialized OK")
@@ -180,7 +178,9 @@ class PaymentService():
             time.sleep(.2)
             self.billWalletService.bv.pausePollThread()
             self.coinWalletService.coinwallet.disableInsertCoins()
+            time.sleep(.3)
             self.displayController.setByePage()
+            time.sleep(.3)
             self.paymentDone = True
 
     def returnChangeToClient(self, amount):
@@ -318,14 +318,11 @@ class PaymentService():
         self.priceClientShouldPay = payRequest.price
 
         if(DISPLAY):
-            time.sleep(.2)
+            time.sleep(.3)
             self.displayController.setOrderPage()
-            time.sleep(.2)
-            self.displayController.setOrderPage()
-            time.sleep(.2)
+            time.sleep(.3)
             self.displayController.display(self.payRequest)
             time.sleep(.2)
-            self.displayController.display(self.payRequest)
         self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
         
         # Esperando a pagar
