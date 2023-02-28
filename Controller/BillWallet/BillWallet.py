@@ -730,14 +730,15 @@ class BillVal:
 
 
         self.currentBillCountSetting(0x05,0x01)
+        time.sleep(2)
         self.currentBillCountSetting(0x05,0x02)
+        time.sleep(2)
 
         self.currentBillCountRequest()
 
         # TODO: AL INICIAR QUE LOS BILLETES LOS CUENTE CON EL COMANDO 
 
         time.sleep(.2)
-        print("Configured :) OK ")
 
         # Setting inhibit 00
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
@@ -746,6 +747,7 @@ class BillVal:
 
         self.setStacksInOrden(stackA,stackB)
         time.sleep(.2)
+        print("Configured :) OK ")
             
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
