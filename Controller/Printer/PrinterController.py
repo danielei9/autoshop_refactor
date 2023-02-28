@@ -54,14 +54,17 @@ class PrinterController():
             self.printer.set(width=5, align='right',bold=True)
 
         if(str(self.idOrder) != "-1"):
-            self.printer.text("\n\nsubtotal: "+ str(round(self.price*0.79,2)) + "\n")
-            self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "\n")
-            self.printer.text("\n")
-            self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "   \n")
             self.printer.text("\n")
             self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + "   \n")
             self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + "   \n")
+            
+            self.printer.text("\nsubtotal: "+ str(round(self.price*0.79,2)) + "   \n")
+            self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "   \n")
             self.printer.text("\n")
+            self.printer.set(width=8, align='right',bold=True)
+            self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "   \n")
+            self.printer.set(width=5, align='right',bold=True)
+            
 
             self.printer.set(width=3 ,height=3, align='center',bold=True)
             if(self.type == "CANCELLED"):
