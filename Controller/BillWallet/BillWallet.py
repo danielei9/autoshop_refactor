@@ -729,8 +729,8 @@ class BillVal:
             self.currentBillCountSetting(self.quantityStackB,0x02)
 
 
-        self.currentBillCountSetting(5,0x01)
-        self.currentBillCountSetting(5,0x02)
+        self.currentBillCountSetting(0x05,0x01)
+        self.currentBillCountSetting(0x05,0x02)
 
         self.currentBillCountRequest()
 
@@ -765,9 +765,9 @@ class BillVal:
         print("currentBillCountSetting")
         message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,quantity,0x00,stack])
         message += get_crc(message)
-        time.sleep(.2)
+        time.sleep(.4)
         self.com.write(message)
-        time.sleep(.2)
+        time.sleep(.4)
         response = self.com.readline().hex()
         # response = self.com.readline()
         print("response: ",response)    
