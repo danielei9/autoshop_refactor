@@ -58,6 +58,10 @@ class PrinterController():
             self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "\n")
             self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "\n")
             self.printer.text("\n")
+            self.printer.text("\n")
+            self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + "\n")
+            self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + "\n")
+
             self.printer.set(width=3 ,height=3, align='center',bold=True)
             if(self.type == "CANCELLED"):
                 self.printer.text("ORDEN CANCELADA")
@@ -84,7 +88,7 @@ class PrinterController():
         return obj
         print(obj['id'])
 
-    def prepareOrderToPrint(self,requestAdpated: PayRequest):
+    def prepareOrderToPrint(self,requestAdpated: PayRequest, change,totalAmount):
         self.idOrder = requestAdpated.idOrder
         if(self.idOrder != -1):
             self.order = str( requestAdpated.order).replace("\'","\"")
@@ -94,6 +98,8 @@ class PrinterController():
         self.shopName = requestAdpated.shopName
         self.address = requestAdpated.address
         self.phone = requestAdpated.phone
+        self.change = change
+        self.totalAmount = totalAmount
 
     def print(self,type):
         self.type = type

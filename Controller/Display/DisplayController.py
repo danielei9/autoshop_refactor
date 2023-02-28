@@ -94,7 +94,7 @@ class DisplayController(SerialCommunicator):
         self.printInDisplay(ID_NEXTION_QR, ticketQr)
         self.printInDisplay(ID_NEXTION_ORDER_TEXT,str(itemList))
         self.printInDisplay(ID_NEXTION_ORDER_PRICES_TEXT,itemPriceList)
-        self.printInDisplay(ID_NEXTION_TOTAL_PRICE_TEXT, str(priceTotal))
+        self.printInDisplay(ID_NEXTION_TOTAL_PRICE_TEXT, str(round(priceTotal*1.00,2)))
         self.printInDisplay(ID_NEXTION_ORDER_PERCENTAGE,str(percent) +"%")
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(percent))
     

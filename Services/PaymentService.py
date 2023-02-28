@@ -38,6 +38,7 @@ class PaymentService():
         self.priceClientShouldPay = 0
         self.payRequest: PayRequest = None
         self.actualCancelled = False
+        self.change = 0.00
         while(self.billWalletService.stackA == None ):
             time.sleep(.5)
 
@@ -181,6 +182,7 @@ class PaymentService():
         minimumBill = self.billWalletService.bv.minBill
         
         change = round(amount, 2)
+        self.change = change
         changeInCoins = round(change % minimumBill, 2)
         changeInBills = change - changeInCoins  
         
@@ -254,7 +256,7 @@ class PaymentService():
                 payFromStack1 = False
                 payFromStack2 = True
         else:
-            print("ERROR: TO PAY " , changeBills , " menor que minbill: ",minBill)
+            print("ERROR: TO PAY " , changeBills , " menor que minbill: ",minBill,". Need to pay to finished: " + str(changeBills))
             # TODO: BORRASR
             payFromStack1 = True
             payFromStack2 = False
@@ -271,13 +273,13 @@ class PaymentService():
         # time.sleep(.2)
         payoutDone = self.billWalletService.bv.payout(payFromStack1, payFromStack2)
         if(payoutDone == -1):
-            self.sendErrorTPV("Not bills available to pay")
+            self.sendErrorTPV("ERROR: Not bills available to pay. Need to pay to finished: " + str(changeBills))
         if(payFromStack1 == True):
             return minBill
         if(payFromStack2 == True):
             return maxBill
     def printTicket(self):
-        self.printerController.prepareOrderToPrint(self.payRequest)
+        self.printerController.prepareOrderToPrint(self.payRequest,self.change,self.totalAmount)
         try:
             if(self.actualCancelled == True):
                 self.printerController.print("CANCELLED")
@@ -322,9 +324,10 @@ class PaymentService():
 
         if(PRINTER):   
             if(str(self.payRequest.idOrder) == str(-1)):
-                print("CHARGE MACHINEEEES")
+                print("CHARGE MACHINES")
                 self.payRequest.price = self.totalAmount 
             self.sendAckRequest(STATUS_MACHINES_PRINTING_TICKET,payRequest.idOrder)
+            self.change = self.totalAmount - self.priceClientShouldPay
             self.printTicket()
 
         if(self.actualCancelled == True ):
