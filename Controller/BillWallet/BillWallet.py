@@ -730,21 +730,21 @@ class BillVal:
 
         self.setStacksInOrden(stackA,stackB)
         time.sleep(.2)
-        
-def currentBillCountRequest(self):
-    # Preguntar cuantos billetes quedan
-    print("currentBillCountSetting")
-    self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
-    time.sleep(.2)
-    response = self.com.readline().hex()
-    print(response)
+            
+    def currentBillCountRequest(self):
+        # Preguntar cuantos billetes quedan
+        print("currentBillCountSetting")
+        self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
+        time.sleep(.2)
+        response = self.com.readline().hex()
+        print(response)
 
-def currentBillCountSetting(self,):
-    # Setting BillCount
-    print("currentBillCountSetting")
-    message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,0x07,0x00,0x01])
-    message += get_crc(message)
-    self.com.write(message)
-    time.sleep(.2)
-    response = self.com.readline().hex()
-    print(response)    
+    def currentBillCountSetting(self,):
+        # Setting BillCount
+        print("currentBillCountSetting")
+        message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,0x07,0x00,0x01])
+        message += get_crc(message)
+        self.com.write(message)
+        time.sleep(.2)
+        response = self.com.readline().hex()
+        print(response)    
