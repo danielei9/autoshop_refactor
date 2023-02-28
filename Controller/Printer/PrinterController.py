@@ -41,14 +41,14 @@ class PrinterController():
             for key in order_dict:
                 self.printer.set(width=3, align='left',bold=False)
                 # self.printer.text(str(key)) # 36 de largo 
-                self.printer.text("{:>2}".format(str(key)))
+                self.printer.text("  {:>2}".format(str(key)))
 
                 if(str(self.idOrder) != "-1"):
                     self.printer.set(width=3, align='right',bold=False)
-                    self.printer.text("{:>27}".format(str(order_dict[key])  + " \n"))
+                    self.printer.text("  {:>27}".format(str(order_dict[key])  + "   \n"))
 
                     # self.printer.text(str(order_dict[key]) + " \n") # 36 de largo 
-                    print(str(key) + "\n") # 36 de largo 
+                    print(str(key) + "   \n") # 36 de largo 
                     print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
                     
             self.printer.set(width=5, align='right',bold=True)
@@ -56,11 +56,12 @@ class PrinterController():
         if(str(self.idOrder) != "-1"):
             self.printer.text("\n\nsubtotal: "+ str(round(self.price*0.79,2)) + "\n")
             self.printer.text("I.V.A (21%): "+ str(round(self.price*1.00*0.21,2)) + "\n")
-            self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "\n")
             self.printer.text("\n")
+            self.printer.text("TOTAL: "+ str(round(self.price*1.00,2)) + "   \n")
             self.printer.text("\n")
-            self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + "\n")
-            self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + "\n")
+            self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + "   \n")
+            self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + "   \n")
+            self.printer.text("\n")
 
             self.printer.set(width=3 ,height=3, align='center',bold=True)
             if(self.type == "CANCELLED"):
