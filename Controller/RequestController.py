@@ -34,7 +34,7 @@ class RequestController():
     def processConfigStackRequest(self,jsonData):
         try:
             print("Config request converted")
-            return ConfigStackRequest(jsonData["typeRequest"],jsonData["stackA"],jsonData["stackB"])
+            return ConfigStackRequest(jsonData["typeRequest"],jsonData["stackA"],jsonData["stackB"],jsonData["quantityStackA"],jsonData["quantityStackB"])
         except:
             print("Error en conversion de la request de config de stacks")
             #TODO: Enviar datos de fallo por mqtt

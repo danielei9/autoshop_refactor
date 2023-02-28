@@ -63,7 +63,7 @@ class Router():
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
 
             print("Arrive ConfigRequest")
-            self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB)
+            self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
 

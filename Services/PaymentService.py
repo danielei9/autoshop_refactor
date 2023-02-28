@@ -174,6 +174,7 @@ class PaymentService():
 
     def setPaymentDone(self):
             print("PAGO COMPLETADO")
+            time.sleep(.2)
             self.billWalletService.bv.pausePollThread()
             self.coinWalletService.coinwallet.disableInsertCoins()
             self.displayController.setByePage()
@@ -344,6 +345,14 @@ class PaymentService():
             change = self.totalAmount - self.priceClientShouldPay
             self.returnChangeToClient(change)
             time.sleep(1)
+            self.billWalletService.bv.currentBillCountRequest()
+            print("MIAU")
+            print("MIAU")
+            print("MIAU")
+            print("MIAU")
+            print("MIAU")
+            print("MIAU")
+
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()
 

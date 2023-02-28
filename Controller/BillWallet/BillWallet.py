@@ -9,6 +9,8 @@ class BillVal:
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
     
     def __init__(self, com,cb, sendErrorTpv ,log_raw=False, threading=False):
+        self.quantityStackA = -1
+        self.quantityStackB = -1
         self.com = com  
         self.sendErrorTpv = sendErrorTpv
         self.cb = cb
@@ -123,7 +125,7 @@ class BillVal:
         
         try:
             self.getActualStacksConfig()
-            self.configMode(self.stackA,self.stackB)
+            self.configMode(self.stackA,self.stackB,-1,-1)
         except Exception as e:
             print("Error getting stacks config: ", e)
             time.sleep(2)
@@ -697,11 +699,16 @@ class BillVal:
         self.initialize()
 
 
-    def configMode(self,stackA,stackB):
+    def configMode(self,stackA,stackB,quantityStackA,quantityStackB):
         print("sending inhibit configMode")
         print("Configuring stack A ", str(stackA) )
         print("Configuring stack B ", str(stackB) )
 
+        print("quantityStackA ", str(quantityStackA) )
+        print("quantityStackB ", str(quantityStackB) )
+
+        self.quantityStackA  = quantityStackA
+        self.quantityStackB = quantityStackB
         self.stackA = stackA
         self.stackB = stackB
         # Setting inhibit
@@ -718,7 +725,12 @@ class BillVal:
         
         self.currentBillCountRequest()
         time.sleep(.2)
-        self.currentBillCountSetting()
+
+        if(self.quantityStackA != -1):
+            self.currentBillCountSetting(self.quantityStackA)
+        if(self.quantityStackB != -1):
+            self.currentBillCountSetting(self.quantityStackB)
+
         time.sleep(.2)
         self.currentBillCountRequest()
 
