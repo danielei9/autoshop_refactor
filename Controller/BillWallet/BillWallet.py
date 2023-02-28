@@ -728,12 +728,6 @@ class BillVal:
         if(self.quantityStackB != -1):
             self.currentBillCountSetting(self.quantityStackB,0x02)
 
-
-        self.currentBillCountSetting(0x05,0x01)
-        time.sleep(2)
-        self.currentBillCountSetting(0x05,0x02)
-        time.sleep(2)
-
         self.currentBillCountRequest()
 
         # TODO: AL INICIAR QUE LOS BILLETES LOS CUENTE CON EL COMANDO 
@@ -752,14 +746,14 @@ class BillVal:
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
         print("currentBillCountRequest")
-        time.sleep(.4)
+        time.sleep(.2)
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
-        time.sleep(.4)
+        time.sleep(.2)
         response = self.com.readline().hex()
         # response = self.com.readline()
         print("response: ",response)    
-        self.quantityStackA = int(response[10:12],16)
-        self.quantityStackB  = int(response[14:16],16)
+        self.quantityStackA = int(response[26:28],16)
+        self.quantityStackB  = int(response[30:32],16)
         print("qntyA ", self.quantityStackA, " qntyB " , self.quantityStackB)
 
     def currentBillCountSetting(self,quantity,stack):
