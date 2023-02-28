@@ -58,6 +58,8 @@ class Router():
             self.paymentService.paymentDone = True
             self.paymentService.actualCancelled = True
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
+            self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
+
             return True
         
     def enrouteConfigRequest(self,request):
