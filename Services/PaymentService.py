@@ -346,12 +346,11 @@ class PaymentService():
             self.returnChangeToClient(change)
             time.sleep(1)
             self.billWalletService.bv.currentBillCountRequest()
-            print("MIAU")
-            print("MIAU")
-            print("MIAU")
-            print("MIAU")
-            print("MIAU")
-            print("MIAU")
+            print("**** MIAU")
+            print("**** MIAU")
+            print("**** ENVIAR DATOS DE CONTEO DE BILLETES A TPV")
+            print("**** MIAU")
+            print("**** MIAU")
 
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()

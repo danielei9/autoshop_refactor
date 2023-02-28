@@ -125,7 +125,7 @@ class BillVal:
         
         try:
             self.getActualStacksConfig()
-            self.configMode(self.stackA,self.stackB,-1,-1)
+            self.configMode(self.stackA,self.stackB,self.quantityStackA,self.quantityStackB)
         except Exception as e:
             print("Error getting stacks config: ", e)
             time.sleep(2)
@@ -733,6 +733,8 @@ class BillVal:
 
         time.sleep(.2)
         self.currentBillCountRequest()
+
+        # TODO: AL INICIAR QUE LOS BILLETES LOS CUENTE CON EL COMANDO 
 
         time.sleep(.2)
         print("Configured :) OK ")
