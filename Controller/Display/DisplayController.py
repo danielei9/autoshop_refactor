@@ -99,10 +99,11 @@ class DisplayController(SerialCommunicator):
         self.printInDisplay(ID_NEXTION_PROCESS_BAR_NUM, str(percent))
     
     def display(self,request:PayRequest):
+        time.sleep(.2)
         print("request displayController : ", request)
         (ticketQr,itemList,itemPriceList,priceTotal,percent) = self.adaptRequestToDisplay(request)
         self.putDataToDisplay(ticketQr,itemList,itemPriceList,priceTotal,percent) 
 
     def displayError(self,error):
-        print("Display Error setted")  
+        print("Display Error setted")
         self.printInDisplay(ID_NEXTION_ORDER_TEXT,str(error))

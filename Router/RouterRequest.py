@@ -28,6 +28,7 @@ class Router():
 
     def routeRequest(self):
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
+        self.paymentService.displayController.setWelcomePage()
 
         while True:
             # print(type(self.actualProcessingRequest))
