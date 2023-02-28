@@ -8,8 +8,7 @@ from  .CodesBillVal import *
 class BillVal:
     """Represent an ID-003 bill validator as a subclass of `serial.Serial`"""
     
-    def __init__(self, com,cb, sendErrorTpv ,sendTpv,log_raw=False, threading=False):
-        self.sendTpv = sendTpv
+    def __init__(self, com,cb, sendErrorTpv ,log_raw=False, threading=False):
         self.quantityStackA = -1
         self.quantityStackB = -1
         self.com = com  
@@ -457,8 +456,6 @@ class BillVal:
         self.stackB = self.convertStacksMachineToStacksEuro(str(response[14:16]))
         print("BV Response : ",response)
         time.sleep(.2)
-        #TODO: HERE
-        self.getActualStacksBillsCount()
         # Volver a recogida de billetes, luz verde on bill
         print("BV Encender leds IDLE ...")
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
@@ -466,14 +463,6 @@ class BillVal:
         print("BV Response : ",response)
         print("Actual config in stacks : ", self.stackA, "  " ,self.stackB)
         self.setStacksInOrden( self.stackA , self.stackB )
-
-    def getActualStacksBillsCount(self):
-        print("get Actual Stacks Bills Count ")
-        response = self.currentBillCountRequest()
-        # self.stackA = self.convertStacksMachineToStacksEuro(str(response[10:12]))
-        print("STR RESPONSE")
-        print(str(response))
-        self.sendTpv({"response":str(response)})
 
     def setStacksInOrden(self, stackA,stackB):
             if(stackA > stackB):
@@ -761,13 +750,11 @@ class BillVal:
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
         print("currentBillCountRequest")
-        time.sleep(.2)
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
         time.sleep(.2)
         # response = self.com.readline().hex()
         response = self.com.readline()
-        print("response: ",response)   
-        return response 
+        print("response: ",response)    
 
     def currentBillCountSetting(self,quantity,stack):
         # Setting BillCount
