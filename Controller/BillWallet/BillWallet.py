@@ -750,9 +750,9 @@ class BillVal:
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
         print("currentBillCountRequest")
-        time.sleep(.2)
+        time.sleep(.4)
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
-        time.sleep(.2)
+        time.sleep(.4)
         response = self.com.readline().hex()
         # response = self.com.readline()
         print("response: ",response)    
