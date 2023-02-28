@@ -68,7 +68,10 @@ class PaymentService():
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
                 time.sleep(.2)
                 self.displayController.setWelcomePage()
+                time.sleep(.1)
+                self.displayController.setWelcomePage()
                 time.sleep(.2)
+
                 print("Display Initialized OK")
             except:
                 print("Please Connect Display")
@@ -317,6 +320,10 @@ class PaymentService():
         if(DISPLAY):
             time.sleep(.2)
             self.displayController.setOrderPage()
+            time.sleep(.2)
+            self.displayController.setOrderPage()
+            time.sleep(.2)
+            self.displayController.display(self.payRequest)
             time.sleep(.2)
             self.displayController.display(self.payRequest)
         self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
