@@ -314,7 +314,9 @@ class PaymentService():
         self.priceClientShouldPay = payRequest.price
 
         if(DISPLAY):
+            time.sleep(.2)
             self.displayController.setOrderPage()
+            time.sleep(.2)
             self.displayController.display(self.payRequest)
         self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
         
