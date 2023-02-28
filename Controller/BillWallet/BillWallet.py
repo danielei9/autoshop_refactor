@@ -717,7 +717,9 @@ class BillVal:
         time.sleep(.2)
         
         self.currentBillCountRequest()
+        time.sleep(.2)
         self.currentBillCountSetting()
+        time.sleep(.2)
         self.currentBillCountRequest()
 
         time.sleep(.2)
@@ -733,11 +735,12 @@ class BillVal:
             
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
-        print("currentBillCountSetting")
+        print("currentBillCountRequest")
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
         time.sleep(.2)
-        response = self.com.readline().hex()
-        print(response)
+        # response = self.com.readline().hex()
+        response = self.com.readline()
+        print("response: ",response)    
 
     def currentBillCountSetting(self,):
         # Setting BillCount
@@ -746,5 +749,6 @@ class BillVal:
         message += get_crc(message)
         self.com.write(message)
         time.sleep(.2)
-        response = self.com.readline().hex()
-        print(response)    
+        # response = self.com.readline().hex()
+        response = self.com.readline()
+        print("response: ",response)    
