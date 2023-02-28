@@ -755,6 +755,9 @@ class BillVal:
         response = self.com.readline().hex()
         # response = self.com.readline()
         print("response: ",response)    
+        self.quantityStackA = int(response[10:12],16)
+        self.quantityStackB  = int(response[14:16],16)
+        print("qntyA ", self.quantityStackA, " qntyB " , self.quantityStackB)
 
     def currentBillCountSetting(self,quantity,stack):
         # Setting BillCount
