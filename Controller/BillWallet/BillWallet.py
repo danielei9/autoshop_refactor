@@ -752,8 +752,8 @@ class BillVal:
         print("currentBillCountRequest")
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
         time.sleep(.2)
-        # response = self.com.readline().hex()
-        response = self.com.readline()
+        response = self.com.readline().hex()
+        # response = self.com.readline()
         print("response: ",response)    
 
     def currentBillCountSetting(self,quantity,stack):
@@ -763,6 +763,6 @@ class BillVal:
         message += get_crc(message)
         self.com.write(message)
         time.sleep(.2)
-        # response = self.com.readline().hex()
-        response = self.com.readline()
+        response = self.com.readline().hex()
+        # response = self.com.readline()
         print("response: ",response)    
