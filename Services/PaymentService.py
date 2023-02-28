@@ -66,12 +66,15 @@ class PaymentService():
         if(DISPLAY):
             try:
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
+                time.sleep(.2)
+                self.displayController.setWelcomePage()
+                time.sleep(.2)
                 print("Display Initialized OK")
             except:
                 print("Please Connect Display")
                 # TODO: Informar al tpv de que no estan conectados
-                self.setErrorInDisplay("Please Connect Display")
-                self.sendErrorTPV("Some problems ocurred when init Display")
+                # self.setErrorInDisplay("Please Connect Display")
+                self.sendErrorTPV("Please Connect Display")
                 time.sleep(3)
                 self.initializeControllers()
         if(BILLWALLET):
