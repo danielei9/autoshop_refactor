@@ -727,9 +727,9 @@ class BillVal:
         time.sleep(.2)
 
         if(self.quantityStackA != -1):
-            self.currentBillCountSetting(self.quantityStackA)
+            self.currentBillCountSetting(self.quantityStackA,0x01)
         if(self.quantityStackB != -1):
-            self.currentBillCountSetting(self.quantityStackB)
+            self.currentBillCountSetting(self.quantityStackB,0x02)
 
         time.sleep(.2)
         self.currentBillCountRequest()
@@ -756,10 +756,10 @@ class BillVal:
         response = self.com.readline()
         print("response: ",response)    
 
-    def currentBillCountSetting(self,):
+    def currentBillCountSetting(self,quantity,stack):
         # Setting BillCount
         print("currentBillCountSetting")
-        message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,0x07,0x00,0x01])
+        message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,quantity,0x00,stack])
         message += get_crc(message)
         self.com.write(message)
         time.sleep(.2)
