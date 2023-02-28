@@ -701,19 +701,50 @@ class BillVal:
         print("sending inhibit configMode")
         print("Configuring stack A ", str(stackA) )
         print("Configuring stack B ", str(stackB) )
+
         self.stackA = stackA
         self.stackB = stackB
+        # Setting inhibit
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
         print("response: ",self.com.read_all())
         time.sleep(.2)
+
+        # Setting stack config
         self.sendConfigCommand(stackA,stackB)
-        
         time.sleep(.2)
         print(self.com.readline().hex())
         time.sleep(.2)
+        
+        self.currentBillCountRequest()
+        self.currentBillCountSetting()
+        self.currentBillCountRequest()
+
+        time.sleep(.2)
         print("Configured :) OK ")
+
+        # Setting inhibit 00
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
         print(self.com.readline().hex())
         time.sleep(.2)
+
         self.setStacksInOrden(stackA,stackB)
+        time.sleep(.2)
+        
+def currentBillCountRequest(self):
+    # Preguntar cuantos billetes quedan
+    print("currentBillCountSetting")
+    self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
+    time.sleep(.2)
+    response = self.com.readline().hex()
+    print(response)
+
+def currentBillCountSetting(self,):
+    # Setting BillCount
+    print("currentBillCountSetting")
+    message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,0x07,0x00,0x01])
+    message += get_crc(message)
+    self.com.write(message)
+    time.sleep(.2)
+    response = self.com.readline().hex()
+    print(response)    
