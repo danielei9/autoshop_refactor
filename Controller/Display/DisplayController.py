@@ -17,8 +17,6 @@ class DisplayController(SerialCommunicator):
             
     def initialize(self):
         self.open_port()
-        self.com.flushInput()
-        self.com.flushOutput()
 
     def clear_display(self):
         self.send_data('CLEAR')
