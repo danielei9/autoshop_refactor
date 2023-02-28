@@ -58,8 +58,8 @@ class Router():
             self.paymentService.paymentDone = True
             self.paymentService.actualCancelled = True
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
+            time.sleep(1)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
-
             return True
         
     def enrouteConfigRequest(self,request):
@@ -79,5 +79,11 @@ class Router():
     def enrouteConnectedRequest(self,request):
         if( isinstance(request,ConnectedRequest ) ): 
             print("Arrive ConfigRequest")
-            self.sendDataTPV('{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+ ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+'}')
+            self.sendDataTPV(
+                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                ',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
+                ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+
+                ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
+                ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
+                '}')
             return True
