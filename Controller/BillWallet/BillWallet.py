@@ -723,15 +723,15 @@ class BillVal:
         print(self.com.readline().hex())
         time.sleep(.2)
         
-        self.currentBillCountRequest()
-        time.sleep(.2)
-
         if(self.quantityStackA != -1):
             self.currentBillCountSetting(self.quantityStackA,0x01)
         if(self.quantityStackB != -1):
             self.currentBillCountSetting(self.quantityStackB,0x02)
 
-        time.sleep(.2)
+
+        self.currentBillCountSetting(5,0x01)
+        self.currentBillCountSetting(5,0x02)
+
         self.currentBillCountRequest()
 
         # TODO: AL INICIAR QUE LOS BILLETES LOS CUENTE CON EL COMANDO 
@@ -750,6 +750,7 @@ class BillVal:
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
         print("currentBillCountRequest")
+        time.sleep(.2)
         self.com.write(bytes([0xFC,0x07,0xF0,0x20,0xA2,0xA8,0x96]))
         time.sleep(.2)
         response = self.com.readline().hex()
@@ -764,6 +765,7 @@ class BillVal:
         print("currentBillCountSetting")
         message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,quantity,0x00,stack])
         message += get_crc(message)
+        time.sleep(.2)
         self.com.write(message)
         time.sleep(.2)
         response = self.com.readline().hex()
