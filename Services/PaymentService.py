@@ -212,7 +212,7 @@ class PaymentService():
                     toReturn = toReturn - returnedToUser
                 else:
                     self.sendErrorTPV("ERROR: Not bills available to pay. Need to pay to finished: " + str(toReturn) + " EUR")
-                    self.actualCancelled = True
+                    # self.actualCancelled = True
                 # Recalcular dinero a devolver
 
         self.totalAmount = 0
@@ -342,19 +342,30 @@ class PaymentService():
             if( payRequest.idOrder != -1 ):
                 self.priceClientShouldPay = 0 
         # Esperando a devolver en caso de tener que devolver
-        while self.totalAmount > self.priceClientShouldPay:
-            print("waiting payOut")
-            change = self.totalAmount - self.priceClientShouldPay
-            self.returnChangeToClient(change)
-            time.sleep(1)
-            self.billWalletService.bv.currentBillCountRequest()
-            self.sendDataTPV(
-                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
-                ',"stackA":' + str(self.billWalletService.bv.stackA )+
-                ',"stackB":'+str(self.billWalletService.bv.stackB)+
-                ',"quantityStackA":' + str(self.billWalletService.bv.quantityStackA )+
-                ',"quantityStackB":' + str(self.billWalletService.bv.quantityStackB )+
-                '}')
+        if self.totalAmount - self.priceClientShouldPay >= self.billWalletService.bv.minBill:
+            if self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 :
+                # Puedes pagar
+                while self.totalAmount > self.priceClientShouldPay:
+                    print("waiting payOut")
+                    change = self.totalAmount - self.priceClientShouldPay
+                    self.returnChangeToClient(change)
+                    time.sleep(1)
+                    self.billWalletService.bv.currentBillCountRequest()
+                    self.sendDataTPV(
+                        '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                        ',"stackA":' + str(self.billWalletService.bv.stackA )+
+                        ',"stackB":'+str(self.billWalletService.bv.stackB)+
+                        ',"quantityStackA":' + str(self.billWalletService.bv.quantityStackA )+
+                        ',"quantityStackB":' + str(self.billWalletService.bv.quantityStackB )+
+                        '}')
+            else:
+                # No puede pagar
+                while(self.actualCancelled != True):
+                    print("Waiting cancel request. No bills")
+                    self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
+                    time.sleep(.2)
+                    pass
+        
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()
 
