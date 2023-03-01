@@ -16,10 +16,9 @@ LEDS = True
 
 class PaymentService():
 
-    def __init__(self, sendErrorTPV, sendDataTPV, adaptRequestCB):
+    def __init__(self, sendErrorTPV, sendDataTPV):
         self.billWalletService: BillWalletService = None
         self.coinWalletService: CoinWalletService = None
-        self.adaptRequestCB = adaptRequestCB
         self.portBilletero = None
         self.portMonedero = None
         self.portDisplay = None
@@ -212,7 +211,7 @@ class PaymentService():
                     returnedToUser = self.__billBack(toReturn)
                 else:
                     self.sendErrorTPV("ERROR: Not bills available to pay. Need to pay to finished: " + str(toReturn) + " EUR")
-                    self.adaptRequestCB("{\"typeRequest\":2,\"idOrder\":"+ self.payRequest.idOrder+"}")
+                    self.actualCancelled = True
                 # Recalcular dinero a devolver
                 toReturn = toReturn - returnedToUser
 
