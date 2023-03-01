@@ -209,11 +209,11 @@ class PaymentService():
                 if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 ):
                     # Devolver Billetes
                     returnedToUser = self.__billBack(toReturn)
+                    toReturn = toReturn - returnedToUser
                 else:
                     self.sendErrorTPV("ERROR: Not bills available to pay. Need to pay to finished: " + str(toReturn) + " EUR")
                     self.actualCancelled = True
                 # Recalcular dinero a devolver
-                toReturn = toReturn - returnedToUser
 
         self.totalAmount = 0
         self.priceClientShouldPay = 0
