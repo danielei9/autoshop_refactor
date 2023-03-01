@@ -16,9 +16,10 @@ LEDS = True
 
 class PaymentService():
 
-    def __init__(self, sendErrorTPV, sendDataTPV):
+    def __init__(self, sendErrorTPV, sendDataTPV, adaptRequestCB):
         self.billWalletService: BillWalletService = None
         self.coinWalletService: CoinWalletService = None
+        self.adaptRequestCB = adaptRequestCB
         self.portBilletero = None
         self.portMonedero = None
         self.portDisplay = None
@@ -66,9 +67,7 @@ class PaymentService():
         if(DISPLAY):
             try:
                 self.displayController = DisplayController(self.portDisplay, self.tpv)
-                time.sleep(.2)
                 self.displayController.setWelcomePage()
-                time.sleep(.2)
 
                 print("Display Initialized OK")
             except:
@@ -178,9 +177,7 @@ class PaymentService():
             time.sleep(.2)
             self.billWalletService.bv.pausePollThread()
             self.coinWalletService.coinwallet.disableInsertCoins()
-            time.sleep(.3)
             self.displayController.setByePage()
-            time.sleep(.3)
             self.paymentDone = True
 
     def returnChangeToClient(self, amount):
@@ -210,11 +207,15 @@ class PaymentService():
             while(toReturn > 0):
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
-                # Devolver Billetes
-                returnedToUser = self.__billBack(toReturn)
+                if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 ):
+                    # Devolver Billetes
+                    returnedToUser = self.__billBack(toReturn)
+                else:
+                    self.sendErrorTPV("ERROR: Not bills available to pay. Need to pay to finished: " + str(toReturn) + " EUR")
+                    self.adaptRequestCB("{\"typeRequest\":2,\"idOrder\":"+ self.payRequest.idOrder+"}")
                 # Recalcular dinero a devolver
                 toReturn = toReturn - returnedToUser
-        
+
         self.totalAmount = 0
         self.priceClientShouldPay = 0
 
@@ -290,6 +291,7 @@ class PaymentService():
         try:
             if(self.actualCancelled == True):
                 self.printerController.print("CANCELLED")
+
                 return
             else:
                 self.printerController.print("PAY")
@@ -318,11 +320,8 @@ class PaymentService():
         self.priceClientShouldPay = payRequest.price
 
         if(DISPLAY):
-            time.sleep(.3)
             self.displayController.setOrderPage()
-            time.sleep(.3)
             self.displayController.display(self.payRequest)
-            time.sleep(.2)
         self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
         
         # Esperando a pagar
@@ -350,12 +349,13 @@ class PaymentService():
             self.returnChangeToClient(change)
             time.sleep(1)
             self.billWalletService.bv.currentBillCountRequest()
-            print("**** MIAU")
-            print("**** MIAU")
-            print("**** ENVIAR DATOS DE CONTEO DE BILLETES A TPV")
-            print("**** MIAU")
-            print("**** MIAU")
-
+            self.sendDataTPV(
+                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                ',"stackA":' + str(self.billWalletService.bv.stackA )+
+                ',"stackB":'+str(self.billWalletService.bv.stackB)+
+                ',"quantityStackA":' + str(self.billWalletService.bv.quantityStackA )+
+                ',"quantityStackB":' + str(self.billWalletService.bv.quantityStackB )+
+                '}')
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()
 
