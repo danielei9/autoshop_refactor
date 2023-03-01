@@ -43,7 +43,7 @@ class Main():
     
     def startRouterThread(self):
         print("start_async_loop")
-        self.router = Router(self.actualProcessingRequest,self.lastRequestArrived, self.tpv)
+        self.router = Router(self.actualProcessingRequest,self.lastRequestArrived, self.tpv, self.adaptRequestCB)
         asyncio.run(self.initServiceRouter())
 
     def initServiceRouter(self):

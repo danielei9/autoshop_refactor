@@ -8,8 +8,9 @@ from Services.PaymentService import *
 from TpvYsolveMqtt import *
 from utils.RequestCodes import *
 class Router():
-    def __init__(self,actualProcessingRequest, lastRequestArrived, tpvComm:TpvYsolveMqtt):
+    def __init__(self,actualProcessingRequest, lastRequestArrived, tpvComm:TpvYsolveMqtt, adaptRequestCB):
         self.actualProcessingRequest = actualProcessingRequest
+        self.adaptRequestCB = adaptRequestCB
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
         self.sendErrorTPV = tpvComm.sendError
@@ -17,7 +18,7 @@ class Router():
         self.initializePaymentService()
         
     def initializePaymentService(self):
-        self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV)
+        self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV,self.adaptRequestCB)
     
     def setActualProcessingRequest(self,request):
         self.actualProcessingRequest= request
