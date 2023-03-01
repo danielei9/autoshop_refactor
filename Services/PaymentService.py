@@ -347,21 +347,20 @@ class PaymentService():
         self.billWalletService.bv.currentBillCountRequest()
 
         # Esperando a devolver en caso de tener que devolver
-        if self.totalAmount - self.priceClientShouldPay >= self.billWalletService.bv.minBill:
-            if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
-                # Puede pagar
-                while self.totalAmount > self.priceClientShouldPay:
-                    print("waiting payOut")
-                    change = self.totalAmount - self.priceClientShouldPay
-                    self.returnChangeToClient(change)
-                    time.sleep(1)
-            else:
-                # No puede pagar
-                while(self.actualCancelled != True):
-                    print("Waiting cancel request. No bills")
-                    self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
-                    time.sleep(3)
-                    pass
+        if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
+            # Puede pagar
+            while self.totalAmount > self.priceClientShouldPay:
+                print("waiting payOut")
+                change = self.totalAmount - self.priceClientShouldPay
+                self.returnChangeToClient(change)
+                time.sleep(1)
+        else:
+            # No puede pagar
+            while(self.actualCancelled != True):
+                print("Waiting cancel request. No bills")
+                self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
+                time.sleep(3)
+                pass
 
         self.sendDataTPV(
                         '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
