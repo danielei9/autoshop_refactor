@@ -765,7 +765,7 @@ class BillVal:
         print("currentBillCountSetting")
         if quantity >100: 
             quantity = 100
-        message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,hex(quantity),0x00,stack])
+        message = bytes([0xFC,0x0A,0xF0,0x20,0xE2,quantity,0x00,stack])
         message += get_crc(message)
         self.com.flushInput()
         self.com.flushOutput()
