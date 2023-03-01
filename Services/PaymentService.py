@@ -361,6 +361,7 @@ class PaymentService():
                 self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
                 time.sleep(3)
                 pass
+        self.billWalletService.bv.currentBillCountRequest()
 
         self.sendDataTPV(
                         '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
