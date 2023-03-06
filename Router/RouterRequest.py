@@ -108,7 +108,8 @@ class Router():
                 print("Arrive GetActualConfigRequest")
 
                 self.paymentService.billWalletService.bv.inhibitAndGetCurrentBillCount()
-                self.paymentService.coinWalletService.coinwallet.inhibitAndGetCurrentCoinCount()
+                # TODO:
+                # self.paymentService.coinWalletService.coinwallet.inhibitAndGetCurrentCoinCount()
 
                 self.sendErrorTPV(
                     '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
