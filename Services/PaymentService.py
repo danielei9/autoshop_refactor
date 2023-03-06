@@ -8,7 +8,7 @@ import threading
 from Controller.BillWallet.BillWalletService import *
 from utils.RequestCodes import *
 
-PRINTER = True
+PRINTER = False
 COINWALLET = True
 BILLWALLET = True
 DISPLAY = True
