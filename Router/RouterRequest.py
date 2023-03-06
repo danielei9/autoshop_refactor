@@ -66,7 +66,7 @@ class Router():
     def enrouteConfigRequest(self,request):
         if( isinstance(request,ConfigStackRequest ) and self.routeInitialized ):
             if(self.paymentService.isPaying):
-                self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
+                self.sendErrorTPV("Error: No se puede configurar mientras un pedido pendiente. Termine la orden pendiente.")
                 return False
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
 
@@ -75,17 +75,21 @@ class Router():
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
 
-        
-
     # Request de reset 
     def enrouteResetRequest(self,request):
         if( isinstance(request,ResetRequest ) and self.routeInitialized): 
             print("Arrive ResetRequest")
-           # raise ValueError("ResetRequest") 
         
     # Request de conexión 
     def enrouteConnectedRequest(self,request):
-        if( isinstance(request,ConnectedRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)): 
+        if( isinstance(request,ConnectedRequest)): 
+            if(not self.routeInitialized ):
+                self.sendErrorTPV("Error: No se puede conectar mientras se está configurando.")
+                return False
+            if(self.paymentService.isPaying):
+                self.sendErrorTPV("Error: No se puede configurar mientras tiene un pedido pendiente. Termine o cancele la orden pendiente.")
+                return False
+                
             print("Arrive ConfigRequest")
             self.sendDataTPV(
                 '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
