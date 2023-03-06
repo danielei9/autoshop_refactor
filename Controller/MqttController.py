@@ -8,6 +8,7 @@ class MqttConnection:
         self.request_pendent = False
         self.credentials = credentials
         self.clt = paho.Client(client_id=self.credentials.client_id, reconnect_on_failure =True)
+        self.isPaused = True
 
     def get_request_adapted(self):
         return self.request_adapted
@@ -39,11 +40,12 @@ class MqttConnection:
     def create_loop_mqtt_receive(self, adapt_request):
 
         def on_message(client, userdata, message):
-            incoming_str = str(message.payload.decode("utf-8"))
-            incoming_str = incoming_str.replace("\'", "\"")
-            print("\nMQTT RECEIVED: \n", incoming_str, '\n')
-            self.request_adapted = adapt_request(incoming_str)
-            print("ADAPTED")
+            if(not self.isPaused):
+                incoming_str = str(message.payload.decode("utf-8"))
+                incoming_str = incoming_str.replace("\'", "\"")
+                print("\nMQTT RECEIVED: \n", incoming_str, '\n')
+                self.request_adapted = adapt_request(incoming_str)
+                print("ADAPTED")
         self.clt.on_message = on_message
         self.initialize()
 

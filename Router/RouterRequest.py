@@ -17,6 +17,7 @@ class Router():
         self.paymentService:PaymentService = None
         self.sendErrorTPV = tpvComm.sendError
         self.sendDataTPV = tpvComm.sendData
+        self.setMqttListenerPaused = None
         self.initializePaymentService()
         
     def initializePaymentService(self):
@@ -29,13 +30,14 @@ class Router():
     def setErrorPayingInDisplay(self,error):
         self.paymentService.setErrorInDisplay(error)
 
-    def routeRequest(self):
+    def routeRequest(self, setMqttListenerPaused):
+        self.setMqttListenerPaused = setMqttListenerPaused
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
         self.paymentService.displayController.setWelcomePage()
         self.routeInitialized = True
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
-            
+            self.setMqttListenerPaused(False)
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
@@ -50,7 +52,7 @@ class Router():
         if( isinstance(request,CancelRequest ) and self.routeInitialized): 
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
             time.sleep(1)
-            print("Arrive paymentDone") 
+            print("Arrive paymentDone")
             # poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
             self.lastRequestArrived = None

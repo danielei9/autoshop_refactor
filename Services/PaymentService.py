@@ -205,7 +205,6 @@ class PaymentService():
             self.displayController.display(self.payRequest)
         self.sendAckRequest(STATUS_MACHINES_ARE_PROCESSING_REQUEST,payRequest.idOrder)
 
-
     def initializeControllers(self):
         self.checkPortsConnected()
         self.__initializePrinterController()
@@ -314,7 +313,6 @@ class PaymentService():
 
         print(" Amount: " + str(amount) + " Order: " + str(self.priceClientShouldPay) + " Change" + str(change) +
               " changeInBills" + str(changeInBills) + " changeInCoins" + str(changeInCoins) + " totalAmount: " + str(self.totalAmount))
-
     
     def printTicket(self):
         self.printerController.prepareOrderToPrint(self.payRequest,self.change,self.totalAmount)

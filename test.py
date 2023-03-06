@@ -50,7 +50,7 @@ class Main():
         print("initRouterService")
         try:
             while not stop_event.is_set():
-                self.router.routeRequest()
+                self.router.routeRequest(self.tpv.setMqttListenerPaused)
         except Exception as e:
             print(e)
             time.sleep(1)

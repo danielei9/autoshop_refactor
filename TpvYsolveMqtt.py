@@ -27,6 +27,9 @@ class TpvYsolveMqtt():
         self.conn = MqttConnection(self.credentials)
         self.createLoopMqtt()
 
+    def setMqttListenerPaused(self,status):
+        self.conn.isPaused = status
+
     def createLoopMqtt(self):
         self.conn.create_loop_mqtt_receive(self.cb_adapt_request)
         
