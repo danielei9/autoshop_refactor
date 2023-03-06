@@ -299,7 +299,7 @@ class PaymentService():
             while(toReturn > 0):
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
-                if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.StackB > 1 ):
+                if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 ):
                     # Devolver Billetes
                     returnedToUser = self.__billBack(toReturn)
                     toReturn = toReturn - returnedToUser
