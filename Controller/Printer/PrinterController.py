@@ -1,7 +1,8 @@
 from escpos.printer import Usb
 import json
 from Model.TPVCommunication.Request.PayRequest import *
-
+CHARGE_MACHINE_REQUEST = "-1"
+CANCEL_MACHINE_REQUEST = "CANCELLED"
 class PrinterController():
 
     def __init__(self):
@@ -13,7 +14,7 @@ class PrinterController():
         except :
             print("Printer is not connected")
 
-    def __printText(self):
+    def __printTicketHeaderSection(self):
         self.printer.set(width=7,height=7, align='center',bold=True ,double_height=True, double_width=True)
         self.printer.text(str(self.shopName) + '\n')
         self.printer.set(width=3, align='center',bold=True)
@@ -28,7 +29,8 @@ class PrinterController():
         self.printer.text("Ticket de compra nº " + str(self.idOrder))
         self.printer.text("\n")
         self.printer.text("\n")
-
+    
+    def __printTicketOrderSection(self):
         self.printer.set(width=5, align='left',bold=True)
         self.printer.text("{:>8}".format("Concepto"))
         self.printer.text("{:>22}".format("Precio"))
@@ -50,12 +52,15 @@ class PrinterController():
                     # self.printer.text(str(order_dict[key]) + " \n") # 36 de largo 
                     print(str(key) + "   \n") # 36 de largo 
                     print("------------------------------ " + str(order_dict[key]) + " \n") # 36 de largo 
-                    
-
-        if(str(self.idOrder) != "-1"):
+            
+    def __printTicketFooterSection(self):
+        
+        # Si no es rellenado de maquina
+        if(str(self.idOrder) != CHARGE_MACHINE_REQUEST):
             self.printer.text("\n")
-            self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + " EUR   \n")
-            self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + " EUR   \n")
+            if(self.type != CANCEL_MACHINE_REQUEST):
+                self.printer.text("Pagado: "+ str(round(self.totalAmount*1.00,2)) + " EUR   \n")
+                self.printer.text("Cambio devuelto: "+ str(round(self.change*1.00,2)) + " EUR   \n")
             self.printer.set(width=5, align='right',bold=True)
             
             self.printer.text("\nsubtotal: "+ str(round(self.price*0.79,2)) + " EUR   \n")
@@ -67,17 +72,26 @@ class PrinterController():
             
 
             self.printer.set(width=3 ,height=3, align='center',bold=True)
-            if(self.type == "CANCELLED"):
+
+            if(self.type == CANCEL_MACHINE_REQUEST):
                 self.printer.text("ORDEN CANCELADA")
                 return
             else:
                 self.printer.text("Vuelva pronto ;)")
                 pass
+        # Si es rellenado de monedas
         else:
             self.printer.text("MAQUINA CARGADA: ")
             print("PRINTER CONTROLLER TOTAL : " , str(self.price))
             self.printer.text("\n\nTotal: "+ str(round(self.price,2)) + "\n")
             return
+        
+
+    def __printText(self):
+       
+        self.__printTicketHeaderSection()
+        self.__printTicketOrderSection()
+        self.__printTicketFooterSection()
 
 
 

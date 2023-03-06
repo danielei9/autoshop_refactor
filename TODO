@@ -1,0 +1,22 @@
+DONE: Ticket al cancelar que no muestre devuelto DONE
+DONE: Cuando inicia antes de ponerse en verde que no reciba
+DONE: Al estar en pedido no entrar en config y viceversa.
+DONE:    cuando llegue {typeRequest:5} enviar {typeRequest:5,stackA:x,stackB:x1,quantityStackA: x2, quantityStackB: x3, countCoinstTube} 
+DONE: revisar la pantalla saber si ha recibido
+
+TODO: get quantity stack a / b solo solo cuando te lo pida 
+
+
+TODO: Al desconectarse cualquier dispositivo informar, y recuperar rutina 
+TODO: Obtener las monedas availables en el monedero, y guardar en self.coinwalletcontroller, llamar cada vez que se saque una moneda
+
+TODO:
+    si puede pagar con monedas TODO y tiene monedas suficientes
+        paga.
+    si no  
+        Cancela la actual e informa que hay que recargar monedas
+    si necesita billetes y no tiene
+        Cancela la actual e informa que hay que recargar billetes
+    si tiene billetes y monedas 
+        paga
+    

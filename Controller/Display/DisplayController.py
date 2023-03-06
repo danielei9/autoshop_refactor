@@ -49,18 +49,40 @@ class DisplayController(SerialCommunicator):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x31\xFF\xFF\xFF")
+            time.sleep(.2)
+            response = ""
+            self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            response = self.com.readline()
+            time.sleep(.1)
+            if ('1' not in str(response)):
+                self.setWelcomePage()
         except:
             self.sendError("Error change page in Display")
+
     def setOrderPage(self):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x30\xFF\xFF\xFF")
+            time.sleep(.2)
+            response = ""
+            self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            response = self.com.readline()
+            time.sleep(.1)
+            if ('0' not in str(response)):
+                self.setOrderPage()
         except:
             self.sendError("Error change page in Display")
     def setByePage(self):
         time.sleep(.2)
         try:
             self.com.write(b"\x70\x61\x67\x65\x20\x32\xFF\xFF\xFF")
+            time.sleep(.2)
+            response = ""
+            self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            response = self.com.readline()
+            time.sleep(.1)
+            if ('2' not in str(response)):
+                self.setWelcomePage()
         except:
             self.sendError("Error change page in Display")
 
@@ -75,8 +97,8 @@ class DisplayController(SerialCommunicator):
             print(priceTotal)
             ticketQr = ""
             for itemName in obj.order:
-                itemList += (itemName + NEXTION_LINE_CHANGE )
-                ticketQr += (itemName + "   " + obj.order[str(itemName)] + NEXTION_LINE_CHANGE )
+                itemList += ( itemName + NEXTION_LINE_CHANGE )
+                ticketQr += ( itemName + "   " + obj.order[str(itemName)] + NEXTION_LINE_CHANGE )
                 # itemPriceList += (itemName + NEXTION_LINE_CHANGE )
                 itemPriceList += ( obj.order[str(itemName)] + NEXTION_LINE_CHANGE)
                 if(str(idOrder) == "-1"):

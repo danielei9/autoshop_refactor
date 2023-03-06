@@ -54,6 +54,14 @@ class CoinWalletController(SerialCommunicator):
         self.status = ""
         self.initializeSerial()
 
+        
+        self.tubeQnty_0_05 = 0
+        self.tubeQnty_0_10 = 0
+        self.tubeQnty_0_20 = 0
+        self.tubeQnty_0_50 = 0
+        self.tubeQnty_1_00 = 0
+        self.tubeQnty_2_00 = 0
+
         print("Init Controller CoinWallet")
         self.cb = cb
         time.sleep(0.2)
@@ -99,13 +107,9 @@ class CoinWalletController(SerialCommunicator):
         return response
     """------------------ send command and receive --------------------------"""
     def __sendCommandAndReceive(self,command):
-        try:# try to open
-#             if not self.portConfig.isOpen():
-#                 self.serialOpen()
-            # try to send
+        try:
             self.com.write(bytearray(command))
             # try to read if available
-            count = 0
             startTimeOut = time.time()
             while (not self.com.in_waiting):
                 print("waiting response...")
@@ -118,6 +122,7 @@ class CoinWalletController(SerialCommunicator):
             # print(response)
             return response
         except:
+            # TODO: Informar al usuario que no se ha podido enviar el comando 
             print("Error sending")
             pass
             

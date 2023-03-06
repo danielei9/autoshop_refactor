@@ -1,0 +1,24 @@
+{"typeRequest":0,"idOrder":224,"order":{"x1 A":"5 EUR"},"price":20,"status":7,"date":"2023-02-12T19:31:02.607Z","shopName":"UCE Machines","address":"Villalonga","phone":692783815}
+
+{"typeRequest":2,"idOrder":241}
+
+{
+	"idOrder": 12,
+	"typeRequest": 1,
+	"stackA": 5,
+	"stackB": 10
+}
+
+{
+  "typeRequest": 0,
+  "idOrder": -1,
+  "order": {
+    "RECARGANDO MAQUINAS": "1000000"
+  },
+  "price": 1000000,
+  "status": 7,
+  "date": "asdsa",
+  "shopName": "name",
+  "address": "address",
+  "phone": "Phone"
+}

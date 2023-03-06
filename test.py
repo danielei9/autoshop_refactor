@@ -29,14 +29,14 @@ class Main():
     def adaptRequestCB(self,rawPayload):
         print("Adapt request CB ")
         self.router.paymentService.paymentDone = False
-        self.lastRequestArrived = RequestController(rawPayload).requestAdapted
-        print(self.lastRequestArrived)
+        self.lastRequestArrived = RequestController(rawPayload, self.tpv.sendError).requestAdapted
         self.router.setlastRequestArrived(self.lastRequestArrived)
-
+        # enrutar para ejecutar request 
         self.router.enrouteCancelRequest(self.lastRequestArrived)
         self.router.enrouteConfigRequest(self.lastRequestArrived)
         self.router.enrouteConnectedRequest(self.lastRequestArrived)
         self.router.enrouteResetRequest(self.lastRequestArrived)
+        self.router.enrouteGetActualConfigRequest(self.lastRequestArrived)
 
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
@@ -66,21 +66,13 @@ class Main():
     def run(self, resetMachine,):
         self.resetMachine = resetMachine
         try:
-            print("run")
-            # crear hilo para manejar las solicitudes de MQTT
-            # tpvListenerThread = threading.Thread(target=self.initTPVListener())
-            # tpvListenerThread.start()
             self.initTPVListener()
-            # crear hilo para ejecutar el bucle de eventos asíncronos
             routerThread = threading.Thread(target=self.startRouterThread)
             routerThread.start()
             
-            # código para manejar las solicitudes de MQTT
             while True:
-                # comprobar si se debe cancelar la solicitud
                 time.sleep(.1)
                 if(routerThread.is_alive()):
-                    # print("Router is alive")
                     pass
                 else:
                     time.sleep(3)
@@ -88,12 +80,6 @@ class Main():
                     self.tpv.sendError("error with router thread")
                     self.run()
 
-                # if(tpvListenerThread.is_alive()):
-                #     # print("Tpv Listener is alive")
-                #     pass
-                # else:
-                #     print("error with tpv Listener thread")
-                    
         except Exception as e :
             self.tpv.sendError("Internal error service, if is not reset yet, please reset the machine. " + str(e))
             self.run()

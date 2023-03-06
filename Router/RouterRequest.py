@@ -4,11 +4,14 @@ from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Model.TPVCommunication.Request.ConnectedRequest import *
 from Model.TPVCommunication.Request.ResetRequest import *
+from Model.TPVCommunication.Request.GetActualConfigRequest import *
 from Services.PaymentService import * 
 from TpvYsolveMqtt import *
 from utils.RequestCodes import *
+
 class Router():
     def __init__(self,actualProcessingRequest, lastRequestArrived, tpvComm:TpvYsolveMqtt):
+        self.routeInitialized = False
         self.actualProcessingRequest = actualProcessingRequest
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
@@ -29,10 +32,8 @@ class Router():
     def routeRequest(self):
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
         self.paymentService.displayController.setWelcomePage()
-
+        self.routeInitialized = True
         while True:
-            # print(type(self.actualProcessingRequest))
-            # print("Arrived request None actual pending")
             self.actualProcessingRequest = self.lastRequestArrived
             
             # Procesar pago
@@ -44,41 +45,46 @@ class Router():
                 self.lastRequestArrived = None
                 return True
 
-
-
     # Cancelar 
     def enrouteCancelRequest(self,request):
-        if( isinstance(request,CancelRequest ) ): 
+        if( isinstance(request,CancelRequest ) and self.routeInitialized): 
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
             time.sleep(1)
             print("Arrive paymentDone") 
-            #poner el precio de la orden a 0 así realizará la cancelación
+            # poner el precio de la orden a 0 así realizará la cancelación
             self.actualProcessingRequest = None
             self.lastRequestArrived = None
             self.paymentService.paymentDone = True
-            self.paymentService.actualCancelled = True
+            self.paymentService.setCancelledStatus(True)
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
             time.sleep(1)
             self.paymentService.displayController.setWelcomePage()
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
-        
+    
+    # Request de configuracion 
     def enrouteConfigRequest(self,request):
-        if( isinstance(request,ConfigStackRequest ) ): 
+        if( isinstance(request,ConfigStackRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)):
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
 
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
+        if(self.paymentService.isPaying):
+            self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
 
-    def enrouteResetRequest(self,request):
-        if( isinstance(request,ResetRequest ) ): 
-            print("Arrive ResetRequest")
-            raise ValueError("ResetRequest") 
         
+
+    # Request de reset 
+    def enrouteResetRequest(self,request):
+        if( isinstance(request,ResetRequest ) and self.routeInitialized): 
+            print("Arrive ResetRequest")
+           # raise ValueError("ResetRequest") 
+        
+    # Request de conexión 
     def enrouteConnectedRequest(self,request):
-        if( isinstance(request,ConnectedRequest ) ): 
+        if( isinstance(request,ConnectedRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)): 
             print("Arrive ConfigRequest")
             self.sendDataTPV(
                 '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
@@ -88,3 +94,27 @@ class Router():
                 ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
                 '}')
             return True
+         
+    def enrouteGetActualConfigRequest(self,request):
+        if( isinstance(request,GetActualConfigRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)): 
+            print("Arrive GetActualConfigRequest")
+            self.sendDataTPV(
+                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                ',"billwallet":{' +
+                    '"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
+                    ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
+                    ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
+                    ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
+                    "}"
+                 ',"coinwallet":{' +
+                    '"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
+                    '"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
+                    '"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
+                    '"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
+                    '"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
+                    '"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
+                    "}"
+                '}')
+            return True
+        if(self.paymentService.isPaying):
+            self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
