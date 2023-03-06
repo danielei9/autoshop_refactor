@@ -52,8 +52,9 @@ class DisplayController(SerialCommunicator):
             time.sleep(.2)
             response = ""
             self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            time.sleep(.2)
             response = self.com.readline()
-            time.sleep(.1)
+            time.sleep(.2)
             if ('1' not in str(response)):
                 self.setWelcomePage()
         except:
@@ -66,8 +67,9 @@ class DisplayController(SerialCommunicator):
             time.sleep(.2)
             response = ""
             self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            time.sleep(.2)
             response = self.com.readline()
-            time.sleep(.1)
+            time.sleep(.2)
             if ('0' not in str(response)):
                 self.setOrderPage()
         except:
@@ -79,8 +81,9 @@ class DisplayController(SerialCommunicator):
             time.sleep(.2)
             response = ""
             self.com.write(b"\x73\x65\x6E\x64\x6D\x65\xFF\xFF\xFF")
+            time.sleep(.2)
             response = self.com.readline()
-            time.sleep(.1)
+            time.sleep(.2)
             if ('2' not in str(response)):
                 self.setWelcomePage()
         except:
