@@ -286,8 +286,11 @@ class PaymentService():
             changeInCoins = 0
         
         # CAMBIO DE MONEDAS
-        if(changeInCoins > 0 ):
-                self.__coinBack( changeInCoins )
+        if(changeInCoins > 0):
+            if(changeInCoins > self.coinWalletService.coinwallet.availableMoneyInCoins):
+                # TODO: Cancelar payRequest No hay monedas para cambiar y notificar a tpv
+                return
+            self.__coinBack( changeInCoins )
 
         # CAMBIO DE BILLETES
         print("MINIMO BILLETE",minimumBill)

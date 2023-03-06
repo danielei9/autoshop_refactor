@@ -54,14 +54,9 @@ class CoinWalletController(SerialCommunicator):
         self.status = ""
         self.initializeSerial()
 
+        self.tubeFullState = []
+        self.tubeQntyState = []
         
-        self.tubeQnty_0_05 = 0
-        self.tubeQnty_0_10 = 0
-        self.tubeQnty_0_20 = 0
-        self.tubeQnty_0_50 = 0
-        self.tubeQnty_1_00 = 0
-        self.tubeQnty_2_00 = 0
-
         print("Init Controller CoinWallet")
         self.cb = cb
         time.sleep(0.2)
@@ -72,7 +67,8 @@ class CoinWalletController(SerialCommunicator):
         print(self.enableDisableChargeCoins())
         time.sleep(0.2)
         self.disableInsertCoins()
-        # self.enableInsertCoins()
+        self.tubeStatus()
+
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
     def __onInserted05Cent(self,data):
@@ -153,7 +149,6 @@ class CoinWalletController(SerialCommunicator):
         print("CoinWallet.cashback:  DEVOLVER" + str(moneyBack))
         # MONEDERO OLD
         # countCoins = moneyBack / 0.05
-        # MONEDERO NEW
         countCoins = moneyBack / 0.01
         while countCoins > 255:
             self.__sendCommand([0x0F, 0x02, 0xFF ])
@@ -162,7 +157,6 @@ class CoinWalletController(SerialCommunicator):
         return self.__sendCommand([0x0F, 0x02, int(countCoins) ])
     """-------------------------- PUBLIC FUNCTIONS ------------------------------"""
     """-------------------------- startThreadReceived ------------------------------"""
-   
     """-------------------------- SETUP ------------------------------"""
     def setup(self): 
         return self.__sendCommand(SETUP)
@@ -196,7 +190,14 @@ class CoinWalletController(SerialCommunicator):
         assumed to be zero. For tube counts greater than 255, counts
         should remain at 255. 
         """
-        return self.__sendCommandAndReceive([0x0A])
+        response = self.__sendCommandAndReceive([0x0A])
+        print("TUBE STATUS: ",response)
+        self.tubeFullState = []
+        self.getIfTubeIsFull("0x01")
+        self.getIfTubeIsFull("0x01")
+        self.availableMoneyInCoins = 0
+
+        return 
 
         
     """-------------------------- poll ------------------------------"""
@@ -307,3 +308,17 @@ class CoinWalletController(SerialCommunicator):
                 print("cv status = " + str(self.status) + " data = " +str( self.data))
                 self.data = str(self.data)
                 self.status = str(self.status)
+    
+    def getIfTubeIsFull(self, hex_string):
+        # hex_string = "0x5A"
+        decimal_number = int(hex_string, 16)
+        # Convierte el entero decimal en una cadena binaria de 8 bits
+        binary_string = bin(decimal_number)[2:].zfill(8)
+        for i in range(len(binary_string)):
+            if binary_string[i] == "1":
+                self.tubeFullState.append(1)
+            else:
+                self.tubeFullState.append(0)
+
+        # Muestra los estados de las alarmas
+        print(self.tubeFullState)

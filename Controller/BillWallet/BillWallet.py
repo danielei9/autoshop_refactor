@@ -128,6 +128,7 @@ class BillVal:
             self.configMode(self.stackA,self.stackB,self.quantityStackA,self.quantityStackB)
         except Exception as e:
             print("Error getting stacks config: ", e)
+            self.sendErrorTpv("Error: obteniendo configuración de billetero")
             time.sleep(2)
             self.getActualStacksConfig()
             self.set_recycler_config(self.stackA,self.stackB)
@@ -743,6 +744,19 @@ class BillVal:
         time.sleep(.2)
         print("Configured :) OK ")
             
+    def inhibitAndGetCurrentBillCount(self):
+        # Setting inhibit
+        self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
+        time.sleep(.2)
+        print("response: ",self.com.read_all())
+        time.sleep(.2)
+        self.currentBillCountRequest()
+        time.sleep(.2)
+        self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
+        time.sleep(.2)
+        print("response: ",self.com.read_all())
+
+
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
         print("currentBillCountRequest")
@@ -759,6 +773,7 @@ class BillVal:
         self.quantityStackA = int(str(data)[4:6],16)
         self.quantityStackB  = int(str(data)[8:10],16)
         print("qntyA ", self.quantityStackA, " qntyB " , self.quantityStackB)
+
 
     def currentBillCountSetting(self,quantity,stack):
         # Setting BillCount
