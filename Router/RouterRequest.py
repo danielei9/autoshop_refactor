@@ -35,9 +35,9 @@ class Router():
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
         self.paymentService.displayController.setWelcomePage()
         self.routeInitialized = True
+        self.setMqttListenerPaused(False)
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
-            self.setMqttListenerPaused(False)
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
