@@ -64,15 +64,16 @@ class Router():
     
     # Request de configuracion 
     def enrouteConfigRequest(self,request):
-        if( isinstance(request,ConfigStackRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)):
+        if( isinstance(request,ConfigStackRequest ) and self.routeInitialized ):
+            if(self.paymentService.isPaying):
+                self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
+                return False
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
 
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             return True
-        if(self.paymentService.isPaying):
-            self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
 
         
 
@@ -96,25 +97,27 @@ class Router():
             return True
          
     def enrouteGetActualConfigRequest(self,request):
-        if( isinstance(request,GetActualConfigRequest ) and self.routeInitialized and  not(self.paymentService.isPaying)): 
-            print("Arrive GetActualConfigRequest")
-            self.sendDataTPV(
-                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
-                ',"billwallet":{' +
-                    '"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
-                    ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
-                    ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
-                    ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
-                    "}"
-                 ',"coinwallet":{' +
-                    '"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
-                    '"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
-                    '"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
-                    '"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
-                    '"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
-                    '"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
-                    "}"
-                '}')
-            return True
-        if(self.paymentService.isPaying):
-            self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
+        if( isinstance(request,GetActualConfigRequest ) and self.routeInitialized ): 
+            if(not self.paymentService.isPaying): 
+                print("Arrive GetActualConfigRequest")
+                self.sendDataTPV(
+                    '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                    ',"billwallet":{' +
+                        '"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
+                        ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
+                        ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
+                        ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
+                        "}"
+                    ',"coinwallet":{' +
+                        '"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
+                        '"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
+                        '"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
+                        '"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
+                        '"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
+                        '"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
+                        "}"
+                    '}')
+                return True
+            else:
+                self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
+                return False
