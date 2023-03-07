@@ -203,6 +203,7 @@ class CoinWalletController(SerialCommunicator):
         self.getIfTubeIsFull(str(response[1]))
         self.availableMoneyInCoins = 0
         for byte in range(6):
+            print(byte)
             self.tubeQntyState.append(str(response[byte+2]))
             # self.availableMoneyInCoins = 0
         print(self.tubeQntyState)
