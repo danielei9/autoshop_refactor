@@ -100,7 +100,7 @@ class Router():
          
     def enrouteGetActualConfigRequest(self,request):
         if( isinstance(request,GetActualConfigRequest ) and self.routeInitialized ): 
-            if(not self.paymentService.isPaying): 
+            if(not self.paymentService.isPaying):
                 print("Arrive GetActualConfigRequest")
 
                 self.paymentService.billWalletService.bv.inhibitAndGetCurrentBillCount()
@@ -127,14 +127,14 @@ class Router():
                 self.sendDataTPV(
                     '{"typeRequest":'+str(TYPE_GET_ACTUAL_CONFIG_REQUEST)+
                     ',"billwallet":{' +
-                        '"availableMoney":' + str("\"Available\"" )+
+                        '"availableMoney":' + str(5)+
                         ',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
                         ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
                         ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
                         ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
                         "}"
                     ',"coinwallet":{' +
-                        '"availableMoney":' + str("\"Available\"" )+
+                        '"availableMoney":' + str(5)+
                         ',"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
                         ',"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
                         ',"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+

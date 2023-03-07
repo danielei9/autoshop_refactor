@@ -198,17 +198,19 @@ class CoinWalletController(SerialCommunicator):
         should remain at 255. 
         """
         try:
-            time.sleep(.2)
+            self.com.readline()
+            time.sleep(.3)
             self.__sendCommand([0x0A])
             time.sleep(.2)
             response = self.com.readline()
+
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
             self.getIfTubeIsFull(str(response[0]))
             self.getIfTubeIsFull(str(response[1]))
-            
+
             self.tubeQnty_0_05 = response[2]
             self.tubeQnty_0_10 = response[3]
             self.tubeQnty_0_20 = response[4]
