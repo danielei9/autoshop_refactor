@@ -67,7 +67,7 @@ class CoinWalletController(SerialCommunicator):
         print(self.enableDisableChargeCoins())
         time.sleep(0.2)
         self.disableInsertCoins()
-        time.sleep(0.2)
+        time.sleep(0.4)
         self.tubeStatus()
         time.sleep(0.2)
         self.tubeStatus()
@@ -193,6 +193,7 @@ class CoinWalletController(SerialCommunicator):
         assumed to be zero. For tube counts greater than 255, counts
         should remain at 255. 
         """
+        self.com.flush()
         self.__sendCommand([0x0A])
         time.sleep(.2)
         response = self.com.readline()
@@ -262,7 +263,6 @@ class CoinWalletController(SerialCommunicator):
         """
         print("disableInsert Coins")
         return self.__sendCommandAndReceive([0x0C, 0x00, 0x00, 0x00, 0x00])
-
 
     """--------------------------cashBack------------------------------"""
     def cashBackRoutine(self,moneyBack):
