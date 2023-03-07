@@ -198,10 +198,13 @@ class CoinWalletController(SerialCommunicator):
         response = self.com.readline()
         print("TUBE STATUS: ",response)
         self.tubeFullState = []
-        self.getIfTubeIsFull("0x01")
-        self.getIfTubeIsFull("0x01")
+        self.getIfTubeIsFull(str(response[0],hex))
+        self.getIfTubeIsFull(str(response[1],hex))
         self.availableMoneyInCoins = 0
-
+        for byte in range(6):
+            self.tubeQntyState.append(str(response[byte+2],hex))
+            # self.availableMoneyInCoins = 0
+        print(self.tubeQntyState)
         return 
 
         
@@ -316,6 +319,7 @@ class CoinWalletController(SerialCommunicator):
     
     def getIfTubeIsFull(self, hex_string):
         # hex_string = "0x5A"
+        print(hex_string)
         decimal_number = int(hex_string, 16)
         # Convierte el entero decimal en una cadena binaria de 8 bits
         binary_string = bin(decimal_number)[2:].zfill(8)
