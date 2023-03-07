@@ -360,9 +360,9 @@ class PaymentService():
         if(self.actualCancelled == True ):
             if( payRequest.idOrder != -1 ):
                 self.priceClientShouldPay = 0 
-
+        
         # TODO:  Preguntando cuantos billetes hay 
-       # self.billWalletService.bv.currentBillCountRequest()
+        # self.billWalletService.bv.currentBillCountRequest()
 
         # Esperando a devolver en caso de tener que devolver
         if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
@@ -379,15 +379,6 @@ class PaymentService():
                 self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
                 time.sleep(3)
                 pass
-        # TODO:self.billWalletService.bv.currentBillCountRequest()
-
-        self.sendDataTPV(
-                        '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
-                        ',"stackA":' + str(self.billWalletService.bv.stackA )+
-                        ',"stackB":'+str(self.billWalletService.bv.stackB)+
-                        ',"quantityStackA":' + str(self.billWalletService.bv.quantityStackA )+
-                        ',"quantityStackB":' + str(self.billWalletService.bv.quantityStackB )+
-                        '}')
         
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()

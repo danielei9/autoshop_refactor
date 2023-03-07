@@ -131,7 +131,7 @@ class Router():
                 self.sendDataTPV(
                     '{"typeRequest":'+str(TYPE_GET_ACTUAL_CONFIG_REQUEST)+
                     ',"billwallet":{' +
-                        '"availableMoney":' + str("Available" )+
+                        '"availableMoney":' + str("\"Available\"" )+
                         ',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
                         ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
                         ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
