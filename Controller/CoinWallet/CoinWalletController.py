@@ -203,7 +203,7 @@ class CoinWalletController(SerialCommunicator):
             self.__sendCommand([0x0A])
             time.sleep(.2)
             response = str(self.com.readline())
-
+            print("lengtth ",len(response))
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
@@ -224,7 +224,7 @@ class CoinWalletController(SerialCommunicator):
             self.tubeQnty_0_50 = int(str(response[13:15]))
             self.tubeQnty_1_00 = int(str(response[15:17]))
             self.tubeQnty_2_00 = int(str(response[17:19]))
-            
+
             print(" tubeQnty_0_05:  ",self.tubeQnty_0_05)
             print(" tubeQnty_0_10:  ",self.tubeQnty_0_10)
             print(" tubeQnty_0_20:  ",self.tubeQnty_0_20)
