@@ -56,6 +56,12 @@ class CoinWalletController(SerialCommunicator):
 
         self.tubeFullState = []
         self.tubeQntyState = []
+        self.tubeQnty_0_05 = 0
+        self.tubeQnty_0_10 = 0
+        self.tubeQnty_0_20 = 0
+        self.tubeQnty_0_50 = 0
+        self.tubeQnty_1_00 = 0
+        self.tubeQnty_2_00 = 0
         
         print("Init Controller CoinWallet")
         self.cb = cb
@@ -202,12 +208,23 @@ class CoinWalletController(SerialCommunicator):
             self.tubeFullState = []
             self.getIfTubeIsFull(str(response[0]))
             self.getIfTubeIsFull(str(response[1]))
+            
+            self.tubeQnty_0_05 = response[2]
+            self.tubeQnty_0_10 = response[3]
+            self.tubeQnty_0_20 = response[4]
+            self.tubeQnty_0_50 = response[5]
+            self.tubeQnty_1_00 = response[6]
+            self.tubeQnty_2_00 = response[7]
+
             self.availableMoneyInCoins = 0
-            for byte in range(6):
-                print(byte)
-                self.tubeQntyState.append(str(response[byte+2]))
-                # self.availableMoneyInCoins = 0
-            print(self.tubeQntyState)
+            self.availableMoneyInCoins += self.tubeQnty_0_05 * 0.05
+            self.availableMoneyInCoins += self.tubeQnty_0_10 * 0.10
+            self.availableMoneyInCoins += self.tubeQnty_0_20 * 0.20
+            self.availableMoneyInCoins += self.tubeQnty_0_50 * 0.50
+            self.availableMoneyInCoins += self.tubeQnty_1_00 
+            self.availableMoneyInCoins += self.tubeQnty_2_00 * 2
+            
+            print(self.tubeQnty_2_00)
             return 
         except:
             self.tubeStatus()

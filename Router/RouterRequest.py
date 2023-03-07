@@ -112,7 +112,7 @@ class Router():
                 # self.paymentService.coinWalletService.coinwallet.inhibitAndGetCurrentCoinCount()
 
                 self.sendErrorTPV(
-                    '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                    '{"typeRequest":'+str(TYPE_GET_ACTUAL_CONFIG_REQUEST)+
                     ',"billwallet":{' +
                         '"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
                         ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
@@ -129,20 +129,22 @@ class Router():
                         "}"
                     '}')
                 self.sendDataTPV(
-                    '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                    '{"typeRequest":'+str(TYPE_GET_ACTUAL_CONFIG_REQUEST)+
                     ',"billwallet":{' +
-                        '"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
+                        '"availableMoney":' + str("Available" )+
+                        ',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
                         ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+ 
                         ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
                         ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
                         "}"
                     ',"coinwallet":{' +
-                        '"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
-                        '"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
-                        '"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
-                        '"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
-                        '"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
-                        '"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
+                        '"availableMoney":' + str("Available" )+
+                        ',"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
+                        ',"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
+                        ',"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
+                        ',"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
+                        ',"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
+                        ',"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
                         "}"
                     '}')
                 return True
