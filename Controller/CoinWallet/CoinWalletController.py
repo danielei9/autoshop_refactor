@@ -208,27 +208,29 @@ class CoinWalletController(SerialCommunicator):
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
-            # print("RESPONSE", response)
-            # print("RESPONSE1", response[0])
-            # print("RESPONSE2", response[1])
-            # print("RESPONSE3", response[2])
-            # print("RESPONSE4", response[3])
-            # print("RESPONSE5", response[4])
-            # print("RESPONSE6", response[5])
-            # print("RESPONSE7", response[6])
+            tubeByte1 = str(response[2:4])
+            tubeByte2 = str(response[4:7])
 
-            print("RESPONSE7  ",str(response[2:4]))
-            print("RESPONSE7  ",str(response[4:7]))
+            print("Full tube Byte1:  ",tubeByte1)
+            print("Full tube Byte2:  ",tubeByte2)
 
-            self.getIfTubeIsFull(str(response[2:4]))
-            self.getIfTubeIsFull(str(response[4:7]))
+            self.tubeFullState = []
+            self.getIfTubeIsFull(tubeByte1)
+            self.getIfTubeIsFull(tubeByte2)
 
-            self.tubeQnty_0_05 = response[2]
-            self.tubeQnty_0_10 = response[3]
-            self.tubeQnty_0_20 = response[4]
-            self.tubeQnty_0_50 = response[5]
-            self.tubeQnty_1_00 = response[6]
-            self.tubeQnty_2_00 = response[7]
+            self.tubeQnty_0_05 = int(str(response[7:9]))
+            self.tubeQnty_0_10 = int(str(response[9:11]))
+            self.tubeQnty_0_20 = int(str(response[11:13]))
+            self.tubeQnty_0_50 = int(str(response[13:15]))
+            self.tubeQnty_1_00 = int(str(response[15:17]))
+            self.tubeQnty_2_00 = int(str(response[17:19]))
+            
+            print(" tubeQnty_0_05:  ",self.tubeQnty_0_05)
+            print(" tubeQnty_0_10:  ",self.tubeQnty_0_10)
+            print(" tubeQnty_0_20:  ",self.tubeQnty_0_20)
+            print(" tubeQnty_0_50:  ",self.tubeQnty_0_50)
+            print(" tubeQnty_1_00:  ",self.tubeQnty_1_00)
+            print(" tubeQnty_2_00:  ",self.tubeQnty_2_00)
 
             self.availableMoneyInCoins = 0
             self.availableMoneyInCoins += self.tubeQnty_0_05 * 0.05
