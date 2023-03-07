@@ -194,6 +194,7 @@ class CoinWalletController(SerialCommunicator):
         should remain at 255. 
         """
         self.com.flush()
+        time.sleep(.2)
         self.__sendCommand([0x0A])
         time.sleep(.2)
         response = self.com.readline()
