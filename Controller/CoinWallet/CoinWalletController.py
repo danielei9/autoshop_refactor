@@ -208,6 +208,14 @@ class CoinWalletController(SerialCommunicator):
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
+            print("RESPONSE", response)
+            print("RESPONSE1", response[0])
+            print("RESPONSE2", response[1])
+            print("RESPONSE3", response[2])
+            print("RESPONSE4", response[3])
+            print("RESPONSE5", response[4])
+            print("RESPONSE6", response[5])
+            print("RESPONSE7", response[6])
             self.getIfTubeIsFull(str(response[0]))
             self.getIfTubeIsFull(str(response[1]))
 
