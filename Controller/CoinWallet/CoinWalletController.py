@@ -202,22 +202,26 @@ class CoinWalletController(SerialCommunicator):
             time.sleep(.3)
             self.__sendCommand([0x0A])
             time.sleep(.2)
-            response = self.com.readline().hex()
+            response = str(self.com.readline())
 
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
-            print("RESPONSE", response)
-            print("RESPONSE1", response[0])
-            print("RESPONSE2", response[1])
-            print("RESPONSE3", response[2])
-            print("RESPONSE4", response[3])
-            print("RESPONSE5", response[4])
-            print("RESPONSE6", response[5])
-            print("RESPONSE7", response[6])
-            self.getIfTubeIsFull(str(response[0]))
-            self.getIfTubeIsFull(str(response[1]))
+            # print("RESPONSE", response)
+            # print("RESPONSE1", response[0])
+            # print("RESPONSE2", response[1])
+            # print("RESPONSE3", response[2])
+            # print("RESPONSE4", response[3])
+            # print("RESPONSE5", response[4])
+            # print("RESPONSE6", response[5])
+            # print("RESPONSE7", response[6])
+
+            print("RESPONSE7  ",str(response[2:4]))
+            print("RESPONSE7  ",str(response[4:7]))
+
+            self.getIfTubeIsFull(str(response[2:4]))
+            self.getIfTubeIsFull(str(response[4:7]))
 
             self.tubeQnty_0_05 = response[2]
             self.tubeQnty_0_10 = response[3]
