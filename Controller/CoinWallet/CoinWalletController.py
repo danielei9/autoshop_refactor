@@ -242,7 +242,8 @@ class CoinWalletController(SerialCommunicator):
             
             print(self.tubeQnty_2_00)
             return 
-        except:
+        except Exception as e:
+            print(e)
             self.tubeStatus()
             pass
 
