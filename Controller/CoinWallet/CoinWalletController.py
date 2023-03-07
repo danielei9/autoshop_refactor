@@ -191,7 +191,9 @@ class CoinWalletController(SerialCommunicator):
         assumed to be zero. For tube counts greater than 255, counts
         should remain at 255. 
         """
-        response = self.__sendCommandAndReceive([0x0A])
+        self.__sendCommand([0x0A])
+        time.sleep(.2)
+        response = self.com.readline()
         print("TUBE STATUS: ",response)
         self.tubeFullState = []
         self.getIfTubeIsFull("0x01")
