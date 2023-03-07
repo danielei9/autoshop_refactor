@@ -95,10 +95,6 @@ class Router():
             print("Arrive ConfigRequest")
             self.sendDataTPV(
                 '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
-                ',"stackA":' + str(self.paymentService.billWalletService.bv.stackA )+
-                ',"stackB":'+str(self.paymentService.billWalletService.bv.stackB)+
-                ',"quantityStackA":' + str(self.paymentService.billWalletService.bv.quantityStackA )+
-                ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
                 '}')
             return True
          
@@ -138,7 +134,7 @@ class Router():
                         ',"quantityStackB":' + str(self.paymentService.billWalletService.bv.quantityStackB )+
                         "}"
                     ',"coinwallet":{' +
-                        '"availableMoney":' + str("Available" )+
+                        '"availableMoney":' + str("\"Available\"" )+
                         ',"tube_0_05":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_05 )+
                         ',"tube_0_10":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_10 )+
                         ',"tube_0_20":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_20 )+
