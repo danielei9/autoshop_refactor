@@ -202,7 +202,7 @@ class CoinWalletController(SerialCommunicator):
             time.sleep(.3)
             self.__sendCommand([0x0A])
             time.sleep(.2)
-            response = self.com.readline().hex().split()
+            response = self.com.readline().split()
             print("lengtth ",len(response))
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
