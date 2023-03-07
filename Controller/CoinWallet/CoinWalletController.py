@@ -67,6 +67,7 @@ class CoinWalletController(SerialCommunicator):
         print(self.enableDisableChargeCoins())
         time.sleep(0.2)
         self.disableInsertCoins()
+        time.sleep(0.2)
         self.tubeStatus()
 
     """-------------------------- EVENTS ------------------------------"""
@@ -253,7 +254,7 @@ class CoinWalletController(SerialCommunicator):
             of insert all kind of coins
         """
         print("disableInsert Coins")
-        return self.__sendCommand([0x0C, 0x00, 0x00, 0x00, 0x00])
+        return self.__sendCommandAndReceive([0x0A])([0x0C, 0x00, 0x00, 0x00, 0x00])
 
 
     """--------------------------cashBack------------------------------"""
