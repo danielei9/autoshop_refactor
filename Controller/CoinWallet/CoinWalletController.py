@@ -69,8 +69,6 @@ class CoinWalletController(SerialCommunicator):
         self.disableInsertCoins()
         time.sleep(0.4)
         self.tubeStatus()
-        time.sleep(0.2)
-        self.tubeStatus()
 
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
@@ -193,22 +191,27 @@ class CoinWalletController(SerialCommunicator):
         assumed to be zero. For tube counts greater than 255, counts
         should remain at 255. 
         """
-        self.com.flush()
-        time.sleep(.2)
-        self.__sendCommand([0x0A])
-        time.sleep(.2)
-        response = self.com.readline()
-        print("TUBE STATUS: ",response)
-        self.tubeFullState = []
-        self.getIfTubeIsFull(str(response[0]))
-        self.getIfTubeIsFull(str(response[1]))
-        self.availableMoneyInCoins = 0
-        for byte in range(6):
-            print(byte)
-            self.tubeQntyState.append(str(response[byte+2]))
-            # self.availableMoneyInCoins = 0
-        print(self.tubeQntyState)
-        return 
+        try:
+            time.sleep(.2)
+            self.__sendCommand([0x0A])
+            time.sleep(.2)
+            response = self.com.readline()
+            if len(response)< 15 :
+                AssertionError("Error reading tube status")
+            print("TUBE STATUS: ",response)
+            self.tubeFullState = []
+            self.getIfTubeIsFull(str(response[0]))
+            self.getIfTubeIsFull(str(response[1]))
+            self.availableMoneyInCoins = 0
+            for byte in range(6):
+                print(byte)
+                self.tubeQntyState.append(str(response[byte+2]))
+                # self.availableMoneyInCoins = 0
+            print(self.tubeQntyState)
+            return 
+        except:
+            self.tubeStatus()
+            pass
 
         
     """-------------------------- poll ------------------------------"""
