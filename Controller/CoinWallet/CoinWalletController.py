@@ -69,6 +69,8 @@ class CoinWalletController(SerialCommunicator):
         self.disableInsertCoins()
         time.sleep(0.2)
         self.tubeStatus()
+        time.sleep(0.2)
+        self.tubeStatus()
 
     """-------------------------- EVENTS ------------------------------"""
 #     REVISAR LOS PARAMETROS DEL CALLBACK cb Ya Que no se usa la funcion cashbackroutine
