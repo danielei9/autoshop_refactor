@@ -218,12 +218,12 @@ class CoinWalletController(SerialCommunicator):
             self.getIfTubeIsFull(tubeByte1)
             self.getIfTubeIsFull(tubeByte2)
 
-            self.tubeQnty_0_05 = int(response[2].hex(), 16)
-            self.tubeQnty_0_10 = int(response[3].hex(), 16)
-            self.tubeQnty_0_20 = int(response[4].hex(), 16)
-            self.tubeQnty_0_50 = int(response[5].hex(), 16)
-            self.tubeQnty_1_00 = int(response[6].hex(), 16)
-            self.tubeQnty_2_00 = int(response[7].hex(), 16)
+            self.tubeQnty_0_05 = int(response[2], 16)
+            self.tubeQnty_0_10 = int(response[3], 16)
+            self.tubeQnty_0_20 = int(response[4], 16)
+            self.tubeQnty_0_50 = int(response[5], 16)
+            self.tubeQnty_1_00 = int(response[6], 16)
+            self.tubeQnty_2_00 = int(response[7], 16)
 
             str = b'00'
             hex_str = str.hex() 
