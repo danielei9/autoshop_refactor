@@ -202,20 +202,15 @@ class CoinWalletController(SerialCommunicator):
             time.sleep(.3)
             self.__sendCommand([0x0A])
             time.sleep(.2)
-            response = self.com.readline().split()
+            response = self.com.readline().hex().split()
             print("lengtth ",len(response))
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
-            
-            responseHex = []
-            for byte in response:
-                hex_value = int(byte.decode()[2:-1], 16)
-                responseHex.append(hex_value)
-            print(responseHex)
-            tubeByte1 = responseHex[0]
-            tubeByte2 = responseHex[1]
+
+            tubeByte1 = int(str(response[0]),16)
+            tubeByte2 = int(str(response[1]),16)
 
             print("Full tube Byte1:  ",tubeByte1)
             print("Full tube Byte2:  ",tubeByte2)
@@ -224,12 +219,12 @@ class CoinWalletController(SerialCommunicator):
             self.getIfTubeIsFull(tubeByte1)
             self.getIfTubeIsFull(tubeByte2)
 
-            self.tubeQnty_0_05 = responseHex[2]
-            self.tubeQnty_0_10 = responseHex[3]
-            self.tubeQnty_0_20 = responseHex[4]
-            self.tubeQnty_0_50 = responseHex[5]
-            self.tubeQnty_1_00 = responseHex[6]
-            self.tubeQnty_2_00 = responseHex[7]
+            self.tubeQnty_0_05 = int(str(response[2]),16)
+            self.tubeQnty_0_10 = int(str(response[3]),16)
+            self.tubeQnty_0_20 = int(str(response[4]),16)
+            self.tubeQnty_0_50 = int(str(response[5]),16)
+            self.tubeQnty_1_00 = int(str(response[6]),16)
+            self.tubeQnty_2_00 = int(str(response[7]),16)
 
             str = b'00'
             hex_str = str.hex() 
