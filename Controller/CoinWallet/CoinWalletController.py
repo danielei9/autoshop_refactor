@@ -240,6 +240,7 @@ class CoinWalletController(SerialCommunicator):
             self.availableMoneyInCoins += self.tubeQnty_0_50 * 0.50
             self.availableMoneyInCoins += self.tubeQnty_1_00 
             self.availableMoneyInCoins += self.tubeQnty_2_00 * 2
+            self.availableMoneyInCoins = round(self.availableMoneyInCoins,2)
             
             print("availableMoneyInCoins: ",self.availableMoneyInCoins)
             return 
