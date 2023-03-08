@@ -18,10 +18,10 @@ class Router():
         self.tpv:TpvYsolveMqtt = tpvComm
         self.sendErrorTPV = self.tpv.sendError
         self.sendDataTPV = self.tpv.sendData
+        self.autoCancelRequest = self.tpv.sendAutoCancelRequest
         self.setMqttListenerPaused = None
         self.initializePaymentService()
         self.shouldCountMoney = False
-        self.autoCancelRequest = self.tpv.sendAutoCancelRequest
         
     def initializePaymentService(self):
         self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV, self.autoCancelRequest)
