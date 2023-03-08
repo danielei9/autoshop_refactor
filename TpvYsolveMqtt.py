@@ -50,5 +50,7 @@ class TpvYsolveMqtt():
             print(e)
 
     def sendAutoCancelRequest(self):
+        print("sendAutoCancelRequest ")
+        print(self.actualProcessingRequest.idOrder)
         if(self.actualProcessingRequest != None):
             self.conn.clt.publish(str(self.credentials.topicSubscribed) , '{"idOrder":'+str(self.actualProcessingRequest.idOrder)+',"typeRequest":'+str(TYPE_CANCELLED_REQUEST)+'}')

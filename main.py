@@ -23,6 +23,7 @@ class Main():
         print("Adapt request CB ")
         self.router.paymentService.paymentDone = False
         self.lastRequestArrived = RequestController(rawPayload).requestAdapted
+        self.tpv.actualProcessingRequest = self.lastRequestArrived
         print(self.lastRequestArrived)
         self.router.setlastRequestArrived(self.lastRequestArrived)
 

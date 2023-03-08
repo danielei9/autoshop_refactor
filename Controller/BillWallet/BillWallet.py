@@ -386,7 +386,7 @@ class BillVal:
         
         while True:
             while self.pause_flag:
-                time.sleep(0.1)
+                time.sleep(0.15)
             poll_start = time.time()
             status, data = self.req_status()
             if (status, data) != self.bv_status:

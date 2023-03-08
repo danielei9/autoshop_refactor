@@ -50,6 +50,8 @@ class Router():
         if(self.shouldCountMoney):
             self.countMoneyAvailable()
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
+        self.sendDataTPV('{"success":"Maquina disponible para recibir pedidos"}')
+
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
 
@@ -81,7 +83,10 @@ class Router():
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
             time.sleep(1)
             self.paymentService.displayController.setWelcomePage()
-            self.sendDataTPV('{"success":"Cancelado"}')
+            if(self.actualProcessingRequest.idOrder == -1):
+                self.sendDataTPV('{"success":"Rellenado de monedero completado"}')
+            else:
+                self.sendDataTPV('{"success":"Cancelado completado"}')
             return True
     
     # Request de configuracion 
@@ -97,7 +102,7 @@ class Router():
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
-            self.sendDataTPV('{"success":"Billetero configurado"}')
+            self.sendDataTPV('{"success":"Billetero configurado completado"}')
             return True
 
     # Request de reset 
