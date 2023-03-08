@@ -318,7 +318,8 @@ class PaymentService():
                     returnedToUser = self.__billBack(toReturn)
                     toReturn = toReturn - returnedToUser
                 else:
-                    self.setBlockedPaymentMachine("billetero")
+                    returnedToUser = self.__billBack(self.totalAmount)
+                    # self.setBlockedPaymentMachine("billetero")
 
         self.totalAmount = 0
         self.priceClientShouldPay = 0
