@@ -315,11 +315,9 @@ class PaymentService():
                 time.sleep(.2)
                 if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 ):
                     # Devolver Billetes
-                    print("PUEDE PAGAR")
                     returnedToUser = self.__billBack(toReturn)
                     toReturn = toReturn - returnedToUser
                 else:
-                    print("DEVOVLER TODO LO QUE HAN INSERTADO ", totalInserted)
                     returnedToUser = self.__billBack(totalInserted)
 
                     # self.setBlockedPaymentMachine("billetero")
