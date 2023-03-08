@@ -63,6 +63,9 @@ class Router():
                 self.tpv.actualProcessingRequest = self.actualProcessingRequest
                 if(self.actualProcessingRequest.idOrder == -1):
                     self.sendDataTPV('{"success":"Rellenando monedero"}')
+                else:
+                    self.sendDataTPV('{"success":"Pedido recibido"}')
+
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 self.paymentService.paymentDone = True
@@ -75,7 +78,8 @@ class Router():
     def enrouteCancelRequest(self,request):
         if( isinstance(request,CancelRequest ) and self.routeInitialized): 
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
-            self.sendDataTPV('{"success":"Cancelando petición"}')
+            if(request.idOrder != -1):
+                self.sendDataTPV('{"success":"Cancelando..."}')
             time.sleep(1)
             print("Arrive paymentDone")
             # poner el precio de la orden a 0 así realizará la cancelación
@@ -87,10 +91,10 @@ class Router():
             time.sleep(1)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             self.paymentService.displayController.setWelcomePage()
-            # if(self.actualProcessingRequest.idOrder == -1):
-            #     self.sendDataTPV('{"success":"Rellenado de monedero completado"}')
-            # else:
-            #     self.sendDataTPV('{"success":"Cancelado completado"}')
+            if(request.idOrder == -1):
+                self.sendDataTPV('{"success":"Rellenado de monedero completado"}')
+            else:
+                self.sendDataTPV('{"success":"Cancelado completado"}')
             return True
     
     # Request de configuracion 
