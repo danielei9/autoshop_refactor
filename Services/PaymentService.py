@@ -66,6 +66,8 @@ class PaymentService():
             self.machineBlockedPayments = False
             time.sleep(.2)
         else:
+            self.ledsController.setLedsPayingState(self.ledsController.cancelStatus)
+            print("** LOCKED")
             self.machineBlockedPayments = True
             self.sendErrorTPV("Maquina bloqueada: necesarios al menos 5 billetes en cada stack del billetero. Recargue el billetero.")
             self.sendDataTPV('{"typeRequest": '+str(TYPE_BLOCKED_MACHINE)+',"blocked":1}')

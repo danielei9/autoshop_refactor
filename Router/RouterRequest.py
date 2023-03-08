@@ -126,10 +126,9 @@ class Router():
                 self.sendErrorTPV("Error: No se puede configurar mientras tiene un pedido pendiente. Termine o cancele la orden pendiente.")
                 return False
             self.sendDataTPV('{"success":"Conectado"}')
-            
             print("Arrive ConfigRequest")
             self.sendDataTPV(
-                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
+                '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+ ',"blocked":' + str(int(self.paymentService.machineBlockedPayments))+
                 '}')
             return True
          
