@@ -778,7 +778,7 @@ class BillVal:
         self.availableMoneyInBills = 0
         self.availableMoneyInBills += self.quantityStackA * self.stackA
         self.availableMoneyInBills += self.quantityStackB * self.stackB
-        print("Available in bills: ", self.availableMoneyInBills))
+        print("Available in bills: ", self.availableMoneyInBills)
 
 
     def currentBillCountSetting(self,quantity,stack):
