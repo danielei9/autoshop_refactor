@@ -106,6 +106,9 @@ class Router():
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
             self.sendDataTPV('{"success":"Billetero configurado completado"}')
+            time.sleep(.2)
+            self.paymentService.unlockPaymentMachine()
+
             return True
 
     # Request de reset 

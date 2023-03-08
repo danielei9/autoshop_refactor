@@ -61,13 +61,14 @@ class PaymentService():
     # Cuando no tenemos cambio disponible bloqueamos la maquina y esperamos a que un tpv la desbloque
     def unlockPaymentMachine(self):
         if(self.billWalletService.bv.quantityStackA >= 5 and self.billWalletService.bv.quantityStackB >= 5):
-            self.sendDataTPV('{"typeRequest": '+TYPE_BLOCKED_MACHINE+',"blocked":0}')
+            print("** UNLOCKED")
+            self.sendDataTPV('{"typeRequest": '+str(TYPE_BLOCKED_MACHINE)+',"blocked":0}')
             self.machineBlockedPayments = False
             time.sleep(.2)
         else:
             self.machineBlockedPayments = True
             self.sendErrorTPV("Maquina bloqueada: necesarios al menos 5 billetes en cada stack del billetero. Recargue el billetero.")
-            self.sendDataTPV('{"typeRequest": '+TYPE_BLOCKED_MACHINE+',"blocked":1}')
+            self.sendDataTPV('{"typeRequest": '+str(TYPE_BLOCKED_MACHINE)+',"blocked":1}')
 
     def __initializeLedsController(self):
         if(LEDS):

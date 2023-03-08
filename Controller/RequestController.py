@@ -5,6 +5,7 @@ from Model.TPVCommunication.Request.CancelRequest import *
 from Model.TPVCommunication.Request.ConnectedRequest import *
 from Model.TPVCommunication.Request.ResetRequest import *
 from Model.TPVCommunication.Request.GetActualConfigRequest import *
+from Model.TPVCommunication.Request.BlockedMachine import *
 from utils.RequestCodes import *
 
 
@@ -17,9 +18,6 @@ class RequestController():
 
     def convertPayloadToRequest(self):
         jsonData = json.loads(self.rawPayload)
-        # type = 0 => PayRequest 
-        # type = 1 => ConfigRequest
-        # type = 2 => CancelRequest
         if(jsonData['typeRequest'] == TYPE_PAY_REQUEST):
             return self.processPayRequest(jsonData)
         elif(jsonData['typeRequest'] == TYPE_CONFIG_REQUEST):
@@ -32,10 +30,11 @@ class RequestController():
             return self.processResetRequest(jsonData)
         elif(jsonData['typeRequest'] == TYPE_GET_ACTUAL_CONFIG_REQUEST):
             return self.processGetActualConfigRequest(jsonData)
+        elif(jsonData['typeRequest'] == TYPE_BLOCKED_MACHINE):
+            return self.processBlockedMachine(jsonData)
         else:
-            # TODO: Revisar y enviar to tpv error
-            assert("Not valid typeRequest")
-
+            self.sendErrorTpv("Error en conversion de la request")
+            
     def processConfigStackRequest(self,jsonData):
         try:
             print("Config request converted")
@@ -83,3 +82,11 @@ class RequestController():
         except:
             print("Error en conversion de la request de Cancel de stacks")
             self.sendErrorTpv("Error en conversion de la request de cancelación")
+
+    def processBlockedMachine(self,jsonData):
+        try:
+            print("Blocked machine received")
+            return (BlockedMachine(jsonData["typeRequest"],jsonData["blocked"]))
+        except:
+            print("Error en conversion de la request de Bloqueo de maquina")
+            self.sendErrorTpv("Error en conversion de request Bloqueo de maquina")
