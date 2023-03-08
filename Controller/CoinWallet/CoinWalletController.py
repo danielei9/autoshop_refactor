@@ -216,6 +216,12 @@ class CoinWalletController(SerialCommunicator):
 
             print("Full tube Byte1:  ",tubeByte1)
             print("Full tube Byte2:  ",tubeByte2)
+            print("int_array[2] ",int_array[2])
+            print("int_array[3] ",int_array[3])
+            print("int_array[4] ",int_array[4])
+            print("int_array[5] ",int_array[5])
+            print("int_array[6] ",int_array[6])
+            print("int_array[7] ",int_array[7])
 
             self.tubeFullState = []
             self.getIfTubeIsFull(tubeByte1)
