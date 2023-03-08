@@ -234,11 +234,6 @@ class CoinWalletController(SerialCommunicator):
             self.tubeQnty_1_00 = int_array[6]
             self.tubeQnty_2_00 = int_array[7]
 
-            str = b'00'
-            hex_str = str.hex() 
-            num = int(hex_str, 16)
-            print(num)
-
             print(" tubeQnty_0_05:  ",self.tubeQnty_0_05)
             print(" tubeQnty_0_10:  ",self.tubeQnty_0_10)
             print(" tubeQnty_0_20:  ",self.tubeQnty_0_20)
