@@ -376,5 +376,5 @@ class CoinWalletController(SerialCommunicator):
             if self.tubeFullState[i] == 1:
                 print ("FULL TUBE number: ", i)
                 #TODO: REVISAR
-                self.sendErrorTPV("ERROR: El tubo numero " + str(i) + " se encuentra lleno.")
+                # self.sendErrorTPV("ERROR: El tubo numero " + str(i) + " se encuentra lleno.")
 
