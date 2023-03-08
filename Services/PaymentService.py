@@ -373,23 +373,25 @@ class PaymentService():
         # TODO:  Preguntando cuantos billetes hay 
         # self.billWalletService.bv.currentBillCountRequest()
 
-        # Esperando a devolver en caso de tener que devolver
-        if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
-            # Puede pagar
+            # Tengo que devolver?
             while self.totalAmount > self.priceClientShouldPay:
-                print("waiting payOut")
-                change = self.totalAmount - self.priceClientShouldPay
-                self.returnChangeToClient(change)
-                time.sleep(1)
-        else:
-            # No puede pagar
-            while(self.actualCancelled != True):
-                print("Waiting cancel request. No bills")
-                self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
-                self.setBlockedPaymentMachine("billetero")
-                time.sleep(3)
-                pass
-        
+                # Puedo pagar?
+                if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
+                    print("waiting payOut")
+                    change = self.totalAmount - self.priceClientShouldPay
+                    self.returnChangeToClient(change)
+                    time.sleep(1)
+                else:
+                    self.returnChangeToClient(self.totalAmount)
+                
+                    # No puede pagar
+                    # while(self.actualCancelled != True):
+                    #     print("Waiting cancel request. No bills")
+                    #     self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
+                    #     self.setBlockedPaymentMachine("billetero")
+                    #     time.sleep(3)
+                    #     pass
+                
         if(self.actualCancelled == True):
             self.billWalletService.bv.pausePollThread()
 
