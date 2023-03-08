@@ -7,7 +7,7 @@ from Controller.UsbPortDetector import *
 import threading
 from Controller.BillWallet.BillWalletService import *
 from utils.RequestCodes import *
-
+MINIMUM_BILLS_QUANTITY_TO_HAVE = 5
 PRINTER = False
 COINWALLET = True
 BILLWALLET = True
@@ -60,7 +60,7 @@ class PaymentService():
         time.sleep(.2)
     # Cuando no tenemos cambio disponible bloqueamos la maquina y esperamos a que un tpv la desbloque
     def unlockPaymentMachine(self):
-        if(self.billWalletService.bv.quantityStackA >= 5 and self.billWalletService.bv.quantityStackB >= 5):
+        if(self.billWalletService.bv.quantityStackA >= MINIMUM_BILLS_QUANTITY_TO_HAVE and self.billWalletService.bv.quantityStackB >= MINIMUM_BILLS_QUANTITY_TO_HAVE):
             print("** UNLOCKED")
             self.sendDataTPV('{"typeRequest": '+str(TYPE_BLOCKED_MACHINE)+',"blocked":0}')
             self.machineBlockedPayments = False
