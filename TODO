@@ -20,3 +20,5 @@ TODO:
         paga
 
 TODO: REVISAR FULL TUBE
+TODO: File "/home/pi/Desktop/autoshop_refactor/Router/RouterRequest.py", line 86, in enrouteCancelRequest
+if(self.actualProcessingRequest.idOrder == -1):

@@ -83,10 +83,10 @@ class Router():
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
             time.sleep(1)
             self.paymentService.displayController.setWelcomePage()
-            if(self.actualProcessingRequest.idOrder == -1):
-                self.sendDataTPV('{"success":"Rellenado de monedero completado"}')
-            else:
-                self.sendDataTPV('{"success":"Cancelado completado"}')
+            # if(self.actualProcessingRequest.idOrder == -1):
+            #     self.sendDataTPV('{"success":"Rellenado de monedero completado"}')
+            # else:
+            #     self.sendDataTPV('{"success":"Cancelado completado"}')
             return True
     
     # Request de configuracion 

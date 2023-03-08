@@ -385,8 +385,8 @@ class PaymentService():
                 print("Waiting cancel request. No bills")
                 self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
                 self.returnChangeToClient(self.totalAmount)
-                # self.setBlockedPaymentMachine("billetero")
-                time.sleep(3)
+                time.sleep(8)
+                self.setBlockedPaymentMachine("billetero")
                 pass
         
         if(self.actualCancelled == True):
