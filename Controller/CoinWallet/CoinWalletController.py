@@ -332,30 +332,29 @@ class CoinWalletController(SerialCommunicator):
         return 0
  
     """-------------------------- startThreadReceived ------------------------------"""
-    def threadReceived(self):
+    async def threadReceived(self):
 #         while not self.statusDeactiveThread:
-        while self.enableReceivedMode:
-            if(self.com.in_waiting):    
-                try:
-                    received = self.com.readline()
-                    print("received :: ", received )
-                except serial.SerialException:
-                    print('Port is not available')
-                    return False
-                except serial.portNotOpenError:
-                    print('Attempting to use a port that is not open in read line')
-                    return False
-                except:
-                    print("Not possible to read port")
-                    return False
+        while True:
+            if(self.enableReceivedMode):
+                if(self.com.in_waiting):    
+                    try:
+                        received = self.com.readline()
+                        print("received :: ", received )
+                    except serial.SerialException:
+                        print('Port is not available')
+                        return False
+                    except serial.portNotOpenError:
+                        print('Attempting to use a port that is not open in read line')
+                        return False
+                    except:
+                        print("Not possible to read port")
+                        return False
 
-                # print("CoinWallet RX :: ", bytes(received))
-                self.__parseBytes(received)
-                print("cv status = " + str(self.status) + " data = " +str( self.data))
-                self.data = str(self.data)
-                self.status = str(self.status)
-        if(not self.enableReceivedMode):
-            time.sleep(.2)
+                    # print("CoinWallet RX :: ", bytes(received))
+                    self.__parseBytes(received)
+                    print("cv status = " + str(self.status) + " data = " +str( self.data))
+                    self.data = str(self.data)
+                    self.status = str(self.status)
     
     def getIfTubeIsFull(self, decimal_number):
         # Convierte el entero decimal en una cadena binaria de 8 bits
