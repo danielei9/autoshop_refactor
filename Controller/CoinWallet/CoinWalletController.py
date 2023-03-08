@@ -208,20 +208,12 @@ class CoinWalletController(SerialCommunicator):
             print("lengtth ",len(response))
             if len(response)< 15 :
                 AssertionError("Error reading tube status")
+
             print("TUBE STATUS: ",response)
             self.tubeFullState = []
             
             tubeByte1 = int_array[0]
             tubeByte2 = int_array[1]
-
-            print("Full tube Byte1:  ",tubeByte1)
-            print("Full tube Byte2:  ",tubeByte2)
-            print("int_array[2] ",int_array[2])
-            print("int_array[3] ",int_array[3])
-            print("int_array[4] ",int_array[4])
-            print("int_array[5] ",int_array[5])
-            print("int_array[6] ",int_array[6])
-            print("int_array[7] ",int_array[7])
 
             self.tubeFullState = []
             self.getIfTubeIsFull(tubeByte1)
@@ -249,7 +241,7 @@ class CoinWalletController(SerialCommunicator):
             self.availableMoneyInCoins += self.tubeQnty_1_00 
             self.availableMoneyInCoins += self.tubeQnty_2_00 * 2
             
-            print(self.tubeQnty_2_00)
+            print("availableMoneyInCoins: ",self.availableMoneyInCoins)
             return 
         except Exception as e:
             print(e)
