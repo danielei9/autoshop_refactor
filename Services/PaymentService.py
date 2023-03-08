@@ -313,13 +313,10 @@ class PaymentService():
             while(toReturn > 0):
                 print("**** TO RETURN ", toReturn)
                 time.sleep(.2)
-                if(self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1 ):
-                    # Devolver Billetes
-                    returnedToUser = self.__billBack(toReturn)
-                    toReturn = toReturn - returnedToUser
-                else:
-                    returnedToUser = self.__billBack(self.totalAmount)
-                    # self.setBlockedPaymentMachine("billetero")
+                # Devolver Billetes
+                returnedToUser = self.__billBack(toReturn)
+                toReturn = toReturn - returnedToUser
+                # self.setBlockedPaymentMachine("billetero")
 
         self.totalAmount = 0
         self.priceClientShouldPay = 0
@@ -387,7 +384,8 @@ class PaymentService():
             while(self.actualCancelled != True):
                 print("Waiting cancel request. No bills")
                 self.sendErrorTPV("ERROR: Waiting cancel request. No bills available")
-                self.setBlockedPaymentMachine("billetero")
+                self.returnChangeToClient(self.totalAmount)
+                # self.setBlockedPaymentMachine("billetero")
                 time.sleep(3)
                 pass
         
