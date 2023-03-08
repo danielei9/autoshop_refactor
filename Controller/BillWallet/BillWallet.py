@@ -300,7 +300,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_DENOM, denom):
             logging.warning("Acceptor did not echo denom settings")
-            time.sleep(2)
+            time.sleep(.4)
         
         logging.debug("Setting security: %r" % sec)
         sec = bytes(sec)
@@ -308,7 +308,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_SECURITY, sec):
             logging.warning("Acceptor did not echo security settings")
-            time.sleep(2)
+            time.sleep(.4)
             
         logging.debug("Setting direction inhibit: %r" % dir)
         dir = bytes(dir)
@@ -316,7 +316,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_DIRECTION, dir):
             logging.warning("Acceptor did not echo direction settings")
-            time.sleep(2)
+            time.sleep(.4)
 
         logging.debug("Setting optional functions: %r" % opt_func)
         opt_func = bytes(opt_func)
@@ -324,7 +324,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_OPT_FUNC, opt_func):
             logging.warning("Acceptor did not echo option function settings")
-            time.sleep(2)
+            time.sleep(.4)
             
         logging.debug("Setting inhibit: %r" % inhibit)
         inhibit = bytes(inhibit)
@@ -332,7 +332,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_INHIBIT, inhibit):
             logging.warning("Acceptor did not echo inhibit settings")
-            time.sleep(2)
+            time.sleep(.4)
 
         logging.debug("Setting barcode functions: %r" % bar_func)
         bar_func = bytes(bar_func)
@@ -340,7 +340,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_BAR_FUNC, bar_func):
             logging.warning("Acceptor did not echo barcode settings")
-            time.sleep(2)
+            time.sleep(.4)
 
         logging.debug("Setting barcode inhibit: %r" % bar_inhibit)
         bar_inhibit = bytes(bar_inhibit)
@@ -348,7 +348,7 @@ class BillVal:
         status, data = self.read_response()
         while (status, data) != (SET_BAR_INHIBIT, bar_inhibit):
             logging.warning("Acceptor did not echo barcode inhibit settings")
-            time.sleep(1)
+            time.sleep(.4)
             
         while self.req_status()[0] == INITIALIZE:
             # wait for initialization to finish
@@ -415,29 +415,6 @@ class BillVal:
             time.sleep(.2)
             self.set_inhibited()
     
-    def set_not_inhibited(self):
-        """
-        Command to set the inhibit state
-        ->:param bytes sec: [0x00, 0x00] default
-        :send_command bytes: [SYNC LNG CMD DATA CRCL CRCH] 
-        """
-        # self.pausePollThread()
-        print("sending NOT inhibit")
-        
-        self.pausePollThread() 
-        inhibit = 0x00
-        logging.debug("Setting inhibit: %r" % inhibit)
-        inhibit = bytes(inhibit)
-        self.send_command(SET_INHIBIT, inhibit)
-        status, data = self.read_response()
-        while (status) != (SET_INHIBIT):
-            print(str(status), " data: " ,str(data))
-            print("Should be " ,str(SET_INHIBIT), " inhibit: " ,str(inhibit))
-            logging.warning("Acceptor did not echo inhibit settings")
-            time.sleep(2)
-            self.set_inhibited()
-        # self.resumePollThread()
-
     def getActualStacksConfig(self):
         print("get Actual Stacks Config ")
         # self.set_inhibited()
@@ -790,9 +767,9 @@ class BillVal:
         message += get_crc(message)
         self.com.flushInput()
         self.com.flushOutput()
-        time.sleep(.4)
+        time.sleep(.2)
         self.com.write(message)
-        time.sleep(.4)
+        time.sleep(.2)
         status, data = self.read_response()
         data = data.hex()
 

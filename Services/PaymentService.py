@@ -109,7 +109,7 @@ class PaymentService():
             try:
                 self.coinWalletService: CoinWalletService = CoinWalletService(
                     self.manageTotalAmount, port=self.portMonedero)
-                time.sleep(.4)
+                time.sleep(.2)
                 coinWalletPollThread = threading.Thread(target=self.coinWalletService.run)
                 coinWalletPollThread.start()
                 print("CoinWallet Initialized OK")
@@ -395,7 +395,7 @@ class PaymentService():
         self.coinWalletService.coinwallet.disableInsertCoins()
         print("payment done from __startMachinesPayment")
         self.paymentDone = False
-        time.sleep(3)
+        time.sleep(.3)
         self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
 
         self.displayController.setWelcomePage()

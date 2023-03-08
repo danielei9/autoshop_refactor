@@ -106,7 +106,7 @@ class CoinWalletController(SerialCommunicator):
             while (not self.com.in_waiting):
                 print("waiting response...")
                 endTimeOut = time.time()
-                time.sleep(1)
+                time.sleep(.2)
                 # TimeOut
                 if (endTimeOut - startTimeOut >= 2):  
                     return -1
@@ -164,9 +164,9 @@ class CoinWalletController(SerialCommunicator):
     def tubeStatus(self):  
         try:
             self.com.readline()
-            time.sleep(.3)
+            time.sleep(.1)
             self.__sendCommand([0x0A])
-            time.sleep(.2)
+            time.sleep(.1)
             response = self.com.readline().split()
             int_array = [int(x, 16) for x in response]
             
