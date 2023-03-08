@@ -411,7 +411,7 @@ class PaymentService():
         time.sleep(.3)
         self.sendAckRequest(STATUS_MACHINES_ORDER_FINISHED,payRequest.idOrder)
 
-        self.displayController.setWelcomePage()
+        # self.displayController.setWelcomePage()
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.isPaying = False
