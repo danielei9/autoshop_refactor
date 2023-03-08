@@ -11,7 +11,6 @@ broker = '192.168.4.1'
 username = "ysolve"
 password = "y-solve2022"
 
-#TODO:   quitar
 # broker = 'broker.hivemq.com'
 
 class TpvYsolveMqtt():
@@ -47,6 +46,4 @@ class TpvYsolveMqtt():
             print("Sended!")
             
         except Exception as e :
-            # TODO: Mostrar por pantalla el error
             print(e)
-            raise e

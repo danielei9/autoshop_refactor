@@ -176,14 +176,6 @@ FAILURE_CODES = {
     EXT_ROM_WRT_FAULT: "External ROM write failure",
 }
 
-
-### Bitfield constants ###
-# TODO move these to separate file?
-# Need some way of separating BV software versions
-
-## Denom inhibit (SET_DENOM) ##
-# Two bytes, only first byte used
-# 0 = enabled, 1 = disabled
 DENOM_USA_1 = 1
 DENOM_USA_RESERVED1 = 2
 DENOM_USA_5 = 4

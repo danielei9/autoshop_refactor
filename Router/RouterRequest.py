@@ -104,8 +104,8 @@ class Router():
                 print("Arrive GetActualConfigRequest")
 
                 self.paymentService.billWalletService.bv.inhibitAndGetCurrentBillCount()
-                # TODO:
-                # self.paymentService.coinWalletService.coinwallet.inhibitAndGetCurrentCoinCount()
+                # TODO: Test it
+                self.paymentService.coinWalletService.coinwallet.tubeStatus()
 
                 self.sendErrorTPV(
                     '{"typeRequest":'+str(TYPE_GET_ACTUAL_CONFIG_REQUEST)+

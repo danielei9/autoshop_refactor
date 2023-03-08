@@ -52,8 +52,6 @@ class MqttConnection:
         try:
             self.clt.loop_start()
             print("** Subscribing... " + self.credentials.topic + "/tx" )
-            # TODO: Cambiar subscribe
-            # self.clt.subscribe("payMachine/tx")
             self.clt.subscribe(self.credentials.topic+"/tx")
             print("Subscribed OK")
         except:

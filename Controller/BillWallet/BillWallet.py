@@ -48,7 +48,6 @@ class BillVal:
             PAY_OUT_NOTE_ERROR:self._on_note_error
         }
         
-        # TODO get this from version during powerup
         self.bv_denoms = ESCROW_USA
         
         self.bv_on = False

@@ -206,7 +206,7 @@ class CoinWalletController(SerialCommunicator):
             int_array = [int(x, 16) for x in response]
             
             print("lengtth ",len(response))
-            if len(response)< 15 :
+            if len(response)!= 19 :
                 AssertionError("Error reading tube status")
 
             print("TUBE STATUS: ",response)

@@ -1,8 +1,5 @@
-str = "b'00 00 01'"
-byte_list = str.split()
+hex_array = [b'00', b'00', b'32', b'1C', b'17', b'02', b'11', b'00', b'00', b'00', b'00', b'00', b'00', b'00', b'00', b'00', b'00', b'00', b'78']
 
-byte1 = int(byte_list[0], 16)
-byte2 = int(byte_list[1], 16)
-byte3 = int(byte_list[2], 16)
+int_array = [int(x, 16) for x in hex_array]
 
-print(byte1, byte2, byte3)
+print(int_array)
