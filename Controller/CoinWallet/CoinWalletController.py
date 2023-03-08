@@ -210,14 +210,11 @@ class CoinWalletController(SerialCommunicator):
                 AssertionError("Error reading tube status")
 
             print("TUBE STATUS: ",response)
-            self.tubeFullState = []
             
             tubeByte1 = int_array[0]
             tubeByte2 = int_array[1]
 
-            self.tubeFullState = []
-            self.getIfTubeIsFull(tubeByte1)
-            self.getIfTubeIsFull(tubeByte2)
+            self.checkIfTubeIsFull(tubeByte1,tubeByte2)
 
             self.tubeQnty_0_05 = int_array[2]
             self.tubeQnty_0_10 = int_array[3]
@@ -364,8 +361,20 @@ class CoinWalletController(SerialCommunicator):
         for i in range(len(binary_string)):
             if binary_string[i] == "1":
                 self.tubeFullState.append(1)
+                
             else:
                 self.tubeFullState.append(0)
 
         # Muestra los estados de las alarmas
         print(self.tubeFullState)
+    
+    def checkIfTubeIsFull(self,byte1,byte2):
+        self.tubeFullState = []
+        self.getIfTubeIsFull(byte1)
+        self.getIfTubeIsFull(byte2)
+        for i in range(len(self.tubeFullState)):
+            if self.tubeFullState[i] == 1:
+                print ("FULL TUBE number: ", i)
+                #TODO: REVISAR
+                self.sendErrorTPV("ERROR: El tubo numero " + str(i) + " se encuentra lleno.")
+

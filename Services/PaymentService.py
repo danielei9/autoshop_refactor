@@ -360,7 +360,7 @@ class PaymentService():
         if(self.actualCancelled == True ):
             if( payRequest.idOrder != -1 ):
                 self.priceClientShouldPay = 0 
-        
+
         # TODO:  Preguntando cuantos billetes hay 
         # self.billWalletService.bv.currentBillCountRequest()
 
@@ -396,3 +396,5 @@ class PaymentService():
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.isPaying = False
+        # TODO: Revisar
+        self.coinWalletService.coinwallet.tubeStatus()
