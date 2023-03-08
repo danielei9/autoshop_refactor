@@ -62,7 +62,7 @@ class CoinWalletController(SerialCommunicator):
         self.tubeQnty_0_50 = 0
         self.tubeQnty_1_00 = 0
         self.tubeQnty_2_00 = 0
-        
+        self.enableReceivedMode = True
         print("Init Controller CoinWallet")
         self.cb = cb
         time.sleep(0.2)
@@ -334,7 +334,7 @@ class CoinWalletController(SerialCommunicator):
     """-------------------------- startThreadReceived ------------------------------"""
     def threadReceived(self):
 #         while not self.statusDeactiveThread:
-        while True:
+        while self.enableReceivedMode:
             if(self.com.in_waiting):    
                 try:
                     received = self.com.readline()
