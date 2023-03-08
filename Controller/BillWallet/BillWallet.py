@@ -747,18 +747,18 @@ class BillVal:
         # Setting inhibit
         self.com.write(bytes([0xFC,0x06,0xC3,0x01,0x8D,0xC7]))
         time.sleep(.2)
-        print("response: ",self.com.read_all())
+        # print("response: ",self.com.read_all())
         time.sleep(.2)
         self.currentBillCountRequest()
         time.sleep(.2)
         self.com.write(bytes([0xFC,0x06,0xC3,0x00,0x04,0xD6]))
         time.sleep(.2)
-        print("response: ",self.com.read_all())
+        # print("response: ",self.com.read_all())
 
 
     def currentBillCountRequest(self):
         # Preguntar cuantos billetes quedan
-        print("currentBillCountRequest")
+        # print("currentBillCountRequest")
         self.com.flushInput()
         self.com.flushOutput()
         time.sleep(.2)
@@ -768,10 +768,17 @@ class BillVal:
         status, data = self.read_response()
         # response = self.com.readline()
         data = data.hex()
-        print("response: ",data)
+        # print("response: ",data)
         self.quantityStackA = int(str(data)[4:6],16)
         self.quantityStackB  = int(str(data)[8:10],16)
         print("qntyA ", self.quantityStackA, " qntyB " , self.quantityStackB)
+        self.countAvailableMoney()
+
+    def countAvailableMoney(self):
+        self.availableMoneyInBills = 0
+        self.availableMoneyInBills += self.quantityStackA * self.stackA
+        self.availableMoneyInBills += self.quantityStackB * self.stackB
+        print("Available in bills: ", self.availableMoneyInBills))
 
 
     def currentBillCountSetting(self,quantity,stack):
