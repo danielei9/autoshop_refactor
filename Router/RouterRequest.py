@@ -40,11 +40,11 @@ class Router():
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
             if(self.shouldCountMoney):
-                self.enableReceivedMode = False
+                self.paymentService.coinWalletService.coinwallet.enableReceivedMode = False
                 time.sleep(.2)
                 self.paymentService.coinWalletService.coinwallet.tubeStatus()
                 self.shouldCountMoney = False
-                self.enableReceivedMode = True
+                self.paymentService.coinWalletService.coinwallet.enableReceivedMode = True
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
