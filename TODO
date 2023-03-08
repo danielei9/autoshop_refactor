@@ -10,7 +10,7 @@ TOFIX: Obtener las monedas availables en el monedero, y guardar en self.coinwall
 TODO: Al desconectarse cualquier dispositivo informar, y recuperar rutina 
 
 TODO:
-    si puede pagar con monedas TODO y tiene monedas suficientes
+    si puede pagar con monedas y tiene monedas suficientes
         paga.
     si no 
         Cancela la actual e informa que hay que recargar monedas

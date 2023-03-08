@@ -43,6 +43,8 @@ class Router():
                 self.paymentService.coinWalletService.coinwallet.enableReceivedMode = False
                 time.sleep(.1)
                 self.paymentService.coinWalletService.coinwallet.tubeStatus()
+                self.paymentService.billWalletService.bv.inhibitAndGetCurrentBillCount()
+
                 self.shouldCountMoney = False
                 time.sleep(.1)
                 self.paymentService.coinWalletService.coinwallet.enableReceivedMode = True
