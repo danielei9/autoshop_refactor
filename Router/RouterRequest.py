@@ -56,7 +56,8 @@ class Router():
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 self.tpv.actualProcessingRequest = self.actualProcessingRequest
-
+                if(self.actualProcessingRequest.idOrder == -1):
+                    self.sendDataTPV('{"success":"Rellenando monedero"}')
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 self.paymentService.paymentDone = True
@@ -69,6 +70,7 @@ class Router():
     def enrouteCancelRequest(self,request):
         if( isinstance(request,CancelRequest ) and self.routeInitialized): 
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.cancelStatus)
+            self.sendDataTPV('{"success":"Cancelando petición"}')
             time.sleep(1)
             print("Arrive paymentDone")
             # poner el precio de la orden a 0 así realizará la cancelación
@@ -79,6 +81,7 @@ class Router():
             self.paymentService.sendAckRequest(STATUS_MACHINES_ORDER_CANCELLED_OK,request.idOrder)
             time.sleep(1)
             self.paymentService.displayController.setWelcomePage()
+            self.sendDataTPV('{"success":"Cancelado"}')
             return True
     
     # Request de configuracion 
@@ -87,11 +90,14 @@ class Router():
             if(self.paymentService.isPaying):
                 self.sendErrorTPV("Error: No se puede configurar mientras un pedido pendiente. Termine la orden pendiente.")
                 return False
+            self.sendDataTPV('{"success":"Configurando billetero"}')
+            
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.configStatus)
 
             print("Arrive ConfigRequest")
             self.paymentService.billWalletService.bv.configMode(request.stackA, request.stackB,request.quantityStackA,request.quantityStackB)
             self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
+            self.sendDataTPV('{"success":"Billetero configurado"}')
             return True
 
     # Request de reset 
@@ -108,7 +114,8 @@ class Router():
             if(self.paymentService.isPaying):
                 self.sendErrorTPV("Error: No se puede configurar mientras tiene un pedido pendiente. Termine o cancele la orden pendiente.")
                 return False
-                
+            self.sendDataTPV('{"success":"Conectado"}')
+            
             print("Arrive ConfigRequest")
             self.sendDataTPV(
                 '{"typeRequest":'+str(TYPE_CONNECTED_REQUEST)+
@@ -136,7 +143,7 @@ class Router():
                         ',"tube_0_50":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_0_50 )+
                         ',"tube_1_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_1_00 )+
                         ',"tube_2_00":' + str(self.paymentService.coinWalletService.coinwallet.tubeQnty_2_00 )+
-                        "}"
+                        '}' +
                     '}')
                 return True
             else:
