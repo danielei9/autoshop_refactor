@@ -45,13 +45,11 @@ class Router():
         self.paymentService.displayController.setWelcomePage()
         self.routeInitialized = True
         self.setMqttListenerPaused(False)
+        if(self.shouldCountMoney):
+            self.countMoneyAvailable()
         self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
-        print("**************** route REQUEST")
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
-            if(self.shouldCountMoney):
-                self.countMoneyAvailable()
-                self.paymentService.ledsController.setLedsPayingState(self.paymentService.ledsController.doneStatus)
 
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
