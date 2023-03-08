@@ -354,6 +354,8 @@ class CoinWalletController(SerialCommunicator):
                 print("cv status = " + str(self.status) + " data = " +str( self.data))
                 self.data = str(self.data)
                 self.status = str(self.status)
+        if(not self.enableReceivedMode):
+            time.sleep(.2)
     
     def getIfTubeIsFull(self, decimal_number):
         # Convierte el entero decimal en una cadena binaria de 8 bits
