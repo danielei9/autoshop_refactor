@@ -211,23 +211,29 @@ class CoinWalletController(SerialCommunicator):
         self.availableMoneyInCoins += self.tubeQnty_1_00 
         self.availableMoneyInCoins += self.tubeQnty_2_00 * 2
         self.availableMoneyInCoins = round(self.availableMoneyInCoins,2)
-        
+
         self.checkAvailableMoney()
 
         print("availableMoneyInCoins: ",self.availableMoneyInCoins)
 
     def checkAvailableMoney(self):
         if(self.tubeQnty_0_05< 5):
+            print("Warning: Hay pocas monedas de 0.05")
             self.sendErrorTPV("Warning: Hay pocas monedas de 0.05")
         if(self.tubeQnty_0_10< 5):
+            print("Warning: Hay pocas monedas de 0.10")
             self.sendErrorTPV("Warning: Hay pocas monedas de 0.10")
         if(self.tubeQnty_0_20< 5):
+            print("Warning: Hay pocas monedas de 0.20")
             self.sendErrorTPV("Warning: Hay pocas monedas de 0.20")
         if(self.tubeQnty_0_50< 5):
+            print("Warning: Hay pocas monedas de 0.50")
             self.sendErrorTPV("Warning: Hay pocas monedas de 0.50")
         if(self.tubeQnty_1_00< 5):
+            print("Warning: Hay pocas monedas de 1.00")
             self.sendErrorTPV("Warning: Hay pocas monedas de 1.00")
         if(self.tubeQnty_2_00< 5):
+            print("Warning: Hay pocas monedas de 2.00")
             self.sendErrorTPV("Warning: Hay pocas monedas de 2.00")
 
     def poll(self):  # 0x0B
