@@ -282,7 +282,7 @@ class PaymentService():
             self.displayController.setByePage()
             self.paymentDone = True
 
-    def returnChangeToClient(self, amount,totalInserted):
+    def returnChangeToClient(self, amount):
         changeInBills = 0
         changeInCoins = 0
         minimumBill = self.billWalletService.bv.minBill
@@ -318,9 +318,7 @@ class PaymentService():
                     returnedToUser = self.__billBack(toReturn)
                     toReturn = toReturn - returnedToUser
                 else:
-                    returnedToUser = self.__billBack(totalInserted)
-
-                    # self.setBlockedPaymentMachine("billetero")
+                    self.setBlockedPaymentMachine("billetero")
 
         self.totalAmount = 0
         self.priceClientShouldPay = 0
@@ -378,13 +376,13 @@ class PaymentService():
             # Tengo que devolver?
             while self.totalAmount > self.priceClientShouldPay:
                 # Puedo pagar?
-                # if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
+                if (self.billWalletService.bv.quantityStackA > 1 and self.billWalletService.bv.quantityStackB > 1) :
                     print("waiting payOut")
                     change = self.totalAmount - self.priceClientShouldPay
-                    self.returnChangeToClient(change,self.totalAmount)
+                    self.returnChangeToClient(change)
                     time.sleep(1)
-                # else:
-                #     self.returnChangeToClient(self.totalAmount)
+                else:
+                    self.returnChangeToClient(self.totalAmount)
                 
                     # No puede pagar
                     # while(self.actualCancelled != True):
