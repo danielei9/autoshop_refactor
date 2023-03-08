@@ -19,6 +19,7 @@ class Router():
         self.sendDataTPV = tpvComm.sendData
         self.setMqttListenerPaused = None
         self.initializePaymentService()
+        self.shouldCountMoney = False
         
     def initializePaymentService(self):
         self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV)
@@ -38,6 +39,9 @@ class Router():
         self.setMqttListenerPaused(False)
         while True:
             self.actualProcessingRequest = self.lastRequestArrived
+            if(self.shouldCountMoney):
+                self.paymentService.coinWalletService.coinwallet.tubeStatus()
+                self.shouldCountMoney = False
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
@@ -45,6 +49,7 @@ class Router():
                 self.paymentService.paymentDone = True
                 self.actualProcessingRequest = None
                 self.lastRequestArrived = None
+                self.shouldCountMoney = True
                 return True
 
     # Cancelar 

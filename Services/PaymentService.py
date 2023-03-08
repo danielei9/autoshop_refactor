@@ -396,5 +396,3 @@ class PaymentService():
         self.actualProcessingRequest = None
         self.lastRequestArrived = None
         self.isPaying = False
-        # TODO: Revisar
-        self.coinWalletService.coinwallet.tubeStatus()
