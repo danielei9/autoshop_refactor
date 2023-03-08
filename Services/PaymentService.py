@@ -8,7 +8,7 @@ import threading
 from Controller.BillWallet.BillWalletService import *
 from utils.RequestCodes import *
 MINIMUM_BILLS_QUANTITY_TO_HAVE = 5
-PRINTER = False
+PRINTER = True
 COINWALLET = True
 BILLWALLET = True
 DISPLAY = True
