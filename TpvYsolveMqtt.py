@@ -5,7 +5,7 @@
 from Model.TPVCommunication.Mqtt.mqtt_credentials import *
 # from Model.TPVCommunication.Request.Request import *
 from Controller.MqttController import *
-
+from utils.RequestCodes import *
 port = 1883
 broker = '192.168.4.1'
 username = "ysolve"
@@ -19,6 +19,7 @@ class TpvYsolveMqtt():
         self.conn = None
         self.cb_adapt_request = adaptRequest
         self.initialize()
+        self.actualProcessingRequest = None
 
     def initialize(self):
         print("initialize TPV")
@@ -47,3 +48,7 @@ class TpvYsolveMqtt():
             
         except Exception as e :
             print(e)
+
+    def sendAutoCancelRequest(self):
+        if(self.actualProcessingRequest != None):
+            self.conn.clt.publish(str(self.credentials.topicSubscribed) , '{"idOrder":'+str(self.actualProcessingRequest.idOrder)+',"typeRequest":'+str(TYPE_CANCELLED_REQUEST)+'}')

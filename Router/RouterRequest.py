@@ -15,14 +15,16 @@ class Router():
         self.actualProcessingRequest = actualProcessingRequest
         self.lastRequestArrived = lastRequestArrived
         self.paymentService:PaymentService = None
-        self.sendErrorTPV = tpvComm.sendError
-        self.sendDataTPV = tpvComm.sendData
+        self.tpv:TpvYsolveMqtt = tpvComm
+        self.sendErrorTPV = self.tpv.sendError
+        self.sendDataTPV = self.tpv.sendData
         self.setMqttListenerPaused = None
         self.initializePaymentService()
         self.shouldCountMoney = False
+        self.autoCancelRequest = self.tpv.sendAutoCancelRequest
         
     def initializePaymentService(self):
-        self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV)
+        self.paymentService = PaymentService(self.sendErrorTPV,self.sendDataTPV, self.autoCancelRequest)
     
     def setActualProcessingRequest(self,request):
         self.actualProcessingRequest= request
@@ -53,6 +55,8 @@ class Router():
 
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
+                self.tpv.actualProcessingRequest = self.actualProcessingRequest
+
                 print("Arrive PayRequest: " + str(self.actualProcessingRequest.price) + " €")
                 self.paymentService.startMachinesPayment(self.actualProcessingRequest)
                 self.paymentService.paymentDone = True

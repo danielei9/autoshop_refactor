@@ -22,7 +22,7 @@ LEDS_ID = "Led"
 
 class PaymentService():
 
-    def __init__(self, sendErrorTPV, sendDataTPV):
+    def __init__(self, sendErrorTPV, sendDataTPV, autoCancelRequest):
         self.billWalletService: BillWalletService = None
         self.coinWalletService: CoinWalletService = None
         self.portBilletero = None
@@ -33,6 +33,9 @@ class PaymentService():
         (self.portBilletero, self.portMonedero, self.portDisplay,
          self.portLeds) = self.UsbDetector.detect_ports()
         
+        self.machineBlockedPayments = False
+
+        self.autoCancelRequest = autoCancelRequest
         self.sendDataTPV = sendDataTPV
         self.sendErrorTPV = sendErrorTPV
 
@@ -47,6 +50,14 @@ class PaymentService():
         self.change = 0.00
         while(self.billWalletService.stackA == None ):
             time.sleep(.5)
+
+    # Cuando no tenemos cambio disponible bloqueamos la maquina y esperamos a que un tpv la desbloque
+    def setBlockedPaymentMachine(self,device):
+        self.sendErrorTPV("Petición cancelada: Nivel de "+device+" bajo. Por favor rellene  "+device+" .")
+        self.autoCancelRequest()
+        self.machineBlockedPayments = True
+        time.sleep(.2)
+
 
     def __initializeLedsController(self):
         if(LEDS):
@@ -289,6 +300,7 @@ class PaymentService():
         if(changeInCoins > 0):
             if(changeInCoins > self.coinWalletService.coinwallet.availableMoneyInCoins):
                 # TODO: Cancelar payRequest No hay monedas para cambiar y notificar a tpv
+                self.setBlockedPaymentMachine("monedero")
                 return
             self.__coinBack( changeInCoins )
 
@@ -306,10 +318,7 @@ class PaymentService():
                     returnedToUser = self.__billBack(toReturn)
                     toReturn = toReturn - returnedToUser
                 else:
-                    self.sendErrorTPV("")
-                    time.sleep(2)
-                    # self.actualCancelled = True
-                # Recalcular dinero a devolver
+                    self.setBlockedPaymentMachine("billetero")
 
         self.totalAmount = 0
         self.priceClientShouldPay = 0
