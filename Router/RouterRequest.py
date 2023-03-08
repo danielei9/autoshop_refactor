@@ -41,9 +41,10 @@ class Router():
             self.actualProcessingRequest = self.lastRequestArrived
             if(self.shouldCountMoney):
                 self.paymentService.coinWalletService.coinwallet.enableReceivedMode = False
-                time.sleep(.2)
+                time.sleep(.5)
                 self.paymentService.coinWalletService.coinwallet.tubeStatus()
                 self.shouldCountMoney = False
+                time.sleep(.5)
                 self.paymentService.coinWalletService.coinwallet.enableReceivedMode = True
             # Procesar pago
             if( isinstance(self.actualProcessingRequest,PayRequest ) ):
