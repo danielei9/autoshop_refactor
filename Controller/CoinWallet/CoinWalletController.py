@@ -365,10 +365,7 @@ class CoinWalletController(SerialCommunicator):
                 self.data = str(self.data)
                 self.status = str(self.status)
     
-    def getIfTubeIsFull(self, hex_string):
-        # hex_string = "0x5A"
-        print(hex_string)
-        decimal_number = int(hex_string, 16)
+    def getIfTubeIsFull(self, decimal_number):
         # Convierte el entero decimal en una cadena binaria de 8 bits
         binary_string = bin(decimal_number)[2:].zfill(8)
         for i in range(len(binary_string)):
