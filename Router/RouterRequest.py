@@ -5,6 +5,7 @@ from Model.TPVCommunication.Request.ConfigStackRequest import *
 from Model.TPVCommunication.Request.ConnectedRequest import *
 from Model.TPVCommunication.Request.ResetRequest import *
 from Model.TPVCommunication.Request.GetActualConfigRequest import *
+from Model.TPVCommunication.Request.BlockedMachine import *
 from Services.PaymentService import * 
 from TpvYsolveMqtt import *
 from utils.RequestCodes import *
@@ -43,6 +44,8 @@ class Router():
         self.paymentService.coinWalletService.coinwallet.enableReceivedMode = True
 
     def routeRequest(self, setMqttListenerPaused):
+        while self.paymentService.machineBlockedPayments :
+            time.sleep(.2)
         self.setMqttListenerPaused = setMqttListenerPaused
         self.paymentService.displayController.setWelcomePage()
         self.routeInitialized = True
@@ -154,3 +157,17 @@ class Router():
             else:
                 self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
                 return False
+
+    def enrouteBlockedMachine(self,request):
+        if( isinstance(request,BlockedMachine ) and self.routeInitialized ): 
+            if(not self.paymentService.isPaying):
+                print("Arrive BlockedMachine")
+                self.paymentService.billWalletService.bv.currentBillCountRequest()
+                self.paymentService.coinWalletService.coinwallet.tubeStatus()
+                self.paymentService.unlockPaymentMachine()
+
+                return True
+            else:
+                self.sendErrorTPV("Error: No se puede configurar mientras se está pagando. Termine la orden pendiente.")
+                return False
+    

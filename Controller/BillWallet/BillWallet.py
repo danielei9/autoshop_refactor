@@ -591,6 +591,7 @@ class BillVal:
         print("BV STATUS: ",status)
     def _on_note_error(self, data):
         logging.error(" BV: note error")
+        self.sendErrorTpv ("Error con el billete actual")
     def _on_pay_stay(self, data):
         logging.info(" BV: Pay stay")
     def _on_idle(self, data):

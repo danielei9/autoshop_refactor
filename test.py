@@ -37,7 +37,8 @@ class Main():
         self.router.enrouteConnectedRequest(self.lastRequestArrived)
         self.router.enrouteResetRequest(self.lastRequestArrived)
         self.router.enrouteGetActualConfigRequest(self.lastRequestArrived)
-
+        self.router.enrouteBlockedMachine(self.lastRequestArrived)
+        
     def initTPVListener(self):
         self.tpv = TpvYsolveMqtt( self.adaptRequestCB )
     
