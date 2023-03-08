@@ -751,10 +751,10 @@ class BillVal:
         self.quantityStackB  = int(str(data)[8:10],16)
         if(self.quantityStackA <= 5):
             print("Warning: Hay pocos billetes en stack A")
-            self.sendErrorTPV("Warning: Hay pocos billetes en stack A")
+            self.sendErrorTpv("Warning: Hay pocos billetes en stack A")
         if(self.quantityStackB <= 5):
             print("Warning: Hay pocos billetes en stack B")
-            self.sendErrorTPV("Warning: Hay pocos billetes en stackB")
+            self.sendErrorTpv("Warning: Hay pocos billetes en stackB")
         print("qntyA ", self.quantityStackA, " qntyB " , self.quantityStackB)
         self.countAvailableMoney()
 
