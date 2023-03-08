@@ -121,7 +121,7 @@ class PaymentService():
     
     def setMachineErrorStatus(self,deviceID):
         self.sendErrorTPV(deviceID + " desconectado. Por favor revise la conexión.")
-        self.__setErrorInDisplay(deviceID + " desconectado. Por favor revise la conexión.")
+        # self.__setErrorInDisplay(deviceID + " desconectado. Por favor revise la conexión.")
         
     def __setErrorInDisplay(self, error):
         if(DISPLAY):
