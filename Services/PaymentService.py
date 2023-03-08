@@ -55,7 +55,7 @@ class PaymentService():
     def setBlockedPaymentMachine(self,device):
         self.sendErrorTPV("Petición cancelada: Nivel de "+device+" bajo. Por favor rellene  "+device+" .")
         self.autoCancelRequest()
-        self.sendDataTPV('{"typeRequest": '+TYPE_BLOCKED_MACHINE+',"blocked":1}')
+        self.sendDataTPV('{"typeRequest": '+str(TYPE_BLOCKED_MACHINE)+',"blocked":1}')
         self.machineBlockedPayments = True
         time.sleep(.2)
     # Cuando no tenemos cambio disponible bloqueamos la maquina y esperamos a que un tpv la desbloque
