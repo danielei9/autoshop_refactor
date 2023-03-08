@@ -33,7 +33,7 @@ class CoinWalletController(SerialCommunicator):
     status = ''
     data = ''
 
-    def __init__(self, cb,port):
+    def __init__(self, cb,port,sendErrorTPV):
         super().__init__(port,parity=serial.PARITY_NONE)
         self.cw_events = {
             DOS_EURO: self.__onInserted2Euro,
@@ -47,7 +47,7 @@ class CoinWalletController(SerialCommunicator):
         self.data = ""
         self.status = ""
         self.initializeSerial()
-
+        self.sendErrorTPV = sendErrorTPV
         self.tubeFullState = []
         self.tubeQntyState = []
         self.tubeQnty_0_05 = 0
@@ -211,7 +211,25 @@ class CoinWalletController(SerialCommunicator):
         self.availableMoneyInCoins += self.tubeQnty_1_00 
         self.availableMoneyInCoins += self.tubeQnty_2_00 * 2
         self.availableMoneyInCoins = round(self.availableMoneyInCoins,2)
+        
+        self.checkAvailableMoney()
+
         print("availableMoneyInCoins: ",self.availableMoneyInCoins)
+
+    def checkAvailableMoney(self):
+        if(self.tubeQnty_0_05< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 0.05")
+        if(self.tubeQnty_0_10< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 0.10")
+        if(self.tubeQnty_0_20< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 0.20")
+        if(self.tubeQnty_0_50< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 0.50")
+        if(self.tubeQnty_1_00< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 1.00")
+        if(self.tubeQnty_2_00< 5):
+            self.sendErrorTPV("Warning: Hay pocas monedas de 2.00")
+
     def poll(self):  # 0x0B
         interval = 0.2
         while True:
@@ -264,5 +282,4 @@ class CoinWalletController(SerialCommunicator):
         for i in range(len(self.tubeFullState)):
             if self.tubeFullState[i] == 1:
                 print ("FULL TUBE number: ", i)
-                #TODO: REVISAR
-                # self.sendErrorTPV("ERROR: El tubo numero " + str(i) + " se encuentra lleno.")
+                self.sendErrorTPV("ERROR: Revise el tubo numero " + str(i) + " esta lleno o atascado.")

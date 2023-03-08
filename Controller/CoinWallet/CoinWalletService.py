@@ -17,15 +17,16 @@ import threading
 ###################################################
 class CoinWalletService():
 
-    def __init__(self,cb, port,log_raw=False, threading=False):
+    def __init__(self,cb, port,sendErrorTPV, log_raw=False, threading=False):
         self.cb = cb
         self.port = port
+        self.sendErrorTPV = sendErrorTPV
         self.coinwallet:CoinWalletController = None
 
     def run(self):
         try:
             print("Running coinwallet service")
-            self.coinwallet = CoinWalletController(self.cb,self.port)
+            self.coinwallet = CoinWalletController(self.cb,self.port,self.sendErrorTPV)
             time.sleep(.2)
             pollThread = threading.Thread(target=self.startRxThread)
             pollThread.start()
